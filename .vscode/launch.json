@@ -5,7 +5,7 @@
       "name": "(gdb) Launch",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/main.exe",
+      "program": "${workspaceFolder}/cgoggles.exe",
       "args": [],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
