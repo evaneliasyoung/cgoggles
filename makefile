@@ -1,17 +1,15 @@
-CC    = g++
-FLAGS = -g -c -Wall -std=c++11
+CC      = g++
+HEADERS = pch.h argh.h
+OBJECTS = main.o requests.o os.o utils.o
 
-cgoggles: pch.h.gch argh.h.gch os.o utils.o
-	$(CC) -g -Wall -std=c++11 -o cgoggles.exe main.cpp os.o utils.o
+default: cgoggles
 
-os.o:
-	$(CC) $(FLAGS) -o os.o os.cpp
+%.o: %.c $(HEADERS)
+	$(CC) -g -c -Wall -std=c++11 $< -o $@
 
-utils.o:
-	$(CC) $(FLAGS) -o utils.o utils.cpp
+cgoggles: $(OBJECTS)
+	$(CC) -g -Wall -std=c++11 $(OBJECTS) -o $@
 
-pch.h.gch:
-	$(CC) $(FLAGS) pch.h
-
-argh.h.gch: pch.h.gch
-	$(CC) $(FLAGS) argh.h
+clean:
+	-rm -f $(OBJECTS)
+	-rm -f cgoggles.exe
