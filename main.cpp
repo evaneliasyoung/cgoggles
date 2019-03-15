@@ -4,19 +4,20 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-11
-*  @date      2019-03-12
+*  @date      2019-03-15
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
 #include "pch.h"
 #include "argh.h"
 #include "os.h"
+#include "requests.h"
 #include "utils.h"
 
 #define CGOGGLES_VERSION_ 0x000100
 
 std::string request;
-std::vector<std::string> requests();
+std::vector<std::string> requests;
 bool jsonExport = false;
 
 void outputVersion()
@@ -67,6 +68,9 @@ int main(int argc, const char *argv[])
   {
     return EXIT_FAILURE;
   }
+
+  std::cout << "Get Statement: " << request << std::endl;
+  parseRequests();
 
   return EXIT_SUCCESS;
 }
