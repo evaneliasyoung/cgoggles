@@ -12,31 +12,6 @@
         "kind": "build",
         "isDefault": true
       }
-    },
-    {
-      "label": "clean",
-      "type": "shell",
-      "command": "rm",
-      "args": [
-        "-rf",
-        "*/*.o",
-        "*/*.exe"
-      ],
-      "group": "none",
-      "problemMatcher": []
-    },
-    {
-      "label": "clean-all",
-      "type": "shell",
-      "command": "rm",
-      "args": [
-        "-rf",
-        "*/*.o",
-        "*/*.gch",
-        "*/*.exe"
-      ],
-      "group": "none",
-      "problemMatcher": []
     }
   ]
 }
