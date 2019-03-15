@@ -14,7 +14,7 @@
 #include "pch.h"
 
 extern std::string request;
-extern std::vector<std::string> requests;
+extern std::vector<std::string> requests();
 extern bool jsonExport;
 
 #endif // CGOGGLES_UTILS_H_

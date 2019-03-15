@@ -10,6 +10,8 @@
 
 #include "pch.h"
 #include "argh.h"
+#include "os.h"
+#include "utils.h"
 
 #define CGOGGLES_VERSION_ 0x000100
 
@@ -27,10 +29,10 @@ void outputVersion()
 void outputHelp()
 {
   std::cout << "usage: cgoggles [-v|--ver|--version] [-h|--help] [--json] <command> [<args>]" << std::endl;
-  std::cout << "example: cgoggles -get=cpu";
+  std::cout << "example: cgoggles -get=cpu" << std::endl;
 }
 
-int main(int argc, const char *argv[])
+int handleArgs(const char *argv[])
 {
   argh::parser cmdl(argv);
 
@@ -39,7 +41,8 @@ int main(int argc, const char *argv[])
     outputVersion();
     return EXIT_SUCCESS;
   }
-  else if (cmdl[{"h", "help"}])
+
+  if (cmdl[{"h", "help"}])
   {
     outputHelp();
     return EXIT_SUCCESS;
@@ -49,9 +52,19 @@ int main(int argc, const char *argv[])
   {
     jsonExport = true;
   }
+
   if (!(cmdl({"g", "get"}) >> request))
   {
     outputHelp();
+    return EXIT_FAILURE;
+  }
+  return EXIT_SUCCESS;
+}
+
+int main(int argc, const char *argv[])
+{
+  if (handleArgs(argv) != EXIT_SUCCESS)
+  {
     return EXIT_FAILURE;
   }
 
