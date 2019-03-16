@@ -71,8 +71,8 @@ int main(int argc, const char *argv[])
     return EXIT_FAILURE;
   }
 
-  std::cout << "Get Statement: " << request << std::endl;
   parseRequests();
+  runCommand("");
 
   return EXIT_SUCCESS;
 }

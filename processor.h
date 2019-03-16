@@ -22,6 +22,9 @@ private:
   std::unique_ptr<std::uint8_t> cores;
   std::unique_ptr<std::uint8_t> threads;
   std::unique_ptr<Temperature> temperature;
+  void GetMac();
+  void GetWin();
+  void GetLux();
 
 public:
   Processor();

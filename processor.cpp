@@ -11,6 +11,8 @@
 #include "pch.h"
 #include "processor.h"
 #include "temperature.h"
+#include "os.h"
+#include "utils.h"
 
 #pragma region "Constructors"
 Processor::Processor()
@@ -20,6 +22,20 @@ Processor::Processor()
   cores = std::make_unique<std::uint8_t>();
   threads = std::make_unique<std::uint8_t>();
   temperature = std::make_unique<Temperature>();
+
+  switch (CGOGGLES_OS)
+  {
+  case OS_WIN:
+    GetWin();
+    break;
+  case OS_MAC:
+    GetMac();
+    break;
+  case OS_LUX:
+    GetLux();
+  default:
+    break;
+  }
 }
 
 Processor::~Processor()
@@ -29,6 +45,19 @@ Processor::~Processor()
   temperature.reset();
 }
 #pragma endregion "Constructors"
+
+#pragma region "Constructors' Assistants"
+void Processor::GetMac()
+{
+}
+void Processor::GetWin()
+{
+  std::unique_ptr<std::string> wmicPath = std::make_unique<std::string>(getWmicPath());
+}
+void Processor::GetLux()
+{
+}
+#pragma endregion
 
 #pragma region "Accessors"
 std::string Processor::Manufacturer()

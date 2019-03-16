@@ -19,5 +19,6 @@ extern bool jsonExport;
 
 void splitStringVector(const std::string &s, const std::string &d, std::vector<std::string> *v);
 void removeDuplicates(std::vector<std::string> *v);
+std::string getWmicPath();
 
 #endif // CGOGGLES_UTILS_H_

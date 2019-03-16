@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-15
-*  @date      2019-03-15
+*  @date      2019-03-15=6
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -43,6 +43,12 @@
 #define CGOGGLES_OS OS_ERR
 #endif
 
-#endif // CGOGGLES_OS_H_
-
 const char dirSep = CGOGGLES_OS <= OS_WIN ? '\\' : '/';
+
+bool fileExists(const std::string &path);
+std::string getEnvVar(const std::string &key);
+std::string joinPath(std::initializer_list<std::string> paths);
+std::string getTempDir();
+std::string runCommand(const std::string &cmd);
+
+#endif // CGOGGLES_OS_H_

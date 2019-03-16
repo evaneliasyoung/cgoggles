@@ -10,6 +10,7 @@
 
 #include "pch.h"
 #include "utils.h"
+#include "os.h"
 
 void splitStringVector(const std::string &s, const std::string &d, std::vector<std::string> *v)
 {
@@ -42,4 +43,15 @@ void removeDuplicates(std::vector<std::string> *v)
       (*v).erase((*v).begin() + i);
     }
   }
+}
+
+std::string getWmicPath()
+{
+  std::unique_ptr<std::string> wmicPath = std::make_unique<std::string>(joinPath({getEnvVar("WINDIR"), "system32", "wbem", "wmic.exe"}));
+
+  if (fileExists((*wmicPath)))
+  {
+    return (*wmicPath);
+  }
+  return "wmic.exe";
 }
