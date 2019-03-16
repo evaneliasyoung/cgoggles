@@ -17,14 +17,19 @@
 class Processor
 {
 private:
-  std::unique_ptr<std::string> _manuf;
-  std::unique_ptr<std::string> _model;
-  std::unique_ptr<Temperature> _temp;
+  std::unique_ptr<std::string> manufacturer;
+  std::unique_ptr<std::string> model;
+  std::unique_ptr<std::uint8_t> cores;
+  std::unique_ptr<std::uint8_t> threads;
+  std::unique_ptr<Temperature> temperature;
 
 public:
   Processor();
   ~Processor();
   std::string Manufacturer();
+  std::string Model();
+  std::uint8_t Cores();
+  std::uint8_t Threads();
 };
 
 #endif // COGGLES_PROCESSOR_H_

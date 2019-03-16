@@ -16,7 +16,7 @@
 class Temperature
 {
 private:
-  std::unique_ptr<float> _kelvin;
+  std::unique_ptr<float> kelvin;
 
 public:
   Temperature();

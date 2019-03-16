@@ -14,32 +14,32 @@
 #pragma region "Constructors"
 Temperature::Temperature()
 {
-  _kelvin = std::make_unique<float>(-1);
+  kelvin = std::make_unique<float>(-1);
 }
 
 Temperature::Temperature(const float &c)
 {
-  _kelvin = std::make_unique<float>(c + 273.15);
+  kelvin = std::make_unique<float>(c + 273.15);
 }
 
 Temperature::~Temperature()
 {
-  _kelvin.reset();
+  kelvin.reset();
 }
 #pragma endregion
 
 #pragma region "Accessors"
 float Temperature::K()
 {
-  return (*_kelvin);
+  return (*kelvin);
 }
 float Temperature::C()
 {
-  return ktoc((*_kelvin));
+  return ktoc((*kelvin));
 }
 float Temperature::F()
 {
-  return ktof((*_kelvin));
+  return ktof((*kelvin));
 }
 #pragma endregion "Accessors"
 

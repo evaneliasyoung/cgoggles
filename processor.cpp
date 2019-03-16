@@ -15,22 +15,39 @@
 #pragma region "Constructors"
 Processor::Processor()
 {
-  _manuf = std::make_unique<std::string>();
-  _model = std::make_unique<std::string>();
-  _temp = std::make_unique<Temperature>();
+  manufacturer = std::make_unique<std::string>();
+  model = std::make_unique<std::string>();
+  cores = std::make_unique<std::uint8_t>();
+  threads = std::make_unique<std::uint8_t>();
+  temperature = std::make_unique<Temperature>();
 }
 
 Processor::~Processor()
 {
-  _manuf.reset();
-  _model.reset();
-  _temp.reset();
+  manufacturer.reset();
+  model.reset();
+  temperature.reset();
 }
 #pragma endregion "Constructors"
 
 #pragma region "Accessors"
 std::string Processor::Manufacturer()
 {
-  return (*_manuf);
+  return (*manufacturer);
+}
+
+std::string Processor::Model()
+{
+  return (*model);
+}
+
+std::uint8_t Processor::Cores()
+{
+  return (*cores);
+}
+
+std::uint8_t Processor::Threads()
+{
+  return (*threads);
 }
 #pragma endregion "Accessors"
