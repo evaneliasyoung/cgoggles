@@ -12,7 +12,6 @@
 #define CGOGGLES_REQUESTS_H_
 
 #include "pch.h"
-#include "utils.h"
 
 void filterRequests();
 void parseRequests();
