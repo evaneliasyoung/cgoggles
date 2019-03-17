@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-12
-*  @date      2019-03-15
+*  @date      2019-03-17
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -12,6 +12,7 @@
 #define CGOGGLES_UTILS_H_
 
 #include "pch.h"
+#include "os.h"
 
 extern std::string request;
 extern std::vector<std::string> requests;
