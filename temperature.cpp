@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-16
-*  @date      2019-03-16
+*  @date      2019-03-17
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -28,6 +28,44 @@ Temperature::~Temperature()
 }
 #pragma endregion
 
+#pragma region "Operators"
+void *Temperature::operator new(std::size_t size)
+{
+  void *o = ::new (Temperature);
+  return o;
+}
+
+bool Temperature::operator==(Temperature &t)
+{
+  return this->compare(t) == 0;
+}
+
+bool Temperature::operator!=(Temperature &t)
+{
+  return this->compare(t) != 0;
+}
+
+bool Temperature::operator<(Temperature &t)
+{
+  return this->compare(t) < 0;
+}
+
+bool Temperature::operator>(Temperature &t)
+{
+  return this->compare(t) > 0;
+}
+
+bool Temperature::operator<=(Temperature &t)
+{
+  return this->compare(t) <= 0;
+}
+
+bool Temperature::operator>=(Temperature &t)
+{
+  return this->compare(t) >= 0;
+}
+#pragma endregion "Operators"
+
 #pragma region "Accessors"
 float Temperature::K()
 {
@@ -43,43 +81,12 @@ float Temperature::F()
 }
 #pragma endregion "Accessors"
 
-#pragma region "Operators"
-void *Temperature::operator new(std::size_t size)
+#pragma region "Methods"
+int Temperature::compare(Temperature &t)
 {
-  void *o = ::new (Temperature);
-  return o;
+  return this->K() == t.K() ? 0 : this->K() < t.K() ? -1 : 1;
 }
-
-bool Temperature::operator==(Temperature t)
-{
-  return this->K() == t.K();
-}
-
-bool Temperature::operator!=(Temperature t)
-{
-  return this->K() != t.K();
-}
-
-bool Temperature::operator<(Temperature t)
-{
-  return this->K() < t.K();
-}
-
-bool Temperature::operator>(Temperature t)
-{
-  return this->K() > t.K();
-}
-
-bool Temperature::operator<=(Temperature t)
-{
-  return this->K() <= t.K();
-}
-
-bool Temperature::operator>=(Temperature t)
-{
-  return this->K() >= t.K();
-}
-#pragma endregion "Operators"
+#pragma endregion "Methods"
 
 #pragma region "Static Methods"
 float ktoc(const float &t)
@@ -110,5 +117,10 @@ float ftok(const float &t)
 float ftoc(const float &t)
 {
   return (5.0 / 9) * (t - 32);
+}
+
+int compare(Temperature &t, Temperature &c)
+{
+  return t.compare(c);
 }
 #pragma endregion "Static Methods"
