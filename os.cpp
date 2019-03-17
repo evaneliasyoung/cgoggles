@@ -4,12 +4,76 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-15
-*  @date      2019-03-16
+*  @date      2019-03-17
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
 #include "pch.h"
 #include "os.h"
+#include "semver.h"
+
+OperatingSystem::OperatingSystem()
+{
+  platform = std::make_unique<std::string>();
+  kernel = std::make_unique<SemVer>();
+  version = std::make_unique<SemVer>();
+
+  switch (CGOGGLES_OS)
+  {
+  case OS_WIN:
+    GetWin();
+    break;
+  case OS_MAC:
+    GetMac();
+    break;
+  case OS_LUX:
+    GetLux();
+  default:
+    break;
+  }
+}
+
+OperatingSystem::~OperatingSystem()
+{
+  platform.reset();
+  kernel.reset();
+  version.reset();
+}
+
+void OperatingSystem::GetMac()
+{
+  platform = std::make_unique<std::string>("Darwin");
+}
+void OperatingSystem::GetWin()
+{
+  std::unique_ptr<std::string> temp = std::make_unique<std::string>(runCommand("ver"));
+  std::unique_ptr<std::smatch> mt = std::make_unique<std::smatch>();
+
+  platform = std::make_unique<std::string>("Windows");
+
+  if (std::regex_search((*temp), (*mt), std::regex(R"((\d+\.?)+)", std::regex::ECMAScript)))
+  {
+    version = std::unique_ptr<SemVer>(new SemVer((*mt).str(), 0b11011u));
+    kernel = std::unique_ptr<SemVer>(new SemVer((*mt).str(), 0b11011u));
+  }
+}
+void OperatingSystem::GetLux()
+{
+  platform = std::make_unique<std::string>("Linux");
+}
+
+std::string OperatingSystem::Platform()
+{
+  return (*platform);
+}
+SemVer OperatingSystem::Kernel()
+{
+  return (*kernel);
+}
+SemVer OperatingSystem::Version()
+{
+  return (*version);
+}
 
 bool fileExists(const std::string &path)
 {

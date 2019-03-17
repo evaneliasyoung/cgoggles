@@ -4,12 +4,15 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-15
-*  @date      2019-03-15=6
+*  @date      2019-03-17
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
 #ifndef CGOGGLES_OS_H_ // include guard
 #define CGOGGLES_OS_H_
+
+#include "pch.h"
+#include "semver.h"
 
 #ifndef OS_DOS
 #define OS_DOS 1
@@ -44,6 +47,24 @@
 #endif
 
 const char dirSep = CGOGGLES_OS <= OS_WIN ? '\\' : '/';
+
+class OperatingSystem
+{
+private:
+  std::unique_ptr<std::string> platform;
+  std::unique_ptr<SemVer> kernel;
+  std::unique_ptr<SemVer> version;
+  void GetMac();
+  void GetWin();
+  void GetLux();
+
+public:
+  OperatingSystem();
+  ~OperatingSystem();
+  std::string Platform();
+  SemVer Kernel();
+  SemVer Version();
+};
 
 bool fileExists(const std::string &path);
 std::string getEnvVar(const std::string &key);
