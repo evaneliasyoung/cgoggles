@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-11
-*  @date      2019-03-17
+*  @date      2019-03-18
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -18,7 +18,6 @@
 
 #define CGOGGLES_VERSION_ 0x000100
 
-std::string request;
 std::vector<std::string> requests;
 bool jsonExport = false;
 
@@ -35,7 +34,7 @@ void outputHelp()
   std::cout << "example: cgoggles -get=cpu" << std::endl;
 }
 
-int handleArgs(const char *argv[])
+int handleArgs(const char *argv[], std::string *request)
 {
   argh::parser cmdl(argv);
 
@@ -56,7 +55,7 @@ int handleArgs(const char *argv[])
     jsonExport = true;
   }
 
-  if (!(cmdl({"g", "get"}) >> request))
+  if (!(cmdl({"g", "get"}) >> (*request)))
   {
     outputHelp();
     return EXIT_FAILURE;
@@ -66,12 +65,15 @@ int handleArgs(const char *argv[])
 
 int main(int argc, const char *argv[])
 {
-  if (handleArgs(argv) != EXIT_SUCCESS)
+  std::unique_ptr<std::string> request = std::make_unique<std::string>();
+
+  if (handleArgs(argv, request.get()) != EXIT_SUCCESS)
   {
     return EXIT_FAILURE;
   }
 
-  parseRequests();
+  parseRequests(request.get());
+  request.reset();
   runCommand("echo");
 
   OperatingSystem curOS;

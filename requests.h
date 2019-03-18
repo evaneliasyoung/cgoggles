@@ -14,6 +14,6 @@
 #include "pch.h"
 
 void filterRequests();
-void parseRequests();
+void parseRequests(std::string* request);
 
 #endif // CGOGGLES_REQUESTS_H_

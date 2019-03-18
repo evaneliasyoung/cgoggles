@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-15
-*  @date      2019-03-15
+*  @date      2019-03-18
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -29,9 +29,11 @@ void filterRequests()
 
 /**
 * @brief Turns the raw request string into a collection of requests
+*
+* @param request A pointer to the raw request
 */
-void parseRequests()
+void parseRequests(std::string *request)
 {
-  splitStringVector(request, ",", &requests);
+  splitStringVector((*request), ",", &requests);
   filterRequests();
 }
