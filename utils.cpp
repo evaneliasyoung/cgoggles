@@ -12,6 +12,13 @@
 #include "utils.h"
 #include "os.h"
 
+/**
+* @brief Splits a string into a vector of its parts
+*
+* @param s The string to slit
+* @param d The delimiter to split upon
+* @param v The vector to add to
+*/
 void splitStringVector(const std::string &s, const std::string &d, std::vector<std::string> *v)
 {
   std::unique_ptr<std::string::size_type> beg(new std::string::size_type(0));
@@ -29,6 +36,11 @@ void splitStringVector(const std::string &s, const std::string &d, std::vector<s
   (*v).push_back(s.substr((*beg), s.length() - (*beg)));
 }
 
+/**
+* @brief Removes any duplicates from the specified vector
+*
+* @param v The vector to make unique
+*/
 void removeDuplicates(std::vector<std::string> *v)
 {
   if ((*v).size() <= 1)
@@ -45,6 +57,11 @@ void removeDuplicates(std::vector<std::string> *v)
   }
 }
 
+/**
+* @brief Get the wmic path for Windows
+*
+* @return std::string The wmic path
+*/
 std::string getWmicPath()
 {
   std::unique_ptr<std::string> wmicPath = std::make_unique<std::string>(joinPath({getEnvVar("WINDIR"), "system32", "wbem", "wmic.exe"}));

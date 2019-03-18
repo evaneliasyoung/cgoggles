@@ -12,6 +12,9 @@
 #include "requests.h"
 #include "utils.h"
 
+/**
+* @brief Filters out any unsupported requests from the queue
+*/
 void filterRequests()
 {
   for (int i = requests.size() - 1; i >= 0; i--)
@@ -24,6 +27,9 @@ void filterRequests()
   removeDuplicates(&requests);
 }
 
+/**
+* @brief Turns the raw request string into a collection of requests
+*/
 void parseRequests()
 {
   splitStringVector(request, ",", &requests);
