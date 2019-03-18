@@ -16,11 +16,7 @@
 class SemVer
 {
 private:
-  std::unique_ptr<std::uint32_t> major;
-  std::unique_ptr<std::uint32_t> minor;
-  std::unique_ptr<std::uint32_t> patch;
-  std::unique_ptr<std::uint32_t> build;
-  std::unique_ptr<std::uint32_t> revision;
+  std::uint32_t *ver;
 
 public:
   SemVer();
@@ -30,6 +26,13 @@ public:
   ~SemVer();
   void *operator new(std::size_t size);
   SemVer operator=(const SemVer &v);
+  bool operator==(SemVer &v);
+  bool operator!=(SemVer &v);
+  bool operator<(SemVer &v);
+  bool operator>(SemVer &v);
+  bool operator<=(SemVer &v);
+  bool operator>=(SemVer &v);
+  int compare(SemVer &v);
   std::string Pretty();
   std::string Pretty(std::string fmt);
   std::uint32_t Major();
@@ -38,5 +41,7 @@ public:
   std::uint32_t Build();
   std::uint32_t Revision();
 };
+
+int compare(SemVer &v, SemVer &c);
 
 #endif // CGOGGLES_SEMVER_H_

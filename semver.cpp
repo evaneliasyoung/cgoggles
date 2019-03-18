@@ -15,96 +15,72 @@
 #pragma region "Contructors"
 SemVer::SemVer()
 {
-  major = std::make_unique<std::uint32_t>(0);
-  minor = std::make_unique<std::uint32_t>(0);
-  patch = std::make_unique<std::uint32_t>(0);
-  build = std::make_unique<std::uint32_t>(0);
-  revision = std::make_unique<std::uint32_t>(0);
+  ver = new std::uint32_t[5]{0, 0, 0, 0, 0};
 }
 
 SemVer::SemVer(const SemVer &v)
 {
-  major = std::make_unique<std::uint32_t>(0);
-  minor = std::make_unique<std::uint32_t>(0);
-  patch = std::make_unique<std::uint32_t>(0);
-  build = std::make_unique<std::uint32_t>(0);
-  revision = std::make_unique<std::uint32_t>(0);
-
-  (*major) = (*v.major);
-  (*minor) = (*v.minor);
-  (*patch) = (*v.patch);
-  (*build) = (*v.build);
-  (*revision) = (*v.revision);
+  ver = new std::uint32_t[5]{0, 0, 0, 0, 0};
+  for (std::size_t i = 0; i < 5; ++i)
+  {
+    ver[i] = v.ver[i];
+  }
 }
 
-SemVer::SemVer(const std::string &ver, const std::uint8_t &fmt)
+SemVer::SemVer(const std::string &rawVer, const std::uint8_t &fmt)
 {
+  ver = new std::uint32_t[5]{0, 0, 0, 0, 0};
   std::unique_ptr<std::vector<std::string>> spl = std::make_unique<std::vector<std::string>>();
   std::unique_ptr<std::uint8_t> i = std::make_unique<std::uint8_t>(0xFF);
-  splitStringVector(ver, ".", spl.get());
-
-  major = std::make_unique<std::uint32_t>(0);
-  minor = std::make_unique<std::uint32_t>(0);
-  patch = std::make_unique<std::uint32_t>(0);
-  build = std::make_unique<std::uint32_t>(0);
-  revision = std::make_unique<std::uint32_t>(0);
+  splitStringVector(rawVer, ".", spl.get());
 
   if (fmt & 0b10000u)
   {
-    (*major) = std::stoi((*spl)[++(*i)]);
+    ver[0] = std::stoi((*spl)[++(*i)]);
   }
   if (fmt & 0b01000u)
   {
-    (*minor) = std::stoi((*spl)[++(*i)]);
+    ver[1] = std::stoi((*spl)[++(*i)]);
   }
   if (fmt & 0b00100u)
   {
-    (*patch) = std::stoi((*spl)[++(*i)]);
+    ver[2] = std::stoi((*spl)[++(*i)]);
   }
   if (fmt & 0b00010u)
   {
-    (*build) = std::stoi((*spl)[++(*i)]);
+    ver[3] = std::stoi((*spl)[++(*i)]);
   }
   if (fmt & 0b00001u)
   {
-    (*revision) = std::stoi((*spl)[++(*i)]);
+    ver[4] = std::stoi((*spl)[++(*i)]);
   }
 }
 
-SemVer::SemVer(const std::string &ver, const std::uint8_t &fmt, const std::string &bld)
+SemVer::SemVer(const std::string &rawVer, const std::uint8_t &fmt, const std::string &bld)
 {
+  ver = new std::uint32_t[5]{0, 0, 0, 0, 0};
   std::unique_ptr<std::vector<std::string>> spl = std::make_unique<std::vector<std::string>>();
   std::unique_ptr<std::uint8_t> i = std::make_unique<std::uint8_t>(0xFF);
-  splitStringVector(ver, ".", spl.get());
-
-  major = std::make_unique<std::uint32_t>(0);
-  minor = std::make_unique<std::uint32_t>(0);
-  patch = std::make_unique<std::uint32_t>(0);
-  build = std::make_unique<std::uint32_t>(0);
-  revision = std::make_unique<std::uint32_t>(0);
+  splitStringVector(rawVer, ".", spl.get());
 
   if (fmt & 0b100u)
   {
-    (*major) = std::stoi((*spl)[++(*i)]);
+    ver[0] = std::stoi((*spl)[++(*i)]);
   }
   if (fmt & 0b010u)
   {
-    (*minor) = std::stoi((*spl)[++(*i)]);
+    ver[1] = std::stoi((*spl)[++(*i)]);
   }
   if (fmt & 0b001u)
   {
-    (*patch) = std::stoi((*spl)[++(*i)]);
+    ver[2] = std::stoi((*spl)[++(*i)]);
   }
-  (*build) = std::stoi(bld);
+  ver[3] = std::stoi(bld);
 }
 
 SemVer::~SemVer()
 {
-  major.reset();
-  minor.reset();
-  patch.reset();
-  build.reset();
-  revision.reset();
+  delete ver;
 }
 #pragma endregion "Contructors"
 
@@ -121,22 +97,96 @@ SemVer SemVer::operator=(const SemVer &v)
   {
     return *this;
   }
-  major = std::make_unique<std::uint32_t>(0);
-  minor = std::make_unique<std::uint32_t>(0);
-  patch = std::make_unique<std::uint32_t>(0);
-  build = std::make_unique<std::uint32_t>(0);
-  revision = std::make_unique<std::uint32_t>(0);
+  ver = new std::uint32_t[5]{0, 0, 0, 0, 0};
 
-  (*v.major) = (*major);
-  (*v.minor) = (*minor);
-  (*v.patch) = (*patch);
-  (*v.build) = (*build);
-  (*v.revision) = (*revision);
+  v.ver[0] = ver[0];
+  v.ver[1] = ver[1];
+  v.ver[2] = ver[2];
+  v.ver[3] = ver[3];
+  v.ver[4] = ver[4];
   return *this;
+}
+
+bool SemVer::operator==(SemVer &v)
+{
+  return this->compare(v) == 0;
+}
+
+bool SemVer::operator!=(SemVer &v)
+{
+  return this->compare(v) != 0;
+}
+
+bool SemVer::operator<(SemVer &v)
+{
+  return this->compare(v) < 0;
+}
+
+bool SemVer::operator>(SemVer &v)
+{
+  return this->compare(v) > 0;
+}
+
+bool SemVer::operator<=(SemVer &v)
+{
+  return this->compare(v) <= 0;
+}
+
+bool SemVer::operator>=(SemVer &v)
+{
+  return this->compare(v) >= 0;
 }
 #pragma endregion "Operators"
 
+#pragma region "Accessors"
+std::uint32_t SemVer::Major()
+{
+  return ver[0];
+}
+
+std::uint32_t SemVer::Minor()
+{
+  return ver[1];
+}
+
+std::uint32_t SemVer::Patch()
+{
+  return ver[2];
+}
+
+std::uint32_t SemVer::Build()
+{
+  return ver[3];
+}
+
+std::uint32_t SemVer::Revision()
+{
+  return ver[4];
+}
+#pragma endregion "Accessors"
+
 #pragma region "Methods"
+int SemVer::compare(SemVer &v)
+{
+  for (std::size_t i = 0; i < 5; i++)
+  {
+    if (ver[i] == v.ver[i])
+    {
+      continue;
+    }
+    if (ver[i] > v.ver[i])
+    {
+      return 1;
+    }
+    if (ver[i] < v.ver[i])
+    {
+      return -1;
+    }
+  }
+
+  return 0;
+}
+
 std::string SemVer::Pretty()
 {
   return Pretty("$F");
@@ -145,38 +195,18 @@ std::string SemVer::Pretty()
 std::string SemVer::Pretty(std::string fmt)
 {
   fmt = std::regex_replace(fmt, std::regex(R"(\$F)"), "$M.$N.$P");
-  fmt = std::regex_replace(fmt, std::regex(R"(\$M)"), std::to_string((*major)));
-  fmt = std::regex_replace(fmt, std::regex(R"(\$N)"), std::to_string((*minor)));
-  fmt = std::regex_replace(fmt, std::regex(R"(\$P)"), std::to_string((*patch)));
-  fmt = std::regex_replace(fmt, std::regex(R"(\$B)"), std::to_string((*build)));
-  fmt = std::regex_replace(fmt, std::regex(R"(\$R)"), std::to_string((*revision)));
+  fmt = std::regex_replace(fmt, std::regex(R"(\$M)"), std::to_string(ver[0]));
+  fmt = std::regex_replace(fmt, std::regex(R"(\$N)"), std::to_string(ver[1]));
+  fmt = std::regex_replace(fmt, std::regex(R"(\$P)"), std::to_string(ver[2]));
+  fmt = std::regex_replace(fmt, std::regex(R"(\$B)"), std::to_string(ver[3]));
+  fmt = std::regex_replace(fmt, std::regex(R"(\$R)"), std::to_string(ver[4]));
   return fmt;
 }
 #pragma endregion "Methods"
 
-#pragma region "Accessors"
-std::uint32_t SemVer::Major()
+#pragma region "Static Methods"
+int compare(SemVer &v, SemVer &c)
 {
-  return (*major);
+  return v.compare(c);
 }
-
-std::uint32_t SemVer::Minor()
-{
-  return (*minor);
-}
-
-std::uint32_t SemVer::Patch()
-{
-  return (*patch);
-}
-
-std::uint32_t SemVer::Build()
-{
-  return (*build);
-}
-
-std::uint32_t SemVer::Revision()
-{
-  return (*revision);
-}
-#pragma endregion "Accessors"
+#pragma endregion "Static Methods"
