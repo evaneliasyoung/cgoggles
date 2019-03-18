@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-17
-*  @date      2019-03-17
+*  @date      2019-03-18
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -13,9 +13,15 @@
 
 #include "pch.h"
 
+/**
+* @brief Represents a Semantic Version, according to standard 2.0.0
+*/
 class SemVer
 {
 private:
+  /**
+  * @brief The underlying value of the SemVer class
+  */
   std::uint32_t *ver;
 
 public:

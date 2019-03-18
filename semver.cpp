@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-17
-*  @date      2019-03-17
+*  @date      2019-03-18
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -13,11 +13,19 @@
 #include "utils.h"
 
 #pragma region "Contructors"
+/**
+* @brief Construct a new SemVer object as release 0.0.0 build 0 revision 0
+*/
 SemVer::SemVer()
 {
   ver = new std::uint32_t[5]{0, 0, 0, 0, 0};
 }
 
+/**
+* @brief Construct a new SemVer object from another SemVer object
+*
+* @param v The SemVer object to copy
+*/
 SemVer::SemVer(const SemVer &v)
 {
   ver = new std::uint32_t[5]{0, 0, 0, 0, 0};
@@ -27,6 +35,12 @@ SemVer::SemVer(const SemVer &v)
   }
 }
 
+/**
+* @brief Construct a new SemVer object from the raw string and it's format code
+*
+* @param rawVer The raw string to interpolate
+* @param fmt    The number included in the rawVer string
+*/
 SemVer::SemVer(const std::string &rawVer, const std::uint8_t &fmt)
 {
   ver = new std::uint32_t[5]{0, 0, 0, 0, 0};
@@ -56,6 +70,13 @@ SemVer::SemVer(const std::string &rawVer, const std::uint8_t &fmt)
   }
 }
 
+/**
+* @brief Construct a new SemVer object from the raw string and it's format code and the build number
+*
+* @param rawVer The raw string to interpolate
+* @param fmt    The number included in the rawVer string
+* @param bld    The build number
+*/
 SemVer::SemVer(const std::string &rawVer, const std::uint8_t &fmt, const std::string &bld)
 {
   ver = new std::uint32_t[5]{0, 0, 0, 0, 0};
@@ -78,6 +99,10 @@ SemVer::SemVer(const std::string &rawVer, const std::uint8_t &fmt, const std::st
   ver[3] = std::stoi(bld);
 }
 
+/**
+* @brief Destroy the SemVer object
+*
+*/
 SemVer::~SemVer()
 {
   delete ver;
@@ -85,12 +110,24 @@ SemVer::~SemVer()
 #pragma endregion "Contructors"
 
 #pragma region "Operators"
+/**
+* @brief Reserves memory for a new SemVer object
+*
+* @param  size  The amount of memory to allocate
+* @return void* A pointer to the allocated memory
+*/
 void *SemVer::operator new(std::size_t size)
 {
   void *o = ::new (SemVer);
   return o;
 }
 
+/**
+* @brief Sets equal two SemVer objects
+*
+* @param v The SemVer object to copy from
+* @return SemVer The copied SemVer object
+*/
 SemVer SemVer::operator=(const SemVer &v)
 {
   if (&v == this)
@@ -107,31 +144,73 @@ SemVer SemVer::operator=(const SemVer &v)
   return *this;
 }
 
+/**
+* @brief Compares the equality two SemVer objects
+*
+* @param  t     The SemVer object to compare against
+* @return true  The two SemVer objects are equal
+* @return false The two SemVer objects are NOT equal
+*/
 bool SemVer::operator==(SemVer &v)
 {
   return this->compare(v) == 0;
 }
 
+/**
+* @brief Compares the inequality two SemVer objects
+*
+* @param  t     The SemVer object to compare against
+* @return true  The two SemVer objects are NOT equal
+* @return false The two SemVer objects are equal
+*/
 bool SemVer::operator!=(SemVer &v)
 {
   return this->compare(v) != 0;
 }
 
+/**
+* @brief Compares the value of two SemVer objects
+*
+* @param  t     The SemVer object to compare against
+* @return true  The primary SemVer object is less than t
+* @return false The primary SemVer object is NOT less than t
+*/
 bool SemVer::operator<(SemVer &v)
 {
   return this->compare(v) < 0;
 }
 
+/**
+* @brief Compares the value of two SemVer objects
+*
+* @param  t     The SemVer object to compare against
+* @return true  The primary SemVer object is greater than t
+* @return false The primary SemVer object is NOT greater than t
+*/
 bool SemVer::operator>(SemVer &v)
 {
   return this->compare(v) > 0;
 }
 
+/**
+* @brief Compares the value of two SemVer objects
+*
+* @param  t     The SemVer object to compare against
+* @return true  The primary SemVer object is less than or equal to t
+* @return false The primary SemVer object is NOT less than or equal to t
+*/
 bool SemVer::operator<=(SemVer &v)
 {
   return this->compare(v) <= 0;
 }
 
+/**
+* @brief Compares the value of two SemVer objects
+*
+* @param  t     The SemVer object to compare against
+* @return true  The primary SemVer object is greater than or equal to t
+* @return false The primary SemVer object is NOT greater than or equal to t
+*/
 bool SemVer::operator>=(SemVer &v)
 {
   return this->compare(v) >= 0;
@@ -139,26 +218,51 @@ bool SemVer::operator>=(SemVer &v)
 #pragma endregion "Operators"
 
 #pragma region "Accessors"
+/**
+* @brief Returns the a copy of the major version number
+*
+* @return std::uint32_t The major version number
+*/
 std::uint32_t SemVer::Major()
 {
   return ver[0];
 }
 
+/**
+* @brief Returns the a copy of the minor version number
+*
+* @return std::uint32_t The minor version number
+*/
 std::uint32_t SemVer::Minor()
 {
   return ver[1];
 }
 
+/**
+* @brief Returns the a copy of the patch number
+*
+* @return std::uint32_t The patch number
+*/
 std::uint32_t SemVer::Patch()
 {
   return ver[2];
 }
 
+/**
+* @brief Returns the a copy of the build number
+*
+* @return std::uint32_t The build number
+*/
 std::uint32_t SemVer::Build()
 {
   return ver[3];
 }
 
+/**
+* @brief Returns the a copy of the revision number
+*
+* @return std::uint32_t The revision number
+*/
 std::uint32_t SemVer::Revision()
 {
   return ver[4];
@@ -166,6 +270,14 @@ std::uint32_t SemVer::Revision()
 #pragma endregion "Accessors"
 
 #pragma region "Methods"
+/**
+* @brief Compares the value of two SemVer objects
+*
+* @param  v     The SemVer object to compare against
+* @return -1    The primary SemVer object is less than v
+* @return 0     The primary SemVer object is equal to v
+* @return 1     The primary SemVer object is greater than v
+*/
 int SemVer::compare(SemVer &v)
 {
   for (std::size_t i = 0; i < 5; i++)
@@ -187,11 +299,22 @@ int SemVer::compare(SemVer &v)
   return 0;
 }
 
+/**
+* @brief Pretty prints the full version number Major.Minor.Patch
+*
+* @return std::string The version number 1.2.3
+*/
 std::string SemVer::Pretty()
 {
   return Pretty("$F");
 }
 
+/**
+* @brief Pretty prints the version based on the specified format
+*
+* @param fmt The format to conform to $M.$N.$P-$B.$R = 10.14.2-12387.367
+* @return std::string the version number in the specified format
+*/
 std::string SemVer::Pretty(std::string fmt)
 {
   fmt = std::regex_replace(fmt, std::regex(R"(\$F)"), "$M.$N.$P");
@@ -205,6 +328,15 @@ std::string SemVer::Pretty(std::string fmt)
 #pragma endregion "Methods"
 
 #pragma region "Static Methods"
+/**
+* @brief Compares the value of two SemVer objects
+*
+* @param  v     The primary SemVer object to compare against
+* @param  c     The SemVer object to compare against
+* @return -1    The SemVer object v is less than c
+* @return 0     The SemVer object v is equal to c
+* @return 1     The SemVer object v is greater than c
+*/
 int compare(SemVer &v, SemVer &c)
 {
   return v.compare(c);
