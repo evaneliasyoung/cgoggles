@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-16
-*  @date      2019-03-17
+*  @date      2019-03-18
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -13,9 +13,15 @@
 
 #include "pch.h"
 
+/**
+ * @brief Represents a Temperature with a value of degrees in kelvin
+ */
 class Temperature
 {
 private:
+  /**
+   * @brief The underlying value of the temperature
+   */
   std::unique_ptr<float> kelvin;
 
 public:
