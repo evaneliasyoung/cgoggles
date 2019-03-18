@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-15
-*  @date      2019-03-17
+*  @date      2019-03-18
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -12,6 +12,7 @@
 #include "os.h"
 #include "semver.h"
 
+#pragma region "Constructors"
 /**
 * @brief Construct a new Operating System object with help from the assistants
 */
@@ -45,7 +46,9 @@ OperatingSystem::~OperatingSystem()
   kernel.reset();
   version.reset();
 }
+#pragma endregion "Constructors"
 
+#pragma region "Constructors' Assistants"
 /**
 * @brief Fills in the OS information for Darwin systems
 */
@@ -78,7 +81,9 @@ void OperatingSystem::GetLux()
 {
   platform = std::make_unique<std::string>("Linux");
 }
+#pragma endregion "Constructors' Assistants"
 
+#pragma region "Accessors"
 /**
 * @brief Returns a copy of the platform
 *
@@ -108,7 +113,9 @@ SemVer OperatingSystem::Version()
 {
   return (*version);
 }
+#pragma endregion "Accessors"
 
+#pragma region "Static Methods"
 /**
 * @brief Checks if the given path is a file
 *
@@ -217,3 +224,4 @@ std::string runCommand(const std::string &cmd)
 
   return buffer->str();
 }
+#pragma endregion "Static Methods"
