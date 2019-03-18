@@ -16,7 +16,7 @@
 
 #pragma region "Constructors"
 /**
-* @brief Construct a new Processor::Processor object
+* @brief Construct a new Processor object
 */
 Processor::Processor()
 {
@@ -42,7 +42,7 @@ Processor::Processor()
 }
 
 /**
-* @brief Destroy the Processor::Processor object
+* @brief Destroy the Processor object
 */
 Processor::~Processor()
 {

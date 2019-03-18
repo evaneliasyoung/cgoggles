@@ -12,6 +12,9 @@
 #include "os.h"
 #include "semver.h"
 
+/**
+* @brief Construct a new Operating System object with help from the assistants
+*/
 OperatingSystem::OperatingSystem()
 {
   platform = std::make_unique<std::string>();
@@ -33,6 +36,9 @@ OperatingSystem::OperatingSystem()
   }
 }
 
+/**
+* @brief Destroy the Operating System object
+*/
 OperatingSystem::~OperatingSystem()
 {
   platform.reset();
@@ -40,10 +46,17 @@ OperatingSystem::~OperatingSystem()
   version.reset();
 }
 
+/**
+* @brief Fills in the OS information for Darwin systems
+*/
 void OperatingSystem::GetMac()
 {
   platform = std::make_unique<std::string>("Darwin");
 }
+
+/**
+* @brief Fills in the OS information for Windows systems
+*/
 void OperatingSystem::GetWin()
 {
   std::unique_ptr<std::string> temp = std::make_unique<std::string>(runCommand("ver"));
@@ -57,24 +70,52 @@ void OperatingSystem::GetWin()
     kernel = std::unique_ptr<SemVer>(new SemVer((*mt).str(), 0b11011u));
   }
 }
+
+/**
+* @brief Fills in the OS information for Linux systems
+*/
 void OperatingSystem::GetLux()
 {
   platform = std::make_unique<std::string>("Linux");
 }
 
+/**
+* @brief Returns a copy of the platform
+*
+* @return std::string The platform
+*/
 std::string OperatingSystem::Platform()
 {
   return (*platform);
 }
+
+/**
+* @brief Returns a copy of the kernel version
+*
+* @return std::string The kernel version
+*/
 SemVer OperatingSystem::Kernel()
 {
   return (*kernel);
 }
+
+/**
+* @brief Returns a copy of the version
+*
+* @return std::string The version
+*/
 SemVer OperatingSystem::Version()
 {
   return (*version);
 }
 
+/**
+* @brief Checks if the given path is a file
+*
+* @param  path  The path to check
+* @return true  The file at the path does exist
+* @return false The file at the path does NOT exist
+*/
 bool fileExists(const std::string &path)
 {
   if (std::FILE *file = std::fopen(path.c_str(), "r"))
@@ -88,12 +129,24 @@ bool fileExists(const std::string &path)
   }
 }
 
+/**
+* @brief Retrieves a given environment variable
+*
+* @param  key         The environment variable
+* @return std::string The value of the given environment variable
+*/
 std::string getEnvVar(const std::string &key)
 {
   char const *val = std::getenv(key.c_str());
   return val == NULL ? std::string() : std::string(val);
 }
 
+/**
+* @brief Joins a list of paths with the system's path separator
+*
+* @param  paths       The list of paths to join
+* @return std::string The joint path
+*/
 std::string joinPath(std::initializer_list<std::string> paths)
 {
   std::unique_ptr<std::stringstream> ss = std::make_unique<std::stringstream>();
@@ -108,6 +161,11 @@ std::string joinPath(std::initializer_list<std::string> paths)
   return ss->str();
 }
 
+/**
+* @brief Gets the temporary directory for the system
+*
+* @return std::string The temporary directory
+*/
 std::string getTempDir()
 {
   std::unique_ptr<std::string> tempDir = std::make_unique<std::string>();
@@ -142,6 +200,12 @@ std::string getTempDir()
   return (*tempDir);
 }
 
+/**
+* @brief Runs a command and retrieves output from stdout
+*
+* @param  cmd         The command to run
+* @return std::string The command's output
+*/
 std::string runCommand(const std::string &cmd)
 {
   std::unique_ptr<std::string> path = std::make_unique<std::string>(joinPath({getTempDir(), "cgoggles.txt"}));

@@ -46,13 +46,31 @@
 #define CGOGGLES_OS OS_ERR
 #endif
 
+/**
+* @brief The directory separator for the current OS
+*/
 const char dirSep = CGOGGLES_OS <= OS_WIN ? '\\' : '/';
 
+/**
+* @brief Represents an computer's Operating System
+*
+*/
 class OperatingSystem
 {
 private:
+  /**
+  * @brief The platform of the system
+  */
   std::unique_ptr<std::string> platform;
+
+  /**
+  * @brief The kernel version of the system
+  */
   std::unique_ptr<SemVer> kernel;
+
+  /**
+  * @brief The OS version of the system
+  */
   std::unique_ptr<SemVer> version;
   void GetMac();
   void GetWin();
