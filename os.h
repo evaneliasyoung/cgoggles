@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-15
-*  @date      2019-03-17
+*  @date      2019-03-19
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -64,6 +64,26 @@ private:
   std::unique_ptr<std::string> platform;
 
   /**
+  * @brief The common name of the system
+  */
+  std::unique_ptr<std::string> caption;
+
+  /**
+  * @brief The serial number of the system
+  */
+  std::unique_ptr<std::string> serial;
+
+  /**
+  * @brief The number of bits for the system
+  */
+  std::unique_ptr<std::uint8_t> bit;
+
+  /**
+  * @brief The install date of the system
+  */
+  std::unique_ptr<std::tm> installDate;
+
+  /**
   * @brief The kernel version of the system
   */
   std::unique_ptr<SemVer> kernel;
@@ -72,6 +92,7 @@ private:
   * @brief The OS version of the system
   */
   std::unique_ptr<SemVer> version;
+
   void GetMac();
   void GetWin();
   void GetLux();
@@ -80,6 +101,10 @@ public:
   OperatingSystem();
   ~OperatingSystem();
   std::string Platform();
+  std::string Caption();
+  std::string Serial();
+  std::uint8_t Bit();
+  std::tm InstallDate();
   SemVer Kernel();
   SemVer Version();
 };
@@ -89,5 +114,6 @@ std::string getEnvVar(const std::string &key);
 std::string joinPath(std::initializer_list<std::string> paths);
 std::string getTempDir();
 std::string runCommand(const std::string &cmd);
+std::string runWmic(const std::string &query, std::string *path);
 
 #endif // CGOGGLES_OS_H_

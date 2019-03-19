@@ -4,13 +4,14 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-15
-*  @date      2019-03-18
+*  @date      2019-03-19
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
 #include "pch.h"
 #include "os.h"
 #include "semver.h"
+#include "utils.h"
 
 #pragma region "Constructors"
 /**
@@ -19,6 +20,10 @@
 OperatingSystem::OperatingSystem()
 {
   platform = std::make_unique<std::string>();
+  caption = std::make_unique<std::string>();
+  serial = std::make_unique<std::string>();
+  bit = std::make_unique<std::uint8_t>();
+  installDate = std::make_unique<std::tm>();
   kernel = std::make_unique<SemVer>();
   version = std::make_unique<SemVer>();
 
@@ -43,6 +48,10 @@ OperatingSystem::OperatingSystem()
 OperatingSystem::~OperatingSystem()
 {
   platform.reset();
+  caption.reset();
+  serial.reset();
+  bit.reset();
+  installDate.reset();
   kernel.reset();
   version.reset();
 }
@@ -62,16 +71,22 @@ void OperatingSystem::GetMac()
 */
 void OperatingSystem::GetWin()
 {
-  std::unique_ptr<std::string> temp = std::make_unique<std::string>(runCommand("ver"));
-  std::unique_ptr<std::smatch> mt = std::make_unique<std::smatch>();
+  std::unique_ptr<std::string> wmic = std::make_unique<std::string>(getWmicPath());
+  std::unique_ptr<std::string> temp = std::make_unique<std::string>(runWmic("os get InstallDate", wmic.get()));
 
   platform = std::make_unique<std::string>("Windows");
+  caption = std::make_unique<std::string>(runWmic("os get Caption", wmic.get()));
+  serial = std::make_unique<std::string>(runWmic("os get SerialNumber", wmic.get()));
+  bit = std::make_unique<std::uint8_t>(std::stoi(runWmic("os get OSArchitecture", wmic.get()).erase(3)));
+  version = std::unique_ptr<SemVer>(new SemVer(runWmic("os get Version", wmic.get()), 0b11010u));
+  kernel = std::unique_ptr<SemVer>(new SemVer(runWmic("os get Version", wmic.get()), 0b11010u));
 
-  if (std::regex_search((*temp), (*mt), std::regex(R"((\d+\.?)+)", std::regex::ECMAScript)))
-  {
-    version = std::unique_ptr<SemVer>(new SemVer((*mt).str(), 0b11011u));
-    kernel = std::unique_ptr<SemVer>(new SemVer((*mt).str(), 0b11011u));
-  }
+  installDate->tm_year = std::stoi(temp->substr(0, 4));
+  installDate->tm_mon = std::stoi(temp->substr(4, 2));
+  installDate->tm_mday = std::stoi(temp->substr(6, 2));
+  installDate->tm_hour = std::stoi(temp->substr(8, 2));
+  installDate->tm_min = std::stoi(temp->substr(10, 2));
+  installDate->tm_sec = std::stoi(temp->substr(12, 2));
 }
 
 /**
@@ -92,6 +107,46 @@ void OperatingSystem::GetLux()
 std::string OperatingSystem::Platform()
 {
   return (*platform);
+}
+
+/**
+* @brief Returns a copy of the caption
+*
+* @return std::string The caption
+*/
+std::string OperatingSystem::Caption()
+{
+  return (*caption);
+}
+
+/**
+* @brief Returns a copy of the serial number
+*
+* @return std::string The serial number
+*/
+std::string OperatingSystem::Serial()
+{
+  return (*serial);
+}
+
+/**
+* @brief Returns a copy of the bit
+*
+* @return std::string The bit
+*/
+std::uint8_t OperatingSystem::Bit()
+{
+  return (*bit);
+}
+
+/**
+* @brief Returns a copy of the install date
+*
+* @return std::string The install date
+*/
+std::tm OperatingSystem::InstallDate()
+{
+  return (*installDate);
 }
 
 /**
@@ -223,5 +278,34 @@ std::string runCommand(const std::string &cmd)
   (*buffer) << file->rdbuf();
 
   return buffer->str();
+}
+
+/**
+* @brief Runs a WMIC query and retrieves the result
+*
+* @param  query       The query to run
+* @param  path        The WMIC execution path
+* @return std::string The query's result
+*/
+std::string runWmic(const std::string &query, std::string *path)
+{
+  std::unique_ptr<std::string> temp = std::make_unique<std::string>(runCommand((*path) + " " + query + " /format:list"));
+  std::unique_ptr<std::stringstream> buffer = std::make_unique<std::stringstream>();
+
+  for (size_t i = 0; i < temp->length(); i++)
+  {
+    if (int((*temp)[i]) < 1 || int((*temp)[i]) > 0xFF)
+    {
+      continue;
+    }
+    (*buffer) << (*temp)[i];
+  }
+  (*temp) = buffer->str();
+  buffer.reset();
+
+  temp->erase(0, temp->find_first_of('=') + 1);
+  temp->erase(temp->find_first_of('\r'));
+
+  return (*temp);
 }
 #pragma endregion "Static Methods"
