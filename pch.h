@@ -12,10 +12,10 @@
 #define CGOGGLES_PCH_H_
 
 #include <cassert>
+#include <cmath>
 #include <cstdio>
 #include <cstdint>
 #include <cstdlib>
-#include <cmath>
 #include <ctime>
 
 #include <algorithm>
