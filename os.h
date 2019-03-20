@@ -79,9 +79,19 @@ private:
   std::unique_ptr<std::uint8_t> bit;
 
   /**
-  * @brief The install date of the system
+  * @brief The install time of the system
   */
-  std::unique_ptr<std::tm> installDate;
+  std::unique_ptr<std::tm> installTime;
+
+  /**
+  * @brief The boot time of the system
+  */
+  std::unique_ptr<std::tm> bootTime;
+
+  /**
+  * @brief The current time of the system
+  */
+  std::unique_ptr<std::tm> curTime;
 
   /**
   * @brief The kernel version of the system
@@ -104,7 +114,12 @@ public:
   std::string Caption();
   std::string Serial();
   std::uint8_t Bit();
-  std::tm InstallDate();
+  std::tm InstallTime();
+  std::string InstallTime(const std::string &fmt);
+  std::tm BootTime();
+  std::string BootTime(const std::string &fmt);
+  std::tm CurTime();
+  std::string CurTime(const std::string &fmt);
   SemVer Kernel();
   SemVer Version();
 };

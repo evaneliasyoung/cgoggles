@@ -78,12 +78,15 @@ int main(int argc, const char *argv[])
 
   OperatingSystem curOS;
 
-  std::cout << "Platform: " << curOS.Platform() << std::endl;
-  std::cout << "Caption: " << curOS.Caption() << std::endl;
-  std::cout << "Serial: " << curOS.Serial() << std::endl;
-  std::cout << "Bit: " << std::to_string(curOS.Bit()) << std::endl;
-  std::cout << "OS: " << curOS.Version().Pretty("$F Build $B") << std::endl;
-  std::cout << "Kernel: " << curOS.Kernel().Pretty("$F Build $B") << std::endl;
+  std::cout << "Platform   :  " << curOS.Platform() << std::endl;
+  std::cout << "Caption    :  " << curOS.Caption() << std::endl;
+  std::cout << "Serial     :  " << curOS.Serial() << std::endl;
+  std::cout << "Installed  :  " << curOS.InstallTime("%Y-%m-%d %H:%M:%S") << std::endl;
+  std::cout << "Booted     :  " << curOS.BootTime("%Y-%m-%d %H:%M:%S") << std::endl;
+  std::cout << "Current    :  " << curOS.CurTime("%Y-%m-%d %H:%M:%S") << std::endl;
+  std::cout << "Bit        :  " << std::to_string(curOS.Bit()) << std::endl;
+  std::cout << "OS         :  " << curOS.Version().Pretty("$F Build $B") << std::endl;
+  std::cout << "Kernel     :  " << curOS.Kernel().Pretty("$F Build $B") << std::endl;
 
   return EXIT_SUCCESS;
 }

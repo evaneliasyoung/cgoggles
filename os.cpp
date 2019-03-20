@@ -23,7 +23,9 @@ OperatingSystem::OperatingSystem()
   caption = std::make_unique<std::string>();
   serial = std::make_unique<std::string>();
   bit = std::make_unique<std::uint8_t>();
-  installDate = std::make_unique<std::tm>();
+  installTime = std::make_unique<std::tm>();
+  bootTime = std::make_unique<std::tm>();
+  curTime = std::make_unique<std::tm>();
   kernel = std::make_unique<SemVer>();
   version = std::make_unique<SemVer>();
 
@@ -51,7 +53,9 @@ OperatingSystem::~OperatingSystem()
   caption.reset();
   serial.reset();
   bit.reset();
-  installDate.reset();
+  installTime.reset();
+  bootTime.reset();
+  curTime.reset();
   kernel.reset();
   version.reset();
 }
@@ -72,7 +76,7 @@ void OperatingSystem::GetMac()
 void OperatingSystem::GetWin()
 {
   std::unique_ptr<std::string> wmic = std::make_unique<std::string>(getWmicPath());
-  std::unique_ptr<std::string> temp = std::make_unique<std::string>(runWmic("os get InstallDate", wmic.get()));
+  std::unique_ptr<std::string> temp = std::make_unique<std::string>();
 
   platform = std::make_unique<std::string>("Windows");
   caption = std::make_unique<std::string>(runWmic("os get Caption", wmic.get()));
@@ -81,12 +85,29 @@ void OperatingSystem::GetWin()
   version = std::unique_ptr<SemVer>(new SemVer(runWmic("os get Version", wmic.get()), 0b11010u));
   kernel = std::unique_ptr<SemVer>(new SemVer(runWmic("os get Version", wmic.get()), 0b11010u));
 
-  installDate->tm_year = std::stoi(temp->substr(0, 4));
-  installDate->tm_mon = std::stoi(temp->substr(4, 2));
-  installDate->tm_mday = std::stoi(temp->substr(6, 2));
-  installDate->tm_hour = std::stoi(temp->substr(8, 2));
-  installDate->tm_min = std::stoi(temp->substr(10, 2));
-  installDate->tm_sec = std::stoi(temp->substr(12, 2));
+  temp = std::make_unique<std::string>(runWmic("os get InstallDate", wmic.get()));
+  installTime->tm_year = std::stoi(temp->substr(0, 4)) - 1900;
+  installTime->tm_mon = std::stoi(temp->substr(4, 2)) - 1;
+  installTime->tm_mday = std::stoi(temp->substr(6, 2));
+  installTime->tm_hour = std::stoi(temp->substr(8, 2));
+  installTime->tm_min = std::stoi(temp->substr(10, 2));
+  installTime->tm_sec = std::stoi(temp->substr(12, 2));
+
+  temp = std::make_unique<std::string>(runWmic("os get LastBootUpTime", wmic.get()));
+  bootTime->tm_year = std::stoi(temp->substr(0, 4)) - 1900;
+  bootTime->tm_mon = std::stoi(temp->substr(4, 2)) - 1;
+  bootTime->tm_mday = std::stoi(temp->substr(6, 2));
+  bootTime->tm_hour = std::stoi(temp->substr(8, 2));
+  bootTime->tm_min = std::stoi(temp->substr(10, 2));
+  bootTime->tm_sec = std::stoi(temp->substr(12, 2));
+
+  temp = std::make_unique<std::string>(runWmic("os get LocalDateTime", wmic.get()));
+  curTime->tm_year = std::stoi(temp->substr(0, 4)) - 1900;
+  curTime->tm_mon = std::stoi(temp->substr(4, 2)) - 1;
+  curTime->tm_mday = std::stoi(temp->substr(6, 2));
+  curTime->tm_hour = std::stoi(temp->substr(8, 2));
+  curTime->tm_min = std::stoi(temp->substr(10, 2));
+  curTime->tm_sec = std::stoi(temp->substr(12, 2));
 }
 
 /**
@@ -140,13 +161,72 @@ std::uint8_t OperatingSystem::Bit()
 }
 
 /**
-* @brief Returns a copy of the install date
+* @brief Returns a copy of the install time
 *
-* @return std::string The install date
+* @return std::string The install time
 */
-std::tm OperatingSystem::InstallDate()
+std::tm OperatingSystem::InstallTime()
 {
-  return (*installDate);
+  return (*installTime);
+}
+
+/**
+* @brief Returns a copy of the boot time with a specific format
+*
+* @param  fmt     How to format the time
+* @return std::tm The formatted time string
+*/
+std::string OperatingSystem::InstallTime(const std::string &fmt)
+{
+  std::unique_ptr<std::stringstream> buffer = std::make_unique<std::stringstream>();
+  (*buffer) << std::put_time(installTime.get(), fmt.c_str());
+  return buffer->str();
+}
+
+/**
+* @brief Returns a copy of the boot time
+*
+* @return std::string The boot time
+*/
+std::tm OperatingSystem::BootTime()
+{
+  return (*bootTime);
+}
+
+/**
+* @brief Returns a copy of the install time with a specific format
+*
+* @param  fmt     How to format the time
+* @return std::tm The formatted time string
+*/
+std::string OperatingSystem::BootTime(const std::string &fmt)
+{
+  std::unique_ptr<std::stringstream> buffer = std::make_unique<std::stringstream>();
+  (*buffer) << std::put_time(bootTime.get(), fmt.c_str());
+  return buffer->str();
+}
+
+/**
+* @brief Returns a copy of the current time
+*
+* @return std::string The current time
+*/
+std::tm OperatingSystem::CurTime()
+{
+  return (*curTime);
+}
+
+/**
+* @brief Returns a copy of the current time with a specific format
+*
+* @param  fmt     How to format the time
+* @return std::tm The formatted time string
+*/
+std::string OperatingSystem::CurTime(const std::string &fmt)
+{
+  std::unique_ptr<std::stringstream> buffer = std::make_unique<std::stringstream>();
+  (*buffer) << std::put_time(curTime.get(), fmt.c_str());
+  return buffer->str();
 }
 
 /**
