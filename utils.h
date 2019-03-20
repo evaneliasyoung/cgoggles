@@ -14,7 +14,13 @@
 #include "pch.h"
 
 extern std::vector<std::string> requests;
-extern bool jsonExport;
+
+enum class OutputStyle : std::uint8_t
+{
+  Default,
+  List,
+  JSON
+};
 
 void splitStringVector(const std::string &s, const std::string &d, std::vector<std::string> *v);
 void removeDuplicates(std::vector<std::string> *v);
