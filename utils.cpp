@@ -58,6 +58,19 @@ void removeDuplicates(std::vector<std::string> *v)
 }
 
 /**
+* @brief Determines whether or not a vector contains the specified element
+*
+* @param v The vector to search
+* @param s The string to stearch for
+* @return  true  The vector contains the string
+* @return  false The vector does NOT contain the string
+*/
+bool contains(std::vector<std::string> *v, const std::string &s)
+{
+  return std::find(v->begin(), v->end(), s) != v->end();
+}
+
+/**
 * @brief Get the wmic path for Windows
 *
 * @return std::string The wmic path

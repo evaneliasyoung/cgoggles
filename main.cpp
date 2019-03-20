@@ -19,7 +19,9 @@
 #define CGOGGLES_VERSION_ 0x000100
 
 std::vector<std::string> requests;
-bool jsonExport = false;
+OutputStyle style = OutputStyle::Default;
+
+OperatingSystem compOS;
 
 void outputVersion()
 {
@@ -30,7 +32,7 @@ void outputVersion()
 
 void outputHelp()
 {
-  std::cout << "usage: cgoggles [-v|--ver|--version] [-h|--help] [--json] <command> [<args>]" << std::endl;
+  std::cout << "usage: cgoggles [-v|--ver|--version] [-h|--help] [--list] <command> [<args>]" << std::endl;
   std::cout << "example: cgoggles -get=cpu" << std::endl;
 }
 
@@ -50,9 +52,9 @@ int handleArgs(const char *argv[], std::string *request)
     return EXIT_SUCCESS;
   }
 
-  if (cmdl[{"json"}])
+  if (cmdl[{"list"}])
   {
-    jsonExport = true;
+    style = OutputStyle::List;
   }
 
   if (!(cmdl({"g", "get"}) >> (*request)))
@@ -76,17 +78,7 @@ int main(int argc, const char *argv[])
   request.reset();
   runCommand("echo");
 
-  OperatingSystem curOS;
-
-  std::cout << "Platform   :  " << curOS.Platform() << std::endl;
-  std::cout << "Caption    :  " << curOS.Caption() << std::endl;
-  std::cout << "Serial     :  " << curOS.Serial() << std::endl;
-  std::cout << "Installed  :  " << curOS.InstallTime("%Y-%m-%d %H:%M:%S") << std::endl;
-  std::cout << "Booted     :  " << curOS.BootTime("%Y-%m-%d %H:%M:%S") << std::endl;
-  std::cout << "Current    :  " << curOS.CurTime("%Y-%m-%d %H:%M:%S") << std::endl;
-  std::cout << "Bit        :  " << std::to_string(curOS.Bit()) << std::endl;
-  std::cout << "OS         :  " << curOS.Version().Pretty("$F Build $B") << std::endl;
-  std::cout << "Kernel     :  " << curOS.Kernel().Pretty("$F Build $B") << std::endl;
+  outputRequests();
 
   return EXIT_SUCCESS;
 }

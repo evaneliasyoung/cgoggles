@@ -24,6 +24,7 @@ enum class OutputStyle : std::uint8_t
 
 void splitStringVector(const std::string &s, const std::string &d, std::vector<std::string> *v);
 void removeDuplicates(std::vector<std::string> *v);
+bool contains(std::vector<std::string> *v, const std::string &s);
 std::string getWmicPath();
 
 #endif // CGOGGLES_UTILS_H_
