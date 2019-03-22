@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-15
-*  @date      2019-03-19
+*  @date      2019-03-22
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -55,50 +55,24 @@ void parseRequests(std::string *request)
 */
 void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *vals)
 {
-  if (contains(&requests, "os.all") || contains(&requests, "os.Platform"))
+  std::unique_ptr<std::map<std::string, std::string>> reqKP = std::make_unique<std::map<std::string, std::string>>();
+  (*reqKP)["os.Platform"] = compOS.Platform();
+  (*reqKP)["os.Caption"] = compOS.Caption();
+  (*reqKP)["os.Serial"] = compOS.Serial();
+  (*reqKP)["os.Bit"] = std::to_string(compOS.Bit());
+  (*reqKP)["os.InstallTime"] = compOS.InstallTime("%Y-%m-%dT%H:%M:%S");
+  (*reqKP)["os.BootTime"] = compOS.BootTime("%Y-%m-%dT%H:%M:%S");
+  (*reqKP)["os.CurTime"] = compOS.CurTime("%Y-%m-%dT%H:%M:%S");
+  (*reqKP)["os.Kernel"] = compOS.Kernel().Pretty();
+  (*reqKP)["os.Version"] = compOS.Version().Pretty();
+
+  for (auto kp : (*reqKP))
   {
-    keys->push_back("os.Platform");
-    vals->push_back(compOS.Platform());
-  }
-  if (contains(&requests, "os.all") || contains(&requests, "os.Caption"))
-  {
-    keys->push_back("os.Caption");
-    vals->push_back(compOS.Caption());
-  }
-  if (contains(&requests, "os.all") || contains(&requests, "os.Serial"))
-  {
-    keys->push_back("os.Serial");
-    vals->push_back(compOS.Serial());
-  }
-  if (contains(&requests, "os.all") || contains(&requests, "os.Bit"))
-  {
-    keys->push_back("os.Bit");
-    vals->push_back(std::to_string(compOS.Bit()));
-  }
-  if (contains(&requests, "os.all") || contains(&requests, "os.InstallTime"))
-  {
-    keys->push_back("os.InstallTime");
-    vals->push_back(compOS.InstallTime("%Y-%m-%dT%H:%M:%S"));
-  }
-  if (contains(&requests, "os.all") || contains(&requests, "os.BootTime"))
-  {
-    keys->push_back("os.BootTime");
-    vals->push_back(compOS.BootTime("%Y-%m-%dT%H:%M:%S"));
-  }
-  if (contains(&requests, "os.all") || contains(&requests, "os.CurTime"))
-  {
-    keys->push_back("os.CurTime");
-    vals->push_back(compOS.CurTime("%Y-%m-%dT%H:%M:%S"));
-  }
-  if (contains(&requests, "os.all") || contains(&requests, "os.Kernel"))
-  {
-    keys->push_back("os.Kernel");
-    vals->push_back(compOS.Kernel().Pretty());
-  }
-  if (contains(&requests, "os.all") || contains(&requests, "os.Version"))
-  {
-    keys->push_back("os.Version");
-    vals->push_back(compOS.Version().Pretty());
+    if (contains(&requests, "os.all") || contains(&requests, kp.first))
+    {
+      keys->push_back(kp.first);
+      vals->push_back(kp.second);
+    }
   }
 }
 
