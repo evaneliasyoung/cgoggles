@@ -65,6 +65,16 @@ private:
   */
   std::unique_ptr<std::uint8_t> threads;
 
+  /**
+  * @brief The current clock speed (in GHz)
+  */
+  std::unique_ptr<float> speed;
+
+  /**
+  * @brief The maximum clock speed (in GHz)
+  */
+  std::unique_ptr<float> maxSpeed;
+
   void GetMac();
   void GetWin();
   void GetLux();
@@ -81,6 +91,10 @@ public:
   std::uint8_t Stepping();
   std::uint8_t Cores();
   std::uint8_t Threads();
+  float Speed();
+  std::string PrettySpeed();
+  float MaxSpeed();
+  std::string PrettyMaxSpeed();
 };
 
 #endif // COGGLES_PROCESSOR_H_

@@ -39,6 +39,8 @@ void filterRequests()
   valids->push_back("cpu.Stepping");
   valids->push_back("cpu.Cores");
   valids->push_back("cpu.Threads");
+  valids->push_back("cpu.Speed");
+  valids->push_back("cpu.MaxSpeed");
 
   for (int i = requests.size() - 1; i >= 0; i--)
   {
@@ -160,6 +162,16 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
   {
     keys->push_back("cpu.Threads");
     vals->push_back(std::to_string(compCPU.Threads()));
+  }
+  if ((*cpuAll) || contains(&requests, "cpu.Speed"))
+  {
+    keys->push_back("cpu.Speed");
+    vals->push_back(compCPU.PrettySpeed());
+  }
+  if ((*cpuAll) || contains(&requests, "cpu.MaxSpeed"))
+  {
+    keys->push_back("cpu.MaxSpeed");
+    vals->push_back(compCPU.PrettyMaxSpeed());
   }
 }
 

@@ -29,6 +29,8 @@ Processor::Processor()
   stepping = std::make_unique<std::uint8_t>();
   cores = std::make_unique<std::uint8_t>();
   threads = std::make_unique<std::uint8_t>();
+  speed = std::make_unique<float>();
+  maxSpeed = std::make_unique<float>();
 
   switch (CGOGGLES_OS)
   {
@@ -59,6 +61,8 @@ Processor::~Processor()
   stepping.reset();
   cores.reset();
   threads.reset();
+  speed.reset();
+  maxSpeed.reset();
 }
 #pragma endregion "Constructors"
 
@@ -155,12 +159,15 @@ void Processor::GetWin()
   trim(brand.get());
 
   temp = std::make_unique<std::string>(runWmic("cpu get Description", wmicPath.get()));
-  if (std::regex_search((*temp), (*mt), std::regex(R"(.*Family (\d+) Model (\d+) Stepping (\d+))", std::regex_constants::ECMAScript|std::regex_constants::icase)))
+  if (std::regex_search((*temp), (*mt), std::regex(R"(.*Family (\d+) Model (\d+) Stepping (\d+))", std::regex_constants::ECMAScript | std::regex_constants::icase)))
   {
     family = std::make_unique<std::uint8_t>(std::stoi((*mt)[1]));
     model = std::make_unique<std::uint8_t>(std::stoi((*mt)[2]));
     stepping = std::make_unique<std::uint8_t>(std::stoi((*mt)[3]));
   }
+
+  maxSpeed = std::make_unique<float>(std::round(std::stof(runWmic("cpu get MaxClockSpeed", wmicPath.get())) / 10) / 100);
+  speed = std::make_unique<float>(std::round(std::stof(runWmic("cpu get MaxClockSpeed", wmicPath.get())) / 10) / 100);
 
   delete architectureMap;
   delete socketTypeMap;
@@ -263,5 +270,49 @@ std::uint8_t Processor::Cores()
 std::uint8_t Processor::Threads()
 {
   return (*threads);
+}
+
+/**
+* @brief Returns a copy of the current clock speed
+*
+* @return float The current clock speed
+*/
+float Processor::Speed()
+{
+  return (*speed);
+}
+
+/**
+* @brief Returns a human-readable copy of the current clock speed
+*
+* @return std::string The human-readable current clock speed
+*/
+std::string Processor::PrettySpeed()
+{
+  std::unique_ptr<std::stringstream> buffer = std::make_unique<std::stringstream>();
+  (*buffer) << std::fixed << std::setprecision(2) << (*speed) << "GHz";
+  return buffer->str();
+}
+
+/**
+* @brief Returns a copy of the maximum clock speed
+*
+* @return float The maximum clock speed
+*/
+float Processor::MaxSpeed()
+{
+  return (*maxSpeed);
+}
+
+/**
+* @brief Returns a human-readable copy of the maximum clock speed
+*
+* @return std::string The human-readable maximum clock speed
+*/
+std::string Processor::PrettyMaxSpeed()
+{
+  std::unique_ptr<std::stringstream> buffer = std::make_unique<std::stringstream>();
+  (*buffer) << std::fixed << std::setprecision(2) << (*maxSpeed) << "GHz";
+  return buffer->str();
 }
 #pragma endregion "Accessors"
