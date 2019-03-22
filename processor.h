@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-16
-*  @date      2019-03-18
+*  @date      2019-03-22
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -26,9 +26,34 @@ private:
   std::unique_ptr<std::string> manufacturer;
 
   /**
+  * @brief The architecture
+  */
+  std::unique_ptr<std::string> architecture;
+
+  /**
+  * @brief The internal socket type
+  */
+  std::unique_ptr<std::string> socketType;
+
+  /**
   * @brief The make/model
   */
-  std::unique_ptr<std::string> model;
+  std::unique_ptr<std::string> brand;
+
+  /**
+  * @brief The number of physical family
+  */
+  std::unique_ptr<std::uint8_t> family;
+
+  /**
+  * @brief The number of physical model
+  */
+  std::unique_ptr<std::uint8_t> model;
+
+  /**
+  * @brief The number of physical stepping
+  */
+  std::unique_ptr<std::uint8_t> stepping;
 
   /**
   * @brief The number of physical cores
@@ -40,10 +65,6 @@ private:
   */
   std::unique_ptr<std::uint8_t> threads;
 
-  /**
-  * @brief The current temperature as a Temperature object
-  */
-  std::unique_ptr<Temperature> temperature;
   void GetMac();
   void GetWin();
   void GetLux();
@@ -52,7 +73,12 @@ public:
   Processor();
   ~Processor();
   std::string Manufacturer();
-  std::string Model();
+  std::string Architecture();
+  std::string SocketType();
+  std::string Brand();
+  std::uint8_t Family();
+  std::uint8_t Model();
+  std::uint8_t Stepping();
   std::uint8_t Cores();
   std::uint8_t Threads();
 };

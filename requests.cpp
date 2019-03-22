@@ -18,7 +18,8 @@
 void filterRequests()
 {
   std::unique_ptr<std::vector<std::string>> valids = std::make_unique<std::vector<std::string>>();
-  valids->push_back("os.all");
+  valids->push_back("All");
+  valids->push_back("os.All");
   valids->push_back("os.Platform");
   valids->push_back("os.Caption");
   valids->push_back("os.Serial");
@@ -28,6 +29,16 @@ void filterRequests()
   valids->push_back("os.CurTime");
   valids->push_back("os.Kernel");
   valids->push_back("os.Version");
+  valids->push_back("cpu.All");
+  valids->push_back("cpu.Manufacturer");
+  valids->push_back("cpu.Architecture");
+  valids->push_back("cpu.SocketType");
+  valids->push_back("cpu.Brand");
+  valids->push_back("cpu.Family");
+  valids->push_back("cpu.Model");
+  valids->push_back("cpu.Stepping");
+  valids->push_back("cpu.Cores");
+  valids->push_back("cpu.Threads");
 
   for (int i = requests.size() - 1; i >= 0; i--)
   {
@@ -55,24 +66,100 @@ void parseRequests(std::string *request)
 */
 void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *vals)
 {
-  std::unique_ptr<std::map<std::string, std::string>> reqKP = std::make_unique<std::map<std::string, std::string>>();
-  (*reqKP)["os.Platform"] = compOS.Platform();
-  (*reqKP)["os.Caption"] = compOS.Caption();
-  (*reqKP)["os.Serial"] = compOS.Serial();
-  (*reqKP)["os.Bit"] = std::to_string(compOS.Bit());
-  (*reqKP)["os.InstallTime"] = compOS.InstallTime("%Y-%m-%dT%H:%M:%S");
-  (*reqKP)["os.BootTime"] = compOS.BootTime("%Y-%m-%dT%H:%M:%S");
-  (*reqKP)["os.CurTime"] = compOS.CurTime("%Y-%m-%dT%H:%M:%S");
-  (*reqKP)["os.Kernel"] = compOS.Kernel().Pretty();
-  (*reqKP)["os.Version"] = compOS.Version().Pretty();
+  std::unique_ptr<bool> allAll = std::make_unique<bool>(contains(&requests, "All"));
+  std::unique_ptr<bool> osAll = std::make_unique<bool>((*allAll) || contains(&requests, "os.All"));
+  std::unique_ptr<bool> cpuAll = std::make_unique<bool>((*allAll) || contains(&requests, "cpu.All"));
 
-  for (auto kp : (*reqKP))
+  if ((*osAll) || contains(&requests, "os.Platform"))
   {
-    if (contains(&requests, "os.all") || contains(&requests, kp.first))
-    {
-      keys->push_back(kp.first);
-      vals->push_back(kp.second);
-    }
+    keys->push_back("os.Platform");
+    vals->push_back(compOS.Platform());
+  }
+  if ((*osAll) || contains(&requests, "os.Caption"))
+  {
+    keys->push_back("os.Caption");
+    vals->push_back(compOS.Caption());
+  }
+  if ((*osAll) || contains(&requests, "os.Serial"))
+  {
+    keys->push_back("os.Serial");
+    vals->push_back(compOS.Serial());
+  }
+  if ((*osAll) || contains(&requests, "os.Bit"))
+  {
+    keys->push_back("os.Bit");
+    vals->push_back(std::to_string(compOS.Bit()));
+  }
+  if ((*osAll) || contains(&requests, "os.InstallTime"))
+  {
+    keys->push_back("os.InstallTime");
+    vals->push_back(compOS.InstallTime("%Y-%m-%dT%H:%M:%S"));
+  }
+  if ((*osAll) || contains(&requests, "os.BootTime"))
+  {
+    keys->push_back("os.BootTime");
+    vals->push_back(compOS.BootTime("%Y-%m-%dT%H:%M:%S"));
+  }
+  if ((*osAll) || contains(&requests, "os.CurTime"))
+  {
+    keys->push_back("os.CurTime");
+    vals->push_back(compOS.CurTime("%Y-%m-%dT%H:%M:%S"));
+  }
+  if ((*osAll) || contains(&requests, "os.Kernel"))
+  {
+    keys->push_back("os.Kernel");
+    vals->push_back(compOS.Kernel().Pretty());
+  }
+  if ((*osAll) || contains(&requests, "os.Version"))
+  {
+    keys->push_back("os.Version");
+    vals->push_back(compOS.Version().Pretty());
+  }
+
+  if ((*cpuAll) || contains(&requests, "cpu.Manufacturer"))
+  {
+    keys->push_back("cpu.Manufacturer");
+    vals->push_back(compCPU.Manufacturer());
+  }
+  if ((*cpuAll) || contains(&requests, "cpu.Architecture"))
+  {
+    keys->push_back("cpu.Architecture");
+    vals->push_back(compCPU.Architecture());
+  }
+  if ((*cpuAll) || contains(&requests, "cpu.SocketType"))
+  {
+    keys->push_back("cpu.SocketType");
+    vals->push_back(compCPU.SocketType());
+  }
+  if ((*cpuAll) || contains(&requests, "cpu.Brand"))
+  {
+    keys->push_back("cpu.Brand");
+    vals->push_back(compCPU.Brand());
+  }
+  if ((*cpuAll) || contains(&requests, "cpu.Family"))
+  {
+    keys->push_back("cpu.Family");
+    vals->push_back(std::to_string(compCPU.Family()));
+  }
+  if ((*cpuAll) || contains(&requests, "cpu.Model"))
+  {
+    keys->push_back("cpu.Model");
+    vals->push_back(std::to_string(compCPU.Model()));
+  }
+  if ((*cpuAll) || contains(&requests, "cpu.Stepping"))
+  {
+    keys->push_back("cpu.Stepping");
+    vals->push_back(std::to_string(compCPU.Stepping()));
+  }
+  if ((*cpuAll) || contains(&requests, "cpu.Cores"))
+  {
+    keys->push_back("cpu.Cores");
+    vals->push_back(std::to_string(compCPU.Cores()));
+  }
+  if ((*cpuAll) || contains(&requests, "cpu.Threads"))
+  {
+    keys->push_back("cpu.Threads");
+    vals->push_back(std::to_string(compCPU.Threads()));
   }
 }
 
@@ -83,20 +170,11 @@ void outputRequests()
 {
   std::unique_ptr<std::vector<std::string>> keys = std::make_unique<std::vector<std::string>>();
   std::unique_ptr<std::vector<std::string>> vals = std::make_unique<std::vector<std::string>>();
+  std::unique_ptr<char> delChar = std::make_unique<char>(style == OutputStyle::Default ? '\n' : '=');
   gatherRequests(keys.get(), vals.get());
 
   for (std::size_t i = 0; i < keys->size(); i++)
   {
-    std::cout << (*keys)[i];
-    if (style == OutputStyle::Default)
-    {
-      std::cout << std::endl;
-    }
-    else
-    {
-      std::cout << '=';
-    }
-
-    std::cout << (*vals)[i] << std::endl;
+    std::cout << (*keys)[i] << *delChar << (*vals)[i] << std::endl;
   }
 }

@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-12
-*  @date      2019-03-15
+*  @date      2019-03-22
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -60,14 +60,48 @@ void removeDuplicates(std::vector<std::string> *v)
 /**
 * @brief Determines whether or not a vector contains the specified element
 *
-* @param v The vector to search
-* @param s The string to stearch for
-* @return  true  The vector contains the string
-* @return  false The vector does NOT contain the string
+* @param  v The vector to search
+* @param  s The string to stearch for
+* @return   true  The vector contains the string
+* @return   false The vector does NOT contain the string
 */
 bool contains(std::vector<std::string> *v, const std::string &s)
 {
   return std::find(v->begin(), v->end(), s) != v->end();
+}
+
+/**
+* @brief Trims away the specified characters from the end of a string
+*
+* @param s A pointer to the string to trim
+* @param t A collection of chars to remove
+*/
+void rtrim(std::string *s, const char *t)
+{
+  s->erase(s->find_last_not_of(t) + 1);
+}
+
+/**
+* @brief Trims away the specified characters from the beginning of a string
+*
+* @param s A pointer to the string to trim
+* @param t A collection of chars to remove
+*/
+void ltrim(std::string *s, const char *t)
+{
+  s->erase(0, s->find_first_not_of(t));
+}
+
+/**
+* @brief Trims away the specified characters from both ends of a string
+*
+* @param s A pointer to the string to trim
+* @param t A collection of chars to remove
+*/
+void trim(std::string *s, const char *t)
+{
+  rtrim(s, t);
+  ltrim(s, t);
 }
 
 /**

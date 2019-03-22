@@ -14,10 +14,12 @@
 #include "pch.h"
 #include "utils.h"
 #include "os.h"
+#include "processor.h"
 
 extern std::vector<std::string> requests;
 extern OutputStyle style;
 extern OperatingSystem compOS;
+extern Processor compCPU;
 
 void filterRequests();
 void parseRequests(std::string* request);

@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-16
-*  @date      2019-03-18
+*  @date      2019-03-22
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -21,10 +21,14 @@
 Processor::Processor()
 {
   manufacturer = std::make_unique<std::string>();
-  model = std::make_unique<std::string>();
+  architecture = std::make_unique<std::string>();
+  socketType = std::make_unique<std::string>();
+  brand = std::make_unique<std::string>();
+  family = std::make_unique<std::uint8_t>();
+  model = std::make_unique<std::uint8_t>();
+  stepping = std::make_unique<std::uint8_t>();
   cores = std::make_unique<std::uint8_t>();
   threads = std::make_unique<std::uint8_t>();
-  temperature = std::make_unique<Temperature>();
 
   switch (CGOGGLES_OS)
   {
@@ -47,10 +51,14 @@ Processor::Processor()
 Processor::~Processor()
 {
   manufacturer.reset();
+  architecture.reset();
+  socketType.reset();
+  brand.reset();
+  family.reset();
   model.reset();
+  stepping.reset();
   cores.reset();
   threads.reset();
-  temperature.reset();
 }
 #pragma endregion "Constructors"
 
@@ -68,6 +76,94 @@ void Processor::GetMac()
 void Processor::GetWin()
 {
   std::unique_ptr<std::string> wmicPath = std::make_unique<std::string>(getWmicPath());
+  std::unique_ptr<std::string> temp = std::make_unique<std::string>();
+  std::unique_ptr<int> tempInt = std::make_unique<int>();
+  std::unique_ptr<std::smatch> mt = std::make_unique<std::smatch>();
+  std::string *architectureMap = new std::string[10]{"x86", "MIPS", "Alpha", "PowerPC", "Unknown", "ARM", "ia64", "Unknown", "Unknown", "x64"};
+  std::string *socketTypeMap = new std::string[61]{
+      "Unknown",
+      "Other",
+      "Unknown",
+      "Daughter Board",
+      "ZIF Socket",
+      "Replacement/Piggy Back",
+      "None",
+      "LIF Socket",
+      "Slot 1",
+      "Slot 2",
+      "370 Pin Socket",
+      "Slot A",
+      "Slot M",
+      "423",
+      "A (Socket 462)",
+      "478",
+      "754",
+      "940",
+      "939",
+      "mPGA604",
+      "LGA771",
+      "LGA775",
+      "S1",
+      "AM2",
+      "F (1207)",
+      "LGA1366",
+      "G34",
+      "AM3",
+      "C32",
+      "LGA1156",
+      "LGA1567",
+      "PGA988A",
+      "BGA1288",
+      "rPGA988B",
+      "BGA1023",
+      "BGA1224",
+      "LGA1155",
+      "LGA1356",
+      "LGA2011",
+      "FS1",
+      "FS2",
+      "FM1",
+      "FM2",
+      "LGA2011-3",
+      "LGA1356-3",
+      "LGA1150",
+      "BGA1168",
+      "BGA1234",
+      "BGA1364",
+      "AM4",
+      "LGA1151",
+      "BGA1356",
+      "BGA1440",
+      "BGA1515",
+      "LGA3647-1",
+      "SP3",
+      "SP3r2",
+      "LGA2066",
+      "BGA1392",
+      "BGA1510",
+      "BGA1528"};
+
+  manufacturer = std::make_unique<std::string>(runWmic("cpu get Manufacturer", wmicPath.get()));
+  cores = std::make_unique<std::uint8_t>(std::stoi(runWmic("cpu get NumberOfCores", wmicPath.get())));
+  threads = std::make_unique<std::uint8_t>(std::stoi(runWmic("cpu get NumberOfLogicalProcessors", wmicPath.get())));
+
+  architecture = std::make_unique<std::string>(architectureMap[std::stoi(runWmic("cpu get Architecture", wmicPath.get()))]);
+  socketType = std::make_unique<std::string>(socketTypeMap[std::stoi(runWmic("cpu get UpgradeMethod", wmicPath.get()))]);
+
+  brand = std::make_unique<std::string>(runWmic("cpu get Name", wmicPath.get()));
+  brand->erase(brand->find_first_of("@"));
+  trim(brand.get());
+
+  temp = std::make_unique<std::string>(runWmic("cpu get Description", wmicPath.get()));
+  if (std::regex_search((*temp), (*mt), std::regex(R"(.*Family (\d+) Model (\d+) Stepping (\d+))", std::regex_constants::ECMAScript|std::regex_constants::icase)))
+  {
+    family = std::make_unique<std::uint8_t>(std::stoi((*mt)[1]));
+    model = std::make_unique<std::uint8_t>(std::stoi((*mt)[2]));
+    stepping = std::make_unique<std::uint8_t>(std::stoi((*mt)[3]));
+  }
+
+  delete architectureMap;
+  delete socketTypeMap;
 }
 
 /**
@@ -90,13 +186,63 @@ std::string Processor::Manufacturer()
 }
 
 /**
-* @brief Returns the a copy of the model
+* @brief Returns a copy of the architecture
 *
-* @return std::string The model
+* @return std::string The architecture
 */
-std::string Processor::Model()
+std::string Processor::Architecture()
+{
+  return (*architecture);
+}
+
+/**
+* @brief Returns a copy of the internal socket type
+*
+* @return std::string The internal socket type
+*/
+std::string Processor::SocketType()
+{
+  return (*socketType);
+}
+
+/**
+* @brief Returns the a copy of the make/model
+*
+* @return std::string The make/model
+*/
+std::string Processor::Brand()
+{
+  return (*brand);
+}
+
+/**
+* @brief Returns a copy of the family
+*
+* @return std::uint8_t The family number
+*/
+std::uint8_t Processor::Family()
+{
+  return (*family);
+}
+
+/**
+* @brief Returns a copy of the model
+*
+* @return std::uint8_t The model number
+*/
+std::uint8_t Processor::Model()
 {
   return (*model);
+}
+
+/**
+* @brief Returns a copy of the step
+*
+* @return std::uint8_t The stepping number
+*/
+std::uint8_t Processor::Stepping()
+{
+  return (*stepping);
 }
 
 /**
