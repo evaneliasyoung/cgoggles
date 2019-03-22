@@ -17,21 +17,21 @@
 */
 void filterRequests()
 {
-  std::string valids[10] = {
-      "os.all",
-      "os.Platform",
-      "os.Caption",
-      "os.Serial",
-      "os.Bit",
-      "os.InstallTime",
-      "os.BootTime",
-      "os.CurTime",
-      "os.Kernel",
-      "os.Version"};
+  std::unique_ptr<std::vector<std::string>> valids = std::make_unique<std::vector<std::string>>();
+  valids->push_back("os.all");
+  valids->push_back("os.Platform");
+  valids->push_back("os.Caption");
+  valids->push_back("os.Serial");
+  valids->push_back("os.Bit");
+  valids->push_back("os.InstallTime");
+  valids->push_back("os.BootTime");
+  valids->push_back("os.CurTime");
+  valids->push_back("os.Kernel");
+  valids->push_back("os.Version");
 
   for (int i = requests.size() - 1; i >= 0; i--)
   {
-    if (std::find(std::begin(valids), std::end(valids), requests[i]) == std::end(valids))
+    if (!contains(valids.get(), requests[i]))
     {
       requests.erase(requests.begin() + i);
     }
