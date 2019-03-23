@@ -76,16 +76,17 @@ void OperatingSystem::GetMac()
 void OperatingSystem::GetWin()
 {
   std::unique_ptr<std::string> wmic = std::make_unique<std::string>(getWmicPath());
+  std::unique_ptr<std::map<std::string, std::string>> dataMap = std::make_unique<std::map<std::string, std::string>>(runMultiWmic("os get Caption,SerialNumber,OSArchitecture,Version,Version,InstallDate,LastBootUpTime,LocalDateTime", wmic.get()));
   std::unique_ptr<std::string> temp = std::make_unique<std::string>();
 
   platform = std::make_unique<std::string>("Windows");
-  caption = std::make_unique<std::string>(runWmic("os get Caption", wmic.get()));
-  serial = std::make_unique<std::string>(runWmic("os get SerialNumber", wmic.get()));
-  bit = std::make_unique<std::uint8_t>(std::stoi(runWmic("os get OSArchitecture", wmic.get()).erase(3)));
-  version = std::unique_ptr<SemVer>(new SemVer(runWmic("os get Version", wmic.get()), 0b11010u));
-  kernel = std::unique_ptr<SemVer>(new SemVer(runWmic("os get Version", wmic.get()), 0b11010u));
+  caption = std::make_unique<std::string>((*dataMap)["Caption"]);
+  serial = std::make_unique<std::string>((*dataMap)["SerialNumber"]);
+  bit = std::make_unique<std::uint8_t>(std::stoi((*dataMap)["OSArchitecture"].erase(3)));
+  version = std::unique_ptr<SemVer>(new SemVer((*dataMap)["Version"], 0b11010u));
+  kernel = std::unique_ptr<SemVer>(new SemVer((*dataMap)["Version"], 0b11010u));
 
-  temp = std::make_unique<std::string>(runWmic("os get InstallDate", wmic.get()));
+  temp = std::make_unique<std::string>((*dataMap)["InstallDate"]);
   installTime->tm_year = std::stoi(temp->substr(0, 4)) - 1900;
   installTime->tm_mon = std::stoi(temp->substr(4, 2)) - 1;
   installTime->tm_mday = std::stoi(temp->substr(6, 2));
@@ -93,7 +94,7 @@ void OperatingSystem::GetWin()
   installTime->tm_min = std::stoi(temp->substr(10, 2));
   installTime->tm_sec = std::stoi(temp->substr(12, 2));
 
-  temp = std::make_unique<std::string>(runWmic("os get LastBootUpTime", wmic.get()));
+  temp = std::make_unique<std::string>((*dataMap)["LastBootUpTime"]);
   bootTime->tm_year = std::stoi(temp->substr(0, 4)) - 1900;
   bootTime->tm_mon = std::stoi(temp->substr(4, 2)) - 1;
   bootTime->tm_mday = std::stoi(temp->substr(6, 2));
@@ -101,7 +102,7 @@ void OperatingSystem::GetWin()
   bootTime->tm_min = std::stoi(temp->substr(10, 2));
   bootTime->tm_sec = std::stoi(temp->substr(12, 2));
 
-  temp = std::make_unique<std::string>(runWmic("os get LocalDateTime", wmic.get()));
+  temp = std::make_unique<std::string>((*dataMap)["LocalDateTime"]);
   curTime->tm_year = std::stoi(temp->substr(0, 4)) - 1900;
   curTime->tm_mon = std::stoi(temp->substr(4, 2)) - 1;
   curTime->tm_mday = std::stoi(temp->substr(6, 2));
@@ -369,7 +370,7 @@ std::string runCommand(const std::string &cmd)
 */
 std::string runWmic(const std::string &query, std::string *path)
 {
-  std::unique_ptr<std::string> temp = std::make_unique<std::string>(runCommand((*path) + " " + query + " /format:list"));
+  std::unique_ptr<std::string> temp = std::make_unique<std::string>(runCommand((*path) + " " + query + " /value"));
   std::unique_ptr<std::stringstream> buffer = std::make_unique<std::stringstream>();
 
   for (size_t i = 0; i < temp->length(); i++)
@@ -384,8 +385,40 @@ std::string runWmic(const std::string &query, std::string *path)
   buffer.reset();
 
   temp->erase(0, temp->find_first_of('=') + 1);
-  temp->erase(temp->find_first_of('\r'));
+  temp->erase(temp->find_last_of('\r'));
 
   return (*temp);
+}
+
+std::map<std::string, std::string> runMultiWmic(const std::string &query, std::string *path)
+{
+  std::unique_ptr<std::map<std::string, std::string>> ret = std::make_unique<std::map<std::string, std::string>>();
+  std::unique_ptr<std::string> temp = std::make_unique<std::string>(runCommand((*path) + " " + query + " /value"));
+  std::unique_ptr<std::stringstream> buffer = std::make_unique<std::stringstream>();
+  std::unique_ptr<std::vector<std::string>> lines = std::make_unique<std::vector<std::string>>();
+
+  for (size_t i = 0; i < temp->length(); i++)
+  {
+    if (int((*temp)[i]) < 1 || int((*temp)[i]) > 0xFF)
+    {
+      continue;
+    }
+    (*buffer) << (*temp)[i];
+  }
+  (*temp) = buffer->str();
+  buffer.reset();
+
+  temp->erase(0, 4);
+  temp->erase(temp->length() - 5);
+  splitStringVector((*temp), "\r\n", lines.get());
+  temp.reset();
+
+  for (size_t i = 0; i < lines->size(); i++)
+  {
+    (*ret)[(*lines)[i].substr(0, (*lines)[i].find_first_of('='))] = (*lines)[i].substr((*lines)[i].find_first_of('=') + 1);
+  }
+  lines.reset();
+
+  return (*ret);
 }
 #pragma endregion "Static Methods"
