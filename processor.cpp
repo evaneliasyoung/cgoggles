@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-16
-*  @date      2019-03-22
+*  @date      2019-03-23
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -155,7 +155,10 @@ void Processor::GetWin()
   socketType = std::make_unique<std::string>(socketTypeMap[std::stoi(runWmic("cpu get UpgradeMethod", wmicPath.get()))]);
 
   brand = std::make_unique<std::string>(runWmic("cpu get Name", wmicPath.get()));
-  brand->erase(brand->find_first_of("@"));
+  if (brand->find("@") != std::string::npos) {
+    brand->erase(brand->find_first_of("@"));
+  }
+
   trim(brand.get());
 
   temp = std::make_unique<std::string>(runWmic("cpu get Description", wmicPath.get()));
