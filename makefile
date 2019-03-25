@@ -1,6 +1,6 @@
 CC      = g++
 HEADERS = pch.h argh.h
-OBJECTS = main.o os.o processor.o requests.o semver.o temperature.o utils.o
+OBJECTS = main.o os.o processor.o requests.o semver.o storage.o temperature.o utils.o
 
 default: cgoggles
 

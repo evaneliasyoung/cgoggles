@@ -10,11 +10,12 @@
 
 #include "pch.h"
 #include "argh.h"
-#include "os.h"
-#include "requests.h"
 #include "utils.h"
-#include "processor.h"
 #include "temperature.h"
+#include "os.h"
+#include "processor.h"
+#include "requests.h"
+#include "storage.h"
 
 #define CGOGGLES_VERSION_ 0x000100
 
@@ -23,6 +24,7 @@ OutputStyle style = OutputStyle::Default;
 
 OperatingSystem compOS;
 Processor compCPU;
+std::vector<Storage> compStorage;
 
 void outputVersion()
 {
@@ -68,18 +70,18 @@ int handleArgs(const char *argv[], std::string *request)
 
 int main(int argc, const char *argv[])
 {
-  std::unique_ptr<std::string> request = std::make_unique<std::string>();
+  // std::unique_ptr<std::string> request = std::make_unique<std::string>();
 
-  if (handleArgs(argv, request.get()) != EXIT_SUCCESS)
-  {
-    return EXIT_FAILURE;
-  }
+  // if (handleArgs(argv, request.get()) != EXIT_SUCCESS)
+  // {
+  //   return EXIT_FAILURE;
+  // }
 
-  parseRequests(request.get());
-  request.reset();
+  // parseRequests(request.get());
+  // request.reset();
   runCommand("echo");
 
-  outputRequests();
+  // outputRequests();
 
   return EXIT_SUCCESS;
 }

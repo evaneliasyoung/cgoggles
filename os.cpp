@@ -370,7 +370,7 @@ std::string runCommand(const std::string &cmd)
 */
 std::string runWmic(const std::string &query, std::string *path)
 {
-  std::unique_ptr<std::string> temp = std::make_unique<std::string>(runCommand((*path) + " " + query + " /value"));
+  std::unique_ptr<std::string> temp = std::make_unique<std::string>(runCommand((*path) + " " + query + " /format:list"));
   std::unique_ptr<std::stringstream> buffer = std::make_unique<std::stringstream>();
 
   for (size_t i = 0; i < temp->length(); i++)
@@ -393,7 +393,7 @@ std::string runWmic(const std::string &query, std::string *path)
 std::map<std::string, std::string> runMultiWmic(const std::string &query, std::string *path)
 {
   std::unique_ptr<std::map<std::string, std::string>> ret = std::make_unique<std::map<std::string, std::string>>();
-  std::unique_ptr<std::string> temp = std::make_unique<std::string>(runCommand((*path) + " " + query + " /value"));
+  std::unique_ptr<std::string> temp = std::make_unique<std::string>(runCommand((*path) + " " + query + " /format:list"));
   std::unique_ptr<std::stringstream> buffer = std::make_unique<std::stringstream>();
   std::unique_ptr<std::vector<std::string>> lines = std::make_unique<std::vector<std::string>>();
 
@@ -418,6 +418,46 @@ std::map<std::string, std::string> runMultiWmic(const std::string &query, std::s
     (*ret)[(*lines)[i].substr(0, (*lines)[i].find_first_of('='))] = (*lines)[i].substr((*lines)[i].find_first_of('=') + 1);
   }
   lines.reset();
+
+  return (*ret);
+}
+
+std::vector<std::map<std::string, std::string>> runListMultiWmic(const std::string &query, std::string *path)
+{
+  std::unique_ptr<std::vector<std::map<std::string, std::string>>> ret = std::make_unique<std::vector<std::map<std::string, std::string>>>();
+  std::unique_ptr<std::map<std::string, std::string>> acc = std::make_unique<std::map<std::string, std::string>>();
+  std::unique_ptr<std::string> temp = std::make_unique<std::string>(runCommand((*path) + " " + query + " /format:list"));
+  std::unique_ptr<std::stringstream> buffer = std::make_unique<std::stringstream>();
+  std::unique_ptr<std::vector<std::string>> lines = std::make_unique<std::vector<std::string>>();
+
+  for (size_t i = 0; i < temp->length(); i++)
+  {
+    if (int((*temp)[i]) < 1 || int((*temp)[i]) > 0xFF)
+    {
+      continue;
+    }
+    (*buffer) << (*temp)[i];
+  }
+  (*temp) = buffer->str();
+  buffer.reset();
+
+  temp->erase(0, 4);
+  temp->erase(temp->length() - 5);
+  splitStringVector((*temp), "\r\n", lines.get());
+  temp.reset();
+
+  for (size_t i = 0; i < lines->size(); i++)
+  {
+    if (i < lines->size() && (*lines)[i] == "" && (*lines)[i + 1] == "")
+    {
+      ret->push_back((*acc));
+      acc->clear();
+      i += 2;
+    }
+    (*acc)[(*lines)[i].substr(0, (*lines)[i].find_first_of('='))] = (*lines)[i].substr((*lines)[i].find_first_of('=') + 1);
+  }
+  lines.reset();
+  acc.reset();
 
   return (*ret);
 }
