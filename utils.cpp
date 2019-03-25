@@ -4,13 +4,12 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-12
-*  @date      2019-03-22
+*  @date      2019-03-25
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
 #include "pch.h"
 #include "utils.h"
-#include "os.h"
 
 /**
 * @brief Splits a string into a vector of its parts
@@ -102,20 +101,4 @@ void trim(std::string *s, const char *t)
 {
   rtrim(s, t);
   ltrim(s, t);
-}
-
-/**
-* @brief Get the wmic path for Windows
-*
-* @return std::string The wmic path
-*/
-std::string getWmicPath()
-{
-  std::unique_ptr<std::string> wmicPath = std::make_unique<std::string>(joinPath({getEnvVar("WINDIR"), "system32", "wbem", "wmic.exe"}));
-
-  if (fileExists((*wmicPath)))
-  {
-    return (*wmicPath);
-  }
-  return "wmic.exe";
 }

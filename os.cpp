@@ -498,4 +498,20 @@ std::vector<std::map<std::string, std::string>> runListMultiWmic(const std::stri
 
   return (*ret);
 }
+
+/**
+* @brief Get the wmic path for Windows
+*
+* @return std::string The wmic path
+*/
+std::string getWmicPath()
+{
+  std::unique_ptr<std::string> wmicPath = std::make_unique<std::string>(joinPath({getEnvVar("WINDIR"), "system32", "wbem", "wmic.exe"}));
+
+  if (fileExists((*wmicPath)))
+  {
+    return (*wmicPath);
+  }
+  return "wmic.exe";
+}
 #pragma endregion "Static Methods"

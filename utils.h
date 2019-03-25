@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-12
-*  @date      2019-03-22
+*  @date      2019-03-25
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -19,7 +19,8 @@ enum class OutputStyle : std::uint8_t
 {
   Default,
   List,
-  JSON
+  JSON,
+  MinJSON
 };
 
 void splitStringVector(const std::string &s, const std::string &d, std::vector<std::string> *v);
@@ -28,6 +29,5 @@ bool contains(std::vector<std::string> *v, const std::string &s);
 void rtrim(std::string *s, const char *t = " \t\n\r\f\v");
 void ltrim(std::string *s, const char *t = " \t\n\r\f\v");
 void trim(std::string *s, const char *t = " \t\n\r\f\v");
-std::string getWmicPath();
 
 #endif // CGOGGLES_UTILS_H_

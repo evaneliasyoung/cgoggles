@@ -134,5 +134,6 @@ std::string runCommand(const std::string &cmd);
 std::string runWmic(const std::string &query, std::string *path);
 std::map<std::string, std::string> runMultiWmic(const std::string &query, std::string *path);
 std::vector<std::map<std::string, std::string>> runListMultiWmic(const std::string &query, std::string *path);
+std::string getWmicPath();
 
 #endif // CGOGGLES_OS_H_
