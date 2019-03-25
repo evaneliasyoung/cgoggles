@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-16
-*  @date      2019-03-23
+*  @date      2019-03-25
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -31,6 +31,26 @@ Processor::Processor()
   threads = std::make_unique<std::uint8_t>();
   speed = std::make_unique<float>();
   maxSpeed = std::make_unique<float>();
+}
+
+/**
+* @brief Construct a new Processor object with help from the assistants
+*
+* @param plt The platform of the system
+*/
+Processor::Processor(std::uint8_t plt)
+{
+  manufacturer = std::make_unique<std::string>();
+  architecture = std::make_unique<std::string>();
+  socketType = std::make_unique<std::string>();
+  brand = std::make_unique<std::string>();
+  family = std::make_unique<std::uint8_t>();
+  model = std::make_unique<std::uint8_t>();
+  stepping = std::make_unique<std::uint8_t>();
+  cores = std::make_unique<std::uint8_t>();
+  threads = std::make_unique<std::uint8_t>();
+  speed = std::make_unique<float>();
+  maxSpeed = std::make_unique<float>();
 
   switch (CGOGGLES_OS)
   {
@@ -42,7 +62,6 @@ Processor::Processor()
     break;
   case OS_LUX:
     GetLux();
-  default:
     break;
   }
 }
@@ -148,14 +167,14 @@ void Processor::GetWin()
       "BGA1510",
       "BGA1528"};
 
-  manufacturer = std::make_unique<std::string>((*dataMap)["Manufacturer"]);
-  cores = std::make_unique<std::uint8_t>(std::stoi((*dataMap)["NumberOfCores"]));
-  threads = std::make_unique<std::uint8_t>(std::stoi((*dataMap)["NumberOfLogicalProcessors"]));
+  (*manufacturer) = (*dataMap)["Manufacturer"];
+  (*cores) = std::stoi((*dataMap)["NumberOfCores"]);
+  (*threads) = std::stoi((*dataMap)["NumberOfLogicalProcessors"]);
 
-  architecture = std::make_unique<std::string>(architectureMap[std::stoi((*dataMap)["Architecture"])]);
-  socketType = std::make_unique<std::string>(socketTypeMap[std::stoi((*dataMap)["UpgradeMethod"])]);
+  (*architecture) = architectureMap[std::stoi((*dataMap)["Architecture"])];
+  (*socketType) = socketTypeMap[std::stoi((*dataMap)["UpgradeMethod"])];
 
-  brand = std::make_unique<std::string>((*dataMap)["Name"]);
+  (*brand) = (*dataMap)["Name"];
   if (brand->find("@") != std::string::npos)
   {
     brand->erase(brand->find_first_of("@"));
@@ -163,16 +182,16 @@ void Processor::GetWin()
 
   trim(brand.get());
 
-  temp = std::make_unique<std::string>((*dataMap)["Description"]);
+  (*temp) = (*dataMap)["Description"];
   if (std::regex_search((*temp), (*mt), std::regex(R"(.*Family (\d+) Model (\d+) Stepping (\d+))", std::regex_constants::ECMAScript | std::regex_constants::icase)))
   {
-    family = std::make_unique<std::uint8_t>(std::stoi((*mt)[1]));
-    model = std::make_unique<std::uint8_t>(std::stoi((*mt)[2]));
-    stepping = std::make_unique<std::uint8_t>(std::stoi((*mt)[3]));
+    (*family) = std::stoi((*mt)[1]);
+    (*model) = std::stoi((*mt)[2]);
+    (*stepping) = std::stoi((*mt)[3]);
   }
 
-  maxSpeed = std::make_unique<float>(std::round(std::stof((*dataMap)["MaxClockSpeed"]) / 10) / 100);
-  speed = std::make_unique<float>(std::round(std::stof((*dataMap)["MaxClockSpeed"]) / 10) / 100);
+  (*maxSpeed) = std::round(std::stof((*dataMap)["MaxClockSpeed"]) / 10) / 100;
+  (*speed) = std::round(std::stof((*dataMap)["MaxClockSpeed"]) / 10) / 100;
 
   delete architectureMap;
   delete socketTypeMap;
@@ -185,6 +204,28 @@ void Processor::GetLux()
 {
 }
 #pragma endregion
+
+#pragma region "Operators"
+/**
+* @brief Sets one Processor equal to another
+*
+* @param o The Processor to copy from
+*/
+void Processor::operator=(Processor *p)
+{
+  (*manufacturer) = (*p->manufacturer);
+  (*architecture) = (*p->architecture);
+  (*socketType) = (*p->socketType);
+  (*brand) = (*p->brand);
+  (*family) = (*p->family);
+  (*model) = (*p->model);
+  (*stepping) = (*p->stepping);
+  (*cores) = (*p->cores);
+  (*threads) = (*p->threads);
+  (*speed) = (*p->speed);
+  (*maxSpeed) = (*p->maxSpeed);
+}
+#pragma endregion "Operators"
 
 #pragma region "Accessors"
 /**

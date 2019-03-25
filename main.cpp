@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-11
-*  @date      2019-03-22
+*  @date      2019-03-25
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -70,18 +70,23 @@ int handleArgs(const char *argv[], std::string *request)
 
 int main(int argc, const char *argv[])
 {
-  // std::unique_ptr<std::string> request = std::make_unique<std::string>();
+  std::unique_ptr<std::string> request = std::make_unique<std::string>();
 
-  // if (handleArgs(argv, request.get()) != EXIT_SUCCESS)
-  // {
-  //   return EXIT_FAILURE;
-  // }
+  if (handleArgs(argv, request.get()) != EXIT_SUCCESS)
+  {
+    return EXIT_FAILURE;
+  }
 
-  // parseRequests(request.get());
-  // request.reset();
+  compOS = new OperatingSystem(CGOGGLES_OS);
+  compCPU = new Processor(CGOGGLES_OS);
+  compStorage = getStorage(CGOGGLES_OS);
+
+  parseRequests(request.get());
+  request.reset();
+
   runCommand("echo");
 
-  // outputRequests();
+  outputRequests();
 
   return EXIT_SUCCESS;
 }

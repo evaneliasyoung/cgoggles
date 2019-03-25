@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-15
-*  @date      2019-03-19
+*  @date      2019-03-25
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -15,7 +15,7 @@
 
 #pragma region "Constructors"
 /**
-* @brief Construct a new Operating System object with help from the assistants
+* @brief Construct a new Operating System object
 */
 OperatingSystem::OperatingSystem()
 {
@@ -28,8 +28,26 @@ OperatingSystem::OperatingSystem()
   curTime = std::make_unique<std::tm>();
   kernel = std::make_unique<SemVer>();
   version = std::make_unique<SemVer>();
+}
 
-  switch (CGOGGLES_OS)
+/**
+* @brief Construct a new Operating System object with help from the assistants
+*
+* @param plt The platform of the system
+*/
+OperatingSystem::OperatingSystem(std::uint8_t plt)
+{
+  platform = std::make_unique<std::string>();
+  caption = std::make_unique<std::string>();
+  serial = std::make_unique<std::string>();
+  bit = std::make_unique<std::uint8_t>();
+  installTime = std::make_unique<std::tm>();
+  bootTime = std::make_unique<std::tm>();
+  curTime = std::make_unique<std::tm>();
+  kernel = std::make_unique<SemVer>();
+  version = std::make_unique<SemVer>();
+
+  switch (plt)
   {
   case OS_WIN:
     GetWin();
@@ -39,7 +57,6 @@ OperatingSystem::OperatingSystem()
     break;
   case OS_LUX:
     GetLux();
-  default:
     break;
   }
 }
@@ -79,14 +96,14 @@ void OperatingSystem::GetWin()
   std::unique_ptr<std::map<std::string, std::string>> dataMap = std::make_unique<std::map<std::string, std::string>>(runMultiWmic("os get Caption,SerialNumber,OSArchitecture,Version,Version,InstallDate,LastBootUpTime,LocalDateTime", wmic.get()));
   std::unique_ptr<std::string> temp = std::make_unique<std::string>();
 
-  platform = std::make_unique<std::string>("Windows");
-  caption = std::make_unique<std::string>((*dataMap)["Caption"]);
-  serial = std::make_unique<std::string>((*dataMap)["SerialNumber"]);
-  bit = std::make_unique<std::uint8_t>(std::stoi((*dataMap)["OSArchitecture"].erase(3)));
-  version = std::unique_ptr<SemVer>(new SemVer((*dataMap)["Version"], 0b11010u));
-  kernel = std::unique_ptr<SemVer>(new SemVer((*dataMap)["Version"], 0b11010u));
+  (*platform) = "Windows";
+  (*caption) = (*dataMap)["Caption"];
+  (*serial) = (*dataMap)["SerialNumber"];
+  (*bit) = std::stoi((*dataMap)["OSArchitecture"].erase(3));
+  (*version) = new SemVer((*dataMap)["Version"], 0b11010u);
+  (*kernel) = new SemVer((*dataMap)["Version"], 0b11010u);
 
-  temp = std::make_unique<std::string>((*dataMap)["InstallDate"]);
+  (*temp) = (*dataMap)["InstallDate"];
   installTime->tm_year = std::stoi(temp->substr(0, 4)) - 1900;
   installTime->tm_mon = std::stoi(temp->substr(4, 2)) - 1;
   installTime->tm_mday = std::stoi(temp->substr(6, 2));
@@ -94,7 +111,7 @@ void OperatingSystem::GetWin()
   installTime->tm_min = std::stoi(temp->substr(10, 2));
   installTime->tm_sec = std::stoi(temp->substr(12, 2));
 
-  temp = std::make_unique<std::string>((*dataMap)["LastBootUpTime"]);
+  (*temp) = (*dataMap)["LastBootUpTime"];
   bootTime->tm_year = std::stoi(temp->substr(0, 4)) - 1900;
   bootTime->tm_mon = std::stoi(temp->substr(4, 2)) - 1;
   bootTime->tm_mday = std::stoi(temp->substr(6, 2));
@@ -102,7 +119,7 @@ void OperatingSystem::GetWin()
   bootTime->tm_min = std::stoi(temp->substr(10, 2));
   bootTime->tm_sec = std::stoi(temp->substr(12, 2));
 
-  temp = std::make_unique<std::string>((*dataMap)["LocalDateTime"]);
+  (*temp) = (*dataMap)["LocalDateTime"];
   curTime->tm_year = std::stoi(temp->substr(0, 4)) - 1900;
   curTime->tm_mon = std::stoi(temp->substr(4, 2)) - 1;
   curTime->tm_mday = std::stoi(temp->substr(6, 2));
@@ -119,6 +136,26 @@ void OperatingSystem::GetLux()
   platform = std::make_unique<std::string>("Linux");
 }
 #pragma endregion "Constructors' Assistants"
+
+#pragma region "Operators"
+/**
+* @brief Sets one Operating System equal to another
+*
+* @param o The Operating System to copy from
+*/
+void OperatingSystem::operator=(OperatingSystem *o)
+{
+  (*platform) = (*o->platform);
+  (*caption) = (*o->caption);
+  (*serial) = (*o->serial);
+  (*bit) = (*o->bit);
+  (*installTime) = (*o->installTime);
+  (*bootTime) = (*o->bootTime);
+  (*curTime) = (*o->curTime);
+  (*kernel) = (*o->kernel);
+  (*version) = (*o->version);
+}
+#pragma endregion "Operators"
 
 #pragma region "Accessors"
 /**

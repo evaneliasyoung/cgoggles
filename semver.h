@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-17
-*  @date      2019-03-18
+*  @date      2019-03-25
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -31,7 +31,8 @@ public:
   SemVer(const std::string &ver, const std::uint8_t &fmt, const std::string &bld);
   ~SemVer();
   void *operator new(std::size_t size);
-  SemVer operator=(const SemVer &v);
+  void operator=(const SemVer &v);
+  void operator=(SemVer *v);
   bool operator==(SemVer &v);
   bool operator!=(SemVer &v);
   bool operator<(SemVer &v);

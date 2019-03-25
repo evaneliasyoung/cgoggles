@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-17
-*  @date      2019-03-18
+*  @date      2019-03-25
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -126,22 +126,40 @@ void *SemVer::operator new(std::size_t size)
 * @brief Sets equal two SemVer objects
 *
 * @param v The SemVer object to copy from
-* @return SemVer The copied SemVer object
 */
-SemVer SemVer::operator=(const SemVer &v)
+void SemVer::operator=(const SemVer &v)
 {
   if (&v == this)
   {
-    return *this;
+    return;
   }
   ver = new std::uint32_t[5]{0, 0, 0, 0, 0};
 
-  v.ver[0] = ver[0];
-  v.ver[1] = ver[1];
-  v.ver[2] = ver[2];
-  v.ver[3] = ver[3];
-  v.ver[4] = ver[4];
-  return *this;
+  ver[0] = v.ver[0];
+  ver[1] = v.ver[1];
+  ver[2] = v.ver[2];
+  ver[3] = v.ver[3];
+  ver[4] = v.ver[4];
+}
+
+/**
+* @brief Sets equal two SemVer objects
+*
+* @param v The SemVer object to copy from
+*/
+void SemVer::operator=(SemVer *v)
+{
+  if ((*v) == (*this))
+  {
+    return;
+  }
+  ver = new std::uint32_t[5]{0, 0, 0, 0, 0};
+
+  ver[0] = (*v).ver[0];
+  ver[1] = (*v).ver[1];
+  ver[2] = (*v).ver[2];
+  ver[3] = (*v).ver[3];
+  ver[4] = (*v).ver[4];
 }
 
 /**
