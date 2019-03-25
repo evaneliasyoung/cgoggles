@@ -22,8 +22,10 @@ extern OperatingSystem compOS;
 extern Processor compCPU;
 
 void filterRequests();
-void parseRequests(std::string* request);
+void parseRequests(std::string *request);
 void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *vals);
+void outputSimple(std::vector<std::string> *keys, std::vector<std::string> *vals, const char &del = '\n');
+void outputJson(std::vector<std::string> *keys, std::vector<std::string> *vals, const bool &min = false);
 void outputRequests();
 
 #endif // CGOGGLES_REQUESTS_H_

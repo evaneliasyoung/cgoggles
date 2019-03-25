@@ -16,6 +16,7 @@
 #include "processor.h"
 #include "requests.h"
 #include "storage.h"
+#include "storagesystem.h"
 
 #define CGOGGLES_VERSION_ 0x000100
 
@@ -24,7 +25,7 @@ OutputStyle style = OutputStyle::Default;
 
 OperatingSystem compOS;
 Processor compCPU;
-std::vector<Storage> compStorage;
+StorageSystem compStorage;
 
 void outputVersion()
 {
@@ -35,8 +36,10 @@ void outputVersion()
 
 void outputHelp()
 {
-  std::cout << "usage: cgoggles [-v|--ver|--version] [-h|--help] [--list] <command> [<args>]" << std::endl;
-  std::cout << "example: cgoggles -get=cpu" << std::endl;
+  // NOTE: JSON output disabled until further notice
+  // std::cout << "usage: cgoggles [-v|--ver|--version] [-h|--help] [-l|--list|-j|--json|-m|--minjson] -get=[<args>]" << std::endl;
+  std::cout << "usage: cgoggles [-v|--ver|--version] [-h|--help] [-l|--list] -get=[<args>]" << std::endl;
+  std::cout << "example: cgoggles -get=cpu.Brand,cpu.Cores,cpu.Speed" << std::endl;
 }
 
 int handleArgs(const char *argv[], std::string *request)
@@ -55,7 +58,30 @@ int handleArgs(const char *argv[], std::string *request)
     return EXIT_SUCCESS;
   }
 
-  if (cmdl[{"list"}])
+
+  // NOTE: JSON output disabled until further notice
+  //       It's really quite a mess without a JSON library
+  // if (cmdl[{"m", "minjson"}])
+  // {
+  //   if (cmdl[{"j", "json", "l", "list"}]) {
+  //     outputHelp();
+  //     return EXIT_FAILURE;
+  //   }
+
+  //   style = OutputStyle::MinJSON;
+  // }
+
+  // if (cmdl[{"j", "json"}])
+  // {
+  //   if (cmdl[{"m", "minjson", "l", "list"}]) {
+  //     outputHelp();
+  //     return EXIT_FAILURE;
+  //   }
+
+  //   style = OutputStyle::JSON;
+  // }
+
+  if (cmdl[{"l", "list"}])
   {
     style = OutputStyle::List;
   }
@@ -79,7 +105,7 @@ int main(int argc, const char *argv[])
 
   compOS = new OperatingSystem(CGOGGLES_OS);
   compCPU = new Processor(CGOGGLES_OS);
-  compStorage = getStorage(CGOGGLES_OS);
+  compStorage = new StorageSystem(CGOGGLES_OS);
 
   parseRequests(request.get());
   request.reset();

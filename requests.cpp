@@ -19,6 +19,8 @@ void filterRequests()
 {
   std::unique_ptr<std::vector<std::string>> valids = std::make_unique<std::vector<std::string>>();
   valids->push_back("All");
+  valids->push_back("os");
+  valids->push_back("cpu");
   valids->push_back("os.All");
   valids->push_back("os.Platform");
   valids->push_back("os.Caption");
@@ -69,8 +71,8 @@ void parseRequests(std::string *request)
 void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *vals)
 {
   std::unique_ptr<bool> allAll = std::make_unique<bool>(contains(&requests, "All"));
-  std::unique_ptr<bool> osAll = std::make_unique<bool>((*allAll) || contains(&requests, "os.All"));
-  std::unique_ptr<bool> cpuAll = std::make_unique<bool>((*allAll) || contains(&requests, "cpu.All"));
+  std::unique_ptr<bool> osAll = std::make_unique<bool>((*allAll) || contains(&requests, "os.All") || contains(&requests, "os"));
+  std::unique_ptr<bool> cpuAll = std::make_unique<bool>((*allAll) || contains(&requests, "cpu.All") || contains(&requests, "cpu"));
 
   if ((*osAll) || contains(&requests, "os.Platform"))
   {
@@ -175,6 +177,50 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
   }
 }
 
+void outputSimple(std::vector<std::string> *keys, std::vector<std::string> *vals, const char &del)
+{
+  for (std::size_t i = 0; i < keys->size(); i++)
+  {
+    std::cout << (*keys)[i] << del << (*vals)[i] << std::endl;
+  }
+}
+
+void outputJson(std::vector<std::string> *keys, std::vector<std::string> *vals, const bool &min)
+{
+  std::unique_ptr<std::string> curBeg = std::make_unique<std::string>();
+  std::unique_ptr<std::string> nl = std::make_unique<std::string>(min ? "" : "\n");
+  std::unique_ptr<std::string> sp = std::make_unique<std::string>(min ? "" : " ");
+  std::string *ck;
+  std::string *cv;
+
+  std::cout << "{" << (*nl);
+  for (std::size_t i = 0; i < keys->size(); i++)
+  {
+    ck = &(*keys)[i];
+    cv = &(*vals)[i];
+
+    // New beginning
+    if ((*curBeg) != ck->substr(0, ck->find('.')))
+    {
+      // If not empty, end the last section
+      if ((*curBeg) != "")
+      {
+        std::cout << (*sp) << (*sp) << "}," << (*nl);
+      }
+
+      // Set up the new beginning
+      (*curBeg) = ck->substr(0, ck->find('.'));
+      std::cout << (*sp) << (*sp) << '"' << (*curBeg) << R"(":)" << (*sp) << '{' << (*nl);
+    }
+
+    std::cout << (*sp) << (*sp) << (*sp) << (*sp);
+    std::cout << ck->substr(ck->find('.') + 1) << R"(":)" << (*sp) << (*cv) << '"';
+    std::cout << (i < keys->size() - 1 && (*curBeg) == (*keys)[i + 1].substr(0, (*keys)[i + 1].find('.')) ? "," : "") << (*nl);
+  }
+
+  std::cout << (*sp) << (*sp) << '}' << (*nl) << '}' << (*nl);
+}
+
 /**
 * @brief Outputs all of the requests
 */
@@ -185,8 +231,19 @@ void outputRequests()
   std::unique_ptr<char> delChar = std::make_unique<char>(style == OutputStyle::Default ? '\n' : '=');
   gatherRequests(keys.get(), vals.get());
 
-  for (std::size_t i = 0; i < keys->size(); i++)
+  switch (style)
   {
-    std::cout << (*keys)[i] << *delChar << (*vals)[i] << std::endl;
+  case OutputStyle::Default:
+    outputSimple(keys.get(), vals.get());
+    break;
+  case OutputStyle::List:
+    outputSimple(keys.get(), vals.get(), '=');
+    break;
+  case OutputStyle::JSON:
+    outputJson(keys.get(), vals.get());
+    break;
+  case OutputStyle::MinJSON:
+    outputJson(keys.get(), vals.get(), true);
+    break;
   }
 }

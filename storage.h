@@ -1,6 +1,6 @@
 /**
 *  @file      storage.h
-*  @brief     The implementation for the storage class.
+*  @brief     The interface for the storage class.
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-25
@@ -30,17 +30,12 @@ public:
   Storage(const Storage &s);
   ~Storage();
   void *operator new(std::size_t size);
-  void operator=(const Storage &v);
+  void operator=(const Storage &s);
   void operator=(Storage *s);
   std::string Caption();
   std::string FileSystem();
   std::uint64_t Used();
   std::uint64_t Total();
 };
-
-std::vector<Storage> getStorageMac();
-std::vector<Storage> getStorageWin();
-std::vector<Storage> getStorageLux();
-std::vector<Storage> getStorage(std::uint8_t plt);
 
 #endif // CGOGGLES_STORAGE_H_
