@@ -1,5 +1,7 @@
 # CGoggles
 
+## Version 0.1.0
+
 [![Code Style](https://img.shields.io/badge/code_style-VS_Code-blue.svg?style=flat)](https://google.github.io/styleguide/cppguide.html)
 [![Versioning](https://img.shields.io/badge/versioning-semantic-brightgreen.svg?style=flat)](https://semver.org/)
 [![Commit Style](https://img.shields.io/badge/commit_style-gitmoji-yellow.svg?style=flat)](https://gitmoji.carloscuesta.me/)
@@ -8,7 +10,9 @@
 [![Issues](https://img.shields.io/github/issues/evaneliasyoung/cgoggles.svg?style=flat)](https://github.com/evaneliasyoung/cgoggles/issues)
 [![Last Commit](https://img.shields.io/github/last-commit/evaneliasyoung/cgoggles.svg?style=flat)](https://github.com/evaneliasyoung/cgoggles/commit/master)
 
-System information CLI tool
+The ultimate cross-platform System information CLI tool.
+Written in C++ to allow for speed-compile times and speed-operation times.
+This is made as first a passion-project and next a final-project for my programming class.
 
 ## Reference
 
