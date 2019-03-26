@@ -8,15 +8,16 @@
 [![Issues](https://img.shields.io/github/issues/evaneliasyoung/cgoggles.svg?style=flat)](https://github.com/evaneliasyoung/cgoggles/issues)
 [![Last Commit](https://img.shields.io/github/last-commit/evaneliasyoung/cgoggles.svg?style=flat)](https://github.com/evaneliasyoung/cgoggles/commit/master)
 
-## Version 0.1.0 - 2019-03-25
-
 The ultimate cross-platform System information CLI tool.
 Written in C++ to allow for speed-compile times and speed-operation times.
 This is made as first a passion-project and next a final-project for my programming class.
 
+## Version 0.1.0 - 2019-03-25
+### Initial release
+
 ## Reference
 
-#### 1. OS
+### 1. OS
 
 | Call             | Linux | Mac | Win | Comments                             |
 | ---------------- | ----- | --- | --- | ------------------------------------ |
@@ -32,7 +33,7 @@ This is made as first a passion-project and next a final-project for my programm
 | os.Kernel        |       |     |  x  | 10.0.0                               |
 | os.Version       |       |     |  x  | 10.0.0                               |
 
-#### 2. CPU
+### 2. CPU
 
 | Call             | Linux | Mac | Win | Comments                             |
 | ---------------- | ----- | --- | --- | ------------------------------------ |
