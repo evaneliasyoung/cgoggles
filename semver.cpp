@@ -44,29 +44,29 @@ SemVer::SemVer(const SemVer &v)
 SemVer::SemVer(const std::string &rawVer, const std::uint8_t &fmt)
 {
   ver = new std::uint32_t[5]{0, 0, 0, 0, 0};
-  std::unique_ptr<std::vector<std::string>> spl = std::make_unique<std::vector<std::string>>();
-  std::unique_ptr<std::uint8_t> i = std::make_unique<std::uint8_t>(0xFF);
-  splitStringVector(rawVer, ".", spl.get());
+  std::vector<std::string> spl;
+  std::uint8_t i = 0xFF;
+  splitStringVector(rawVer, ".", &spl);
 
   if (fmt & 0b10000u)
   {
-    ver[0] = std::stoi((*spl)[++(*i)]);
+    ver[0] = std::stoi(spl[++i]);
   }
   if (fmt & 0b01000u)
   {
-    ver[1] = std::stoi((*spl)[++(*i)]);
+    ver[1] = std::stoi(spl[++i]);
   }
   if (fmt & 0b00100u)
   {
-    ver[2] = std::stoi((*spl)[++(*i)]);
+    ver[2] = std::stoi(spl[++i]);
   }
   if (fmt & 0b00010u)
   {
-    ver[3] = std::stoi((*spl)[++(*i)]);
+    ver[3] = std::stoi(spl[++i]);
   }
   if (fmt & 0b00001u)
   {
-    ver[4] = std::stoi((*spl)[++(*i)]);
+    ver[4] = std::stoi(spl[++i]);
   }
 }
 
@@ -80,21 +80,21 @@ SemVer::SemVer(const std::string &rawVer, const std::uint8_t &fmt)
 SemVer::SemVer(const std::string &rawVer, const std::uint8_t &fmt, const std::string &bld)
 {
   ver = new std::uint32_t[5]{0, 0, 0, 0, 0};
-  std::unique_ptr<std::vector<std::string>> spl = std::make_unique<std::vector<std::string>>();
-  std::unique_ptr<std::uint8_t> i = std::make_unique<std::uint8_t>(0xFF);
-  splitStringVector(rawVer, ".", spl.get());
+  std::vector<std::string> spl;
+  std::uint8_t i = 0xFF;
+  splitStringVector(rawVer, ".", &spl);
 
   if (fmt & 0b100u)
   {
-    ver[0] = std::stoi((*spl)[++(*i)]);
+    ver[0] = std::stoi(spl[++i]);
   }
   if (fmt & 0b010u)
   {
-    ver[1] = std::stoi((*spl)[++(*i)]);
+    ver[1] = std::stoi(spl[++i]);
   }
   if (fmt & 0b001u)
   {
-    ver[2] = std::stoi((*spl)[++(*i)]);
+    ver[2] = std::stoi(spl[++i]);
   }
   ver[3] = std::stoi(bld);
 }

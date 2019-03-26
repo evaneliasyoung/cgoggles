@@ -92,40 +92,40 @@ void OperatingSystem::GetMac()
 */
 void OperatingSystem::GetWin()
 {
-  std::unique_ptr<std::string> wmic = std::make_unique<std::string>(getWmicPath());
-  std::unique_ptr<std::map<std::string, std::string>> dataMap = std::make_unique<std::map<std::string, std::string>>(runMultiWmic("os get Caption,SerialNumber,OSArchitecture,Version,Version,InstallDate,LastBootUpTime,LocalDateTime", wmic.get()));
-  std::unique_ptr<std::string> temp = std::make_unique<std::string>();
+  std::string wmic = getWmicPath();
+  std::map<std::string, std::string> dataMap = runMultiWmic("os get Caption,SerialNumber,OSArchitecture,Version,Version,InstallDate,LastBootUpTime,LocalDateTime", &wmic);
+  std::string temp;
 
   (*platform) = "Windows";
-  (*caption) = (*dataMap)["Caption"];
-  (*serial) = (*dataMap)["SerialNumber"];
-  (*bit) = std::stoi((*dataMap)["OSArchitecture"].erase(3));
-  (*version) = new SemVer((*dataMap)["Version"], 0b11010u);
-  (*kernel) = new SemVer((*dataMap)["Version"], 0b11010u);
+  (*caption) = dataMap["Caption"];
+  (*serial) = dataMap["SerialNumber"];
+  (*bit) = std::stoi(dataMap["OSArchitecture"].erase(3));
+  (*version) = new SemVer(dataMap["Version"], 0b11010u);
+  (*kernel) = new SemVer(dataMap["Version"], 0b11010u);
 
-  (*temp) = (*dataMap)["InstallDate"];
-  installTime->tm_year = std::stoi(temp->substr(0, 4)) - 1900;
-  installTime->tm_mon = std::stoi(temp->substr(4, 2)) - 1;
-  installTime->tm_mday = std::stoi(temp->substr(6, 2));
-  installTime->tm_hour = std::stoi(temp->substr(8, 2));
-  installTime->tm_min = std::stoi(temp->substr(10, 2));
-  installTime->tm_sec = std::stoi(temp->substr(12, 2));
+  temp = dataMap["InstallDate"];
+  installTime->tm_year = std::stoi(temp.substr(0, 4)) - 1900;
+  installTime->tm_mon = std::stoi(temp.substr(4, 2)) - 1;
+  installTime->tm_mday = std::stoi(temp.substr(6, 2));
+  installTime->tm_hour = std::stoi(temp.substr(8, 2));
+  installTime->tm_min = std::stoi(temp.substr(10, 2));
+  installTime->tm_sec = std::stoi(temp.substr(12, 2));
 
-  (*temp) = (*dataMap)["LastBootUpTime"];
-  bootTime->tm_year = std::stoi(temp->substr(0, 4)) - 1900;
-  bootTime->tm_mon = std::stoi(temp->substr(4, 2)) - 1;
-  bootTime->tm_mday = std::stoi(temp->substr(6, 2));
-  bootTime->tm_hour = std::stoi(temp->substr(8, 2));
-  bootTime->tm_min = std::stoi(temp->substr(10, 2));
-  bootTime->tm_sec = std::stoi(temp->substr(12, 2));
+  temp = dataMap["LastBootUpTime"];
+  bootTime->tm_year = std::stoi(temp.substr(0, 4)) - 1900;
+  bootTime->tm_mon = std::stoi(temp.substr(4, 2)) - 1;
+  bootTime->tm_mday = std::stoi(temp.substr(6, 2));
+  bootTime->tm_hour = std::stoi(temp.substr(8, 2));
+  bootTime->tm_min = std::stoi(temp.substr(10, 2));
+  bootTime->tm_sec = std::stoi(temp.substr(12, 2));
 
-  (*temp) = (*dataMap)["LocalDateTime"];
-  curTime->tm_year = std::stoi(temp->substr(0, 4)) - 1900;
-  curTime->tm_mon = std::stoi(temp->substr(4, 2)) - 1;
-  curTime->tm_mday = std::stoi(temp->substr(6, 2));
-  curTime->tm_hour = std::stoi(temp->substr(8, 2));
-  curTime->tm_min = std::stoi(temp->substr(10, 2));
-  curTime->tm_sec = std::stoi(temp->substr(12, 2));
+  temp = dataMap["LocalDateTime"];
+  curTime->tm_year = std::stoi(temp.substr(0, 4)) - 1900;
+  curTime->tm_mon = std::stoi(temp.substr(4, 2)) - 1;
+  curTime->tm_mday = std::stoi(temp.substr(6, 2));
+  curTime->tm_hour = std::stoi(temp.substr(8, 2));
+  curTime->tm_min = std::stoi(temp.substr(10, 2));
+  curTime->tm_sec = std::stoi(temp.substr(12, 2));
 }
 
 /**
@@ -216,9 +216,9 @@ std::tm OperatingSystem::InstallTime()
 */
 std::string OperatingSystem::InstallTime(const std::string &fmt)
 {
-  std::unique_ptr<std::stringstream> buffer = std::make_unique<std::stringstream>();
-  (*buffer) << std::put_time(installTime.get(), fmt.c_str());
-  return buffer->str();
+  std::stringstream buffer;
+  buffer << std::put_time(installTime.get(), fmt.c_str());
+  return buffer.str();
 }
 
 /**
@@ -239,9 +239,9 @@ std::tm OperatingSystem::BootTime()
 */
 std::string OperatingSystem::BootTime(const std::string &fmt)
 {
-  std::unique_ptr<std::stringstream> buffer = std::make_unique<std::stringstream>();
-  (*buffer) << std::put_time(bootTime.get(), fmt.c_str());
-  return buffer->str();
+  std::stringstream buffer;
+  buffer << std::put_time(bootTime.get(), fmt.c_str());
+  return buffer.str();
 }
 
 /**
@@ -262,9 +262,9 @@ std::tm OperatingSystem::CurTime()
 */
 std::string OperatingSystem::CurTime(const std::string &fmt)
 {
-  std::unique_ptr<std::stringstream> buffer = std::make_unique<std::stringstream>();
-  (*buffer) << std::put_time(curTime.get(), fmt.c_str());
-  return buffer->str();
+  std::stringstream buffer;
+  buffer << std::put_time(curTime.get(), fmt.c_str());
+  return buffer.str();
 }
 
 /**
@@ -329,16 +329,16 @@ std::string getEnvVar(const std::string &key)
 */
 std::string joinPath(std::initializer_list<std::string> paths)
 {
-  std::unique_ptr<std::stringstream> ss = std::make_unique<std::stringstream>();
+  std::stringstream buffer;
   for (std::string s : paths)
   {
-    (*ss) << s;
+    buffer << s;
     if (s != (*(paths.end() - 1)))
     {
-      (*ss) << dirSep;
+      buffer << dirSep;
     }
   }
-  return ss->str();
+  return buffer.str();
 }
 
 /**
@@ -348,36 +348,36 @@ std::string joinPath(std::initializer_list<std::string> paths)
 */
 std::string getTempDir()
 {
-  std::unique_ptr<std::string> tempDir = std::make_unique<std::string>();
+  std::string tempDir;
 
   if (CGOGGLES_OS != OS_ERR)
   {
-    if ((*tempDir).empty())
+    if (tempDir.empty())
     {
-      (*tempDir) = getEnvVar("TMP");
+      tempDir = getEnvVar("TMP");
     }
-    if ((*tempDir).empty())
+    if (tempDir.empty())
     {
-      (*tempDir) = getEnvVar("TEMP");
+      tempDir = getEnvVar("TEMP");
     }
-    if ((*tempDir).empty())
+    if (tempDir.empty())
     {
-      (*tempDir) = getEnvVar("TMPDIR");
+      tempDir = getEnvVar("TMPDIR");
     }
-    if ((*tempDir).empty())
+    if (tempDir.empty())
     {
-      (*tempDir) = getEnvVar("TEMPDIR");
+      tempDir = getEnvVar("TEMPDIR");
     }
-    if ((*tempDir).empty())
+    if (tempDir.empty())
     {
       if (CGOGGLES_OS != OS_WIN)
       {
-        (*tempDir) = "/tmp";
+        tempDir = "/tmp";
       }
     }
   }
 
-  return (*tempDir);
+  return tempDir;
 }
 
 /**
@@ -388,14 +388,14 @@ std::string getTempDir()
 */
 std::string runCommand(const std::string &cmd)
 {
-  std::unique_ptr<std::string> path = std::make_unique<std::string>(joinPath({getTempDir(), "cgoggles.txt"}));
-  std::unique_ptr<std::ifstream> file = std::make_unique<std::ifstream>((*path));
-  std::unique_ptr<std::stringstream> buffer = std::make_unique<std::stringstream>();
+  std::string path = joinPath({getTempDir(), "cgoggles.txt"});
+  std::ifstream file(path);
+  std::stringstream buffer;
 
-  std::system((cmd + " > " + (*path)).c_str());
-  (*buffer) << file->rdbuf();
+  std::system((cmd + " > " + path).c_str());
+  buffer << file.rdbuf();
 
-  return buffer->str();
+  return buffer.str();
 }
 
 /**
@@ -407,96 +407,88 @@ std::string runCommand(const std::string &cmd)
 */
 std::string runWmic(const std::string &query, std::string *path)
 {
-  std::unique_ptr<std::string> temp = std::make_unique<std::string>(runCommand((*path) + " " + query + " /format:list"));
-  std::unique_ptr<std::stringstream> buffer = std::make_unique<std::stringstream>();
+  std::string temp = runCommand((*path) + " " + query + " /format:list");
+  std::stringstream buffer;
 
-  for (size_t i = 0; i < temp->length(); i++)
+  for (size_t i = 0; i < temp.length(); i++)
   {
-    if (int((*temp)[i]) < 1 || int((*temp)[i]) > 0xFF)
+    if (int(temp[i]) < 1 || int(temp[i]) > 0xFF)
     {
       continue;
     }
-    (*buffer) << (*temp)[i];
+    buffer << temp[i];
   }
-  (*temp) = buffer->str();
-  buffer.reset();
+  temp = buffer.str();
 
-  temp->erase(0, temp->find_first_of('=') + 1);
-  temp->erase(temp->find_last_of('\r'));
+  temp.erase(0, temp.find_first_of('=') + 1);
+  temp.erase(temp.find_last_of('\r'));
 
-  return (*temp);
+  return temp;
 }
 
 std::map<std::string, std::string> runMultiWmic(const std::string &query, std::string *path)
 {
-  std::unique_ptr<std::map<std::string, std::string>> ret = std::make_unique<std::map<std::string, std::string>>();
-  std::unique_ptr<std::string> temp = std::make_unique<std::string>(runCommand((*path) + " " + query + " /format:list"));
-  std::unique_ptr<std::stringstream> buffer = std::make_unique<std::stringstream>();
-  std::unique_ptr<std::vector<std::string>> lines = std::make_unique<std::vector<std::string>>();
+  std::map<std::string, std::string> ret;
+  std::string temp = runCommand((*path) + " " + query + " /format:list");
+  std::stringstream buffer;
+  std::vector<std::string> lines;
 
-  for (size_t i = 0; i < temp->length(); i++)
+  for (size_t i = 0; i < temp.length(); i++)
   {
-    if (int((*temp)[i]) < 1 || int((*temp)[i]) > 0xFF)
+    if (int(temp[i]) < 1 || int(temp[i]) > 0xFF)
     {
       continue;
     }
-    (*buffer) << (*temp)[i];
+    buffer << temp[i];
   }
-  (*temp) = buffer->str();
-  buffer.reset();
+  temp = buffer.str();
 
-  temp->erase(0, 4);
-  temp->erase(temp->length() - 5);
-  splitStringVector((*temp), "\r\n", lines.get());
-  temp.reset();
+  temp.erase(0, 4);
+  temp.erase(temp.length() - 5);
+  splitStringVector(temp, "\r\n", &lines);
 
-  for (size_t i = 0; i < lines->size(); i++)
+  for (size_t i = 0; i < lines.size(); i++)
   {
-    (*ret)[(*lines)[i].substr(0, (*lines)[i].find_first_of('='))] = (*lines)[i].substr((*lines)[i].find_first_of('=') + 1);
+    ret[lines[i].substr(0, lines[i].find_first_of('='))] = lines[i].substr(lines[i].find_first_of('=') + 1);
   }
-  lines.reset();
 
-  return (*ret);
+  return ret;
 }
 
 std::vector<std::map<std::string, std::string>> runListMultiWmic(const std::string &query, std::string *path)
 {
-  std::unique_ptr<std::vector<std::map<std::string, std::string>>> ret = std::make_unique<std::vector<std::map<std::string, std::string>>>();
-  std::unique_ptr<std::map<std::string, std::string>> acc = std::make_unique<std::map<std::string, std::string>>();
-  std::unique_ptr<std::string> temp = std::make_unique<std::string>(runCommand((*path) + " " + query + " /format:list"));
-  std::unique_ptr<std::stringstream> buffer = std::make_unique<std::stringstream>();
-  std::unique_ptr<std::vector<std::string>> lines = std::make_unique<std::vector<std::string>>();
+  std::vector<std::map<std::string, std::string>> ret;
+  std::map<std::string, std::string> acc;
+  std::string temp = runCommand((*path) + " " + query + " /format:list");
+  std::stringstream buffer;
+  std::vector<std::string> lines;
 
-  for (size_t i = 0; i < temp->length(); i++)
+  for (size_t i = 0; i < temp.length(); i++)
   {
-    if (int((*temp)[i]) < 1 || int((*temp)[i]) > 0xFF)
+    if (int(temp[i]) < 1 || int(temp[i]) > 0xFF)
     {
       continue;
     }
-    (*buffer) << (*temp)[i];
+    buffer << temp[i];
   }
-  (*temp) = buffer->str();
-  buffer.reset();
+  temp = buffer.str();
 
-  temp->erase(0, 4);
-  temp->erase(temp->length() - 5);
-  splitStringVector((*temp), "\r\n", lines.get());
-  temp.reset();
+  temp.erase(0, 4);
+  temp.erase(temp.length() - 5);
+  splitStringVector(temp, "\r\n", &lines);
 
-  for (size_t i = 0; i < lines->size(); i++)
+  for (size_t i = 0; i < lines.size(); i++)
   {
-    if (i < lines->size() && (*lines)[i] == "" && (*lines)[i + 1] == "")
+    if (i < lines.size() && lines[i] == "" && lines[i + 1] == "")
     {
-      ret->push_back((*acc));
-      acc->clear();
+      ret.push_back(acc);
+      acc.clear();
       i += 2;
     }
-    (*acc)[(*lines)[i].substr(0, (*lines)[i].find_first_of('='))] = (*lines)[i].substr((*lines)[i].find_first_of('=') + 1);
+    acc[lines[i].substr(0, lines[i].find_first_of('='))] = lines[i].substr(lines[i].find_first_of('=') + 1);
   }
-  lines.reset();
-  acc.reset();
 
-  return (*ret);
+  return ret;
 }
 
 /**
@@ -506,12 +498,8 @@ std::vector<std::map<std::string, std::string>> runListMultiWmic(const std::stri
 */
 std::string getWmicPath()
 {
-  std::unique_ptr<std::string> wmicPath = std::make_unique<std::string>(joinPath({getEnvVar("WINDIR"), "system32", "wbem", "wmic.exe"}));
+  std::string wmicPath = joinPath({getEnvVar("WINDIR"), "system32", "wbem", "wmic.exe"});
 
-  if (fileExists((*wmicPath)))
-  {
-    return (*wmicPath);
-  }
-  return "wmic.exe";
+  return fileExists(wmicPath) ? wmicPath : "wmic.exe";
 }
 #pragma endregion "Static Methods"

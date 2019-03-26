@@ -63,18 +63,18 @@ void StorageSystem::GetMac()
 */
 void StorageSystem::GetWin()
 {
-  std::unique_ptr<std::string> wmic = std::make_unique<std::string>(getWmicPath());
-  std::unique_ptr<std::vector<std::map<std::string, std::string>>> tempDrs = std::make_unique<std::vector<std::map<std::string, std::string>>>(runListMultiWmic("logicaldisk get Caption,FileSystem,FreeSpace,Size", wmic.get()));
-  std::unique_ptr<std::string> temp = std::make_unique<std::string>();
-  std::unique_ptr<Storage> tempSto = std::make_unique<Storage>();
+  std::string wmic = getWmicPath();
+  std::vector<std::map<std::string, std::string>> tempDrs = runListMultiWmic("logicaldisk get Caption,FileSystem,FreeSpace,Size", &wmic);
+  std::string temp;
+  Storage tempSto;
 
-  for (std::size_t i = 0; i < tempDrs->size(); i++)
+  for (std::size_t i = 0; i < tempDrs.size(); i++)
   {
-    (*tempSto) = Storage((*tempDrs)[i]["Caption"],
-                         (*tempDrs)[i]["FileSystem"],
-                         ((*tempDrs)[i]["FreeSpace"].empty() ? 0 : std::stoull((*tempDrs)[i]["FreeSpace"])),
-                         ((*tempDrs)[i]["Size"].empty() ? 0 : std::stoull((*tempDrs)[i]["FreeSpace"])));
-    drives->push_back((*tempSto));
+    tempSto = Storage(tempDrs[i]["Caption"],
+                      tempDrs[i]["FileSystem"],
+                      (tempDrs[i]["FreeSpace"].empty() ? 0 : std::stoull(tempDrs[i]["FreeSpace"])),
+                      (tempDrs[i]["Size"].empty() ? 0 : std::stoull(tempDrs[i]["FreeSpace"])));
+    drives->push_back(tempSto);
   }
 }
 

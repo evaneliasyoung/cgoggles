@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-15
-*  @date      2019-03-22
+*  @date      2019-03-25
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -70,107 +70,106 @@ void parseRequests(std::string *request)
 */
 void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *vals)
 {
-  std::unique_ptr<bool> allAll = std::make_unique<bool>(contains(&requests, "All"));
-  std::unique_ptr<bool> osAll = std::make_unique<bool>((*allAll) || contains(&requests, "os.All") || contains(&requests, "os"));
-  std::unique_ptr<bool> cpuAll = std::make_unique<bool>((*allAll) || contains(&requests, "cpu.All") || contains(&requests, "cpu"));
+  bool osAll = contains(&requests, "All") || contains(&requests, "os.All") || contains(&requests, "os");
+  bool cpuAll = contains(&requests, "All") || contains(&requests, "cpu.All") || contains(&requests, "cpu");
 
-  if ((*osAll) || contains(&requests, "os.Platform"))
+  if (osAll || contains(&requests, "os.Platform"))
   {
     keys->push_back("os.Platform");
     vals->push_back(compOS.Platform());
   }
-  if ((*osAll) || contains(&requests, "os.Caption"))
+  if (osAll || contains(&requests, "os.Caption"))
   {
     keys->push_back("os.Caption");
     vals->push_back(compOS.Caption());
   }
-  if ((*osAll) || contains(&requests, "os.Serial"))
+  if (osAll || contains(&requests, "os.Serial"))
   {
     keys->push_back("os.Serial");
     vals->push_back(compOS.Serial());
   }
-  if ((*osAll) || contains(&requests, "os.Bit"))
+  if (osAll || contains(&requests, "os.Bit"))
   {
     keys->push_back("os.Bit");
     vals->push_back(std::to_string(compOS.Bit()));
   }
-  if ((*osAll) || contains(&requests, "os.InstallTime"))
+  if (osAll || contains(&requests, "os.InstallTime"))
   {
     keys->push_back("os.InstallTime");
     vals->push_back(compOS.InstallTime("%Y-%m-%dT%H:%M:%S"));
   }
-  if ((*osAll) || contains(&requests, "os.BootTime"))
+  if (osAll || contains(&requests, "os.BootTime"))
   {
     keys->push_back("os.BootTime");
     vals->push_back(compOS.BootTime("%Y-%m-%dT%H:%M:%S"));
   }
-  if ((*osAll) || contains(&requests, "os.CurTime"))
+  if (osAll || contains(&requests, "os.CurTime"))
   {
     keys->push_back("os.CurTime");
     vals->push_back(compOS.CurTime("%Y-%m-%dT%H:%M:%S"));
   }
-  if ((*osAll) || contains(&requests, "os.Kernel"))
+  if (osAll || contains(&requests, "os.Kernel"))
   {
     keys->push_back("os.Kernel");
     vals->push_back(compOS.Kernel().Pretty());
   }
-  if ((*osAll) || contains(&requests, "os.Version"))
+  if (osAll || contains(&requests, "os.Version"))
   {
     keys->push_back("os.Version");
     vals->push_back(compOS.Version().Pretty());
   }
 
-  if ((*cpuAll) || contains(&requests, "cpu.Manufacturer"))
+  if (cpuAll || contains(&requests, "cpu.Manufacturer"))
   {
     keys->push_back("cpu.Manufacturer");
     vals->push_back(compCPU.Manufacturer());
   }
-  if ((*cpuAll) || contains(&requests, "cpu.Architecture"))
+  if (cpuAll || contains(&requests, "cpu.Architecture"))
   {
     keys->push_back("cpu.Architecture");
     vals->push_back(compCPU.Architecture());
   }
-  if ((*cpuAll) || contains(&requests, "cpu.SocketType"))
+  if (cpuAll || contains(&requests, "cpu.SocketType"))
   {
     keys->push_back("cpu.SocketType");
     vals->push_back(compCPU.SocketType());
   }
-  if ((*cpuAll) || contains(&requests, "cpu.Brand"))
+  if (cpuAll || contains(&requests, "cpu.Brand"))
   {
     keys->push_back("cpu.Brand");
     vals->push_back(compCPU.Brand());
   }
-  if ((*cpuAll) || contains(&requests, "cpu.Family"))
+  if (cpuAll || contains(&requests, "cpu.Family"))
   {
     keys->push_back("cpu.Family");
     vals->push_back(std::to_string(compCPU.Family()));
   }
-  if ((*cpuAll) || contains(&requests, "cpu.Model"))
+  if (cpuAll || contains(&requests, "cpu.Model"))
   {
     keys->push_back("cpu.Model");
     vals->push_back(std::to_string(compCPU.Model()));
   }
-  if ((*cpuAll) || contains(&requests, "cpu.Stepping"))
+  if (cpuAll || contains(&requests, "cpu.Stepping"))
   {
     keys->push_back("cpu.Stepping");
     vals->push_back(std::to_string(compCPU.Stepping()));
   }
-  if ((*cpuAll) || contains(&requests, "cpu.Cores"))
+  if (cpuAll || contains(&requests, "cpu.Cores"))
   {
     keys->push_back("cpu.Cores");
     vals->push_back(std::to_string(compCPU.Cores()));
   }
-  if ((*cpuAll) || contains(&requests, "cpu.Threads"))
+  if (cpuAll || contains(&requests, "cpu.Threads"))
   {
     keys->push_back("cpu.Threads");
     vals->push_back(std::to_string(compCPU.Threads()));
   }
-  if ((*cpuAll) || contains(&requests, "cpu.Speed"))
+  if (cpuAll || contains(&requests, "cpu.Speed"))
   {
     keys->push_back("cpu.Speed");
     vals->push_back(compCPU.PrettySpeed());
   }
-  if ((*cpuAll) || contains(&requests, "cpu.MaxSpeed"))
+  if (cpuAll || contains(&requests, "cpu.MaxSpeed"))
   {
     keys->push_back("cpu.MaxSpeed");
     vals->push_back(compCPU.PrettyMaxSpeed());
@@ -187,38 +186,38 @@ void outputSimple(std::vector<std::string> *keys, std::vector<std::string> *vals
 
 void outputJson(std::vector<std::string> *keys, std::vector<std::string> *vals, const bool &min)
 {
-  std::unique_ptr<std::string> curBeg = std::make_unique<std::string>();
-  std::unique_ptr<std::string> nl = std::make_unique<std::string>(min ? "" : "\n");
-  std::unique_ptr<std::string> sp = std::make_unique<std::string>(min ? "" : " ");
-  std::string *ck;
-  std::string *cv;
+  std::string curBeg;
+  std::string nl = min ? "" : "\n";
+  std::string sp = min ? "" : " ";
+  std::string ck;
+  std::string cv;
 
-  std::cout << "{" << (*nl);
+  std::cout << "{" << nl;
   for (std::size_t i = 0; i < keys->size(); i++)
   {
-    ck = &(*keys)[i];
-    cv = &(*vals)[i];
+    ck = (*keys)[i];
+    cv = (*vals)[i];
 
     // New beginning
-    if ((*curBeg) != ck->substr(0, ck->find('.')))
+    if (curBeg != ck.substr(0, ck.find('.')))
     {
       // If not empty, end the last section
-      if ((*curBeg) != "")
+      if (curBeg != "")
       {
-        std::cout << (*sp) << (*sp) << "}," << (*nl);
+        std::cout << sp << sp << "}," << nl;
       }
 
       // Set up the new beginning
-      (*curBeg) = ck->substr(0, ck->find('.'));
-      std::cout << (*sp) << (*sp) << '"' << (*curBeg) << R"(":)" << (*sp) << '{' << (*nl);
+      curBeg = ck.substr(0, ck.find('.'));
+      std::cout << sp << sp << '"' << curBeg << R"(":)" << sp << '{' << nl;
     }
 
-    std::cout << (*sp) << (*sp) << (*sp) << (*sp);
-    std::cout << ck->substr(ck->find('.') + 1) << R"(":)" << (*sp) << (*cv) << '"';
-    std::cout << (i < keys->size() - 1 && (*curBeg) == (*keys)[i + 1].substr(0, (*keys)[i + 1].find('.')) ? "," : "") << (*nl);
+    std::cout << sp << sp << sp << sp;
+    std::cout << ck.substr(ck.find('.') + 1) << R"(":)" << sp << cv << '"';
+    std::cout << (i < keys->size() - 1 && curBeg == (*keys)[i + 1].substr(0, (*keys)[i + 1].find('.')) ? "," : "") << nl;
   }
 
-  std::cout << (*sp) << (*sp) << '}' << (*nl) << '}' << (*nl);
+  std::cout << sp << sp << '}' << nl << '}' << nl;
 }
 
 /**
@@ -228,7 +227,6 @@ void outputRequests()
 {
   std::unique_ptr<std::vector<std::string>> keys = std::make_unique<std::vector<std::string>>();
   std::unique_ptr<std::vector<std::string>> vals = std::make_unique<std::vector<std::string>>();
-  std::unique_ptr<char> delChar = std::make_unique<char>(style == OutputStyle::Default ? '\n' : '=');
   gatherRequests(keys.get(), vals.get());
 
   switch (style)

@@ -98,11 +98,11 @@ void Processor::GetMac()
 */
 void Processor::GetWin()
 {
-  std::unique_ptr<std::string> wmic = std::make_unique<std::string>(getWmicPath());
-  std::unique_ptr<std::map<std::string, std::string>> dataMap = std::make_unique<std::map<std::string, std::string>>(runMultiWmic("cpu get Manufacturer,NumberOfCores,NumberOfLogicalProcessors,Architecture,UpgradeMethod,Name,Description,MaxClockSpeed,MaxClockSpeed", wmic.get()));
-  std::unique_ptr<std::string> temp = std::make_unique<std::string>();
-  std::unique_ptr<int> tempInt = std::make_unique<int>();
-  std::unique_ptr<std::smatch> mt = std::make_unique<std::smatch>();
+  std::string wmic = getWmicPath();
+  std::map<std::string, std::string> dataMap = runMultiWmic("cpu get Manufacturer,NumberOfCores,NumberOfLogicalProcessors,Architecture,UpgradeMethod,Name,Description,MaxClockSpeed,MaxClockSpeed", &wmic);
+  std::string temp;
+  int tempInt;
+  std::smatch mt;
   std::string *architectureMap = new std::string[10]{"x86", "MIPS", "Alpha", "PowerPC", "Unknown", "ARM", "ia64", "Unknown", "Unknown", "x64"};
   std::string *socketTypeMap = new std::string[61]{
       "Unknown",
@@ -167,14 +167,14 @@ void Processor::GetWin()
       "BGA1510",
       "BGA1528"};
 
-  (*manufacturer) = (*dataMap)["Manufacturer"];
-  (*cores) = std::stoi((*dataMap)["NumberOfCores"]);
-  (*threads) = std::stoi((*dataMap)["NumberOfLogicalProcessors"]);
+  (*manufacturer) = dataMap["Manufacturer"];
+  (*cores) = std::stoi(dataMap["NumberOfCores"]);
+  (*threads) = std::stoi(dataMap["NumberOfLogicalProcessors"]);
 
-  (*architecture) = architectureMap[std::stoi((*dataMap)["Architecture"])];
-  (*socketType) = socketTypeMap[std::stoi((*dataMap)["UpgradeMethod"])];
+  (*architecture) = architectureMap[std::stoi(dataMap["Architecture"])];
+  (*socketType) = socketTypeMap[std::stoi(dataMap["UpgradeMethod"])];
 
-  (*brand) = (*dataMap)["Name"];
+  (*brand) = dataMap["Name"];
   if (brand->find("@") != std::string::npos)
   {
     brand->erase(brand->find_first_of("@"));
@@ -182,16 +182,16 @@ void Processor::GetWin()
 
   trim(brand.get());
 
-  (*temp) = (*dataMap)["Description"];
-  if (std::regex_search((*temp), (*mt), std::regex(R"(.*Family (\d+) Model (\d+) Stepping (\d+))", std::regex_constants::ECMAScript | std::regex_constants::icase)))
+  temp = dataMap["Description"];
+  if (std::regex_search(temp, mt, std::regex(R"(.*Family (\d+) Model (\d+) Stepping (\d+))", std::regex_constants::ECMAScript | std::regex_constants::icase)))
   {
-    (*family) = std::stoi((*mt)[1]);
-    (*model) = std::stoi((*mt)[2]);
-    (*stepping) = std::stoi((*mt)[3]);
+    (*family) = std::stoi(mt[1]);
+    (*model) = std::stoi(mt[2]);
+    (*stepping) = std::stoi(mt[3]);
   }
 
-  (*maxSpeed) = std::round(std::stof((*dataMap)["MaxClockSpeed"]) / 10) / 100;
-  (*speed) = std::round(std::stof((*dataMap)["MaxClockSpeed"]) / 10) / 100;
+  (*maxSpeed) = std::round(std::stof(dataMap["MaxClockSpeed"]) / 10) / 100;
+  (*speed) = std::round(std::stof(dataMap["MaxClockSpeed"]) / 10) / 100;
 
   delete architectureMap;
   delete socketTypeMap;
@@ -335,9 +335,9 @@ float Processor::Speed()
 */
 std::string Processor::PrettySpeed()
 {
-  std::unique_ptr<std::stringstream> buffer = std::make_unique<std::stringstream>();
-  (*buffer) << std::fixed << std::setprecision(2) << (*speed) << " GHz";
-  return buffer->str();
+  std::stringstream buffer;
+  buffer << std::fixed << std::setprecision(2) << (*speed) << " GHz";
+  return buffer.str();
 }
 
 /**
@@ -357,8 +357,8 @@ float Processor::MaxSpeed()
 */
 std::string Processor::PrettyMaxSpeed()
 {
-  std::unique_ptr<std::stringstream> buffer = std::make_unique<std::stringstream>();
-  (*buffer) << std::fixed << std::setprecision(2) << (*maxSpeed) << " GHz";
-  return buffer->str();
+  std::stringstream buffer;
+  buffer << std::fixed << std::setprecision(2) << (*maxSpeed) << " GHz";
+  return buffer.str();
 }
 #pragma endregion "Accessors"
