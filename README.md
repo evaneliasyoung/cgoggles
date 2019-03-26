@@ -12,8 +12,17 @@ The ultimate cross-platform System information CLI tool.
 Written in C++ to allow for speed-compile times and speed-operation times.
 This is made as first a passion-project and next a final-project for my programming class.
 
-## Version 0.1.0 - 2019-03-25
-### Initial release
+## News and Changes
+
+### Version 0.1.0 - 2019-03-25
+
+### Latest Activity
+
+(last 7 major and minor version releases)
+
+- Version 0.1.0: Initial release
+
+You can find all changes here: [detailed changelog](CHANGELOG.md)
 
 ## Reference
 
