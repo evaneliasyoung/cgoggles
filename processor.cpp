@@ -101,7 +101,6 @@ void Processor::GetWin()
   std::string wmic = getWmicPath();
   std::map<std::string, std::string> dataMap = runMultiWmic("cpu get Manufacturer,NumberOfCores,NumberOfLogicalProcessors,Architecture,UpgradeMethod,Name,Description,MaxClockSpeed,MaxClockSpeed", &wmic);
   std::string temp;
-  int tempInt;
   std::smatch mt;
   std::string *architectureMap = new std::string[10]{"x86", "MIPS", "Alpha", "PowerPC", "Unknown", "ARM", "ia64", "Unknown", "Unknown", "x64"};
   std::string *socketTypeMap = new std::string[61]{
