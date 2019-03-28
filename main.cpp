@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-11
-*  @date      2019-03-25
+*  @date      2019-03-28
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -18,7 +18,7 @@
 #include "storage.h"
 #include "storagesystem.h"
 
-#define CGOGGLES_VERSION_ 0x000100
+#define CGOGGLES_VERSION_ 0x000110
 
 std::vector<std::string> requests;
 OutputStyle style = OutputStyle::Default;
