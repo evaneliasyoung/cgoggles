@@ -1,14 +1,18 @@
 CC      = g++
-HEADERS = pch.h argh.h
+FLAGS   = --std=c++14 -g -Wall
+HEADERS = pch.h.gch argh.h.gch
 OBJECTS = main.o os.o processor.o requests.o semver.o storage.o storagesystem.o temperature.o utils.o
 
 default: cgoggles
 
+%.gch: %.h
+	$(CC) $(FLAGS) -c $< -o $@
+
 %.o: %.c $(HEADERS)
-	$(CC) -g -c -Wall -std=c++11 $< -o $@
+	$(CC) $(FLAGS) -c $< -o $@
 
 cgoggles: $(OBJECTS)
-	$(CC) -g -Wall -std=c++11 $(OBJECTS) -o $@
+	$(CC) $(FLAGS) $(OBJECTS) -o $@
 
 clean:
 	-rm -f $(OBJECTS)
