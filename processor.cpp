@@ -91,6 +91,30 @@ Processor::~Processor()
 */
 void Processor::GetMac()
 {
+  std::string temp;
+
+  (*manufacturer) = runCommand("sysctl -n machdep.cpu.vendor");
+  trim(manufacturer.get());
+  (*cores) = std::stoi(runCommand("sysctl -n hw.physicalcpu"));
+  (*threads) = std::stoi(runCommand("sysctl -n hw.logicalcpu"));
+
+  temp = runCommand("uname -m");
+  (*architecture) = temp.find("64") == std::string::npos ? temp : "x64";
+  (*socketType) = "Soldered";
+
+  (*brand) = runCommand("sysctl -n machdep.cpu.brand_string");
+  if (brand->find("@") != std::string::npos)
+  {
+    brand->erase(brand->find_first_of("@"));
+  }
+  trim(brand.get());
+
+  (*family) = std::stoi(runCommand("sysctl -n machdep.cpu.family"));
+  (*model) = std::stoi(runCommand("sysctl -n machdep.cpu.model"));
+  (*stepping) = std::stoi(runCommand("sysctl -n machdep.cpu.stepping"));
+
+  (*maxSpeed) = std::round(std::stof(runCommand("sysctl -n hw.cpufrequency_max").substr(0, 4)) / 10) / 100;
+  (*speed) = std::round(std::stof(runCommand("sysctl -n hw.cpufrequency_max").substr(0, 4)) / 10) / 100;
 }
 
 /**
@@ -178,7 +202,6 @@ void Processor::GetWin()
   {
     brand->erase(brand->find_first_of("@"));
   }
-
   trim(brand.get());
 
   temp = dataMap["Description"];

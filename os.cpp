@@ -100,7 +100,6 @@ void OperatingSystem::GetMac()
       "Mojave"
   };
   std::string temp;
-  uint32_t tempInt;
   std::time_t tempTime;
 
   (*platform) = "Darwin";

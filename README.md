@@ -46,16 +46,16 @@ You can find all changes here: [detailed changelog](CHANGELOG.md)
 
 | Call             | Linux | Mac | Win | Comments                             |
 | ---------------- | ----- | --- | --- | ------------------------------------ |
-| cpu              |       |     |  X  | *Everything below*                   |
-| cpu.All          |       |     |  X  | *Everything below*                   |
-| cpu.Manufacturer |       |     |  X  | AuthenticAMD                         |
-| cpu.Architecture |       |     |  X  | x64                                  |
-| cpu.SocketType   |       |     |  X  | AM4                                  |
-| cpu.Brand        |       |     |  X  | AMD Ryzen 5 1600x Six-Core Processor |
-| cpu.Family       |       |     |  X  | 23                                   |
-| cpu.Model        |       |     |  X  | 1                                    |
-| cpu.Stepping     |       |     |  X  | 1                                    |
-| cpu.Cores        |       |     |  X  | 6                                    |
-| cpu.Threads      |       |     |  X  | 12                                   |
-| cpu.Speed        |       |     |  X  | 3620 GHz                             |
-| cpu.MaxSpeed     |       |     |  X  | 3620 GHz                             |
+| cpu              |       |  X  |  X  | *Everything below*                   |
+| cpu.All          |       |  X  |  X  | *Everything below*                   |
+| cpu.Manufacturer |       |  X  |  X  | AuthenticAMD                         |
+| cpu.Architecture |       |  X  |  X  | x64                                  |
+| cpu.SocketType   |       |  X  |  X  | AM4                                  |
+| cpu.Brand        |       |  X  |  X  | AMD Ryzen 5 1600x Six-Core Processor |
+| cpu.Family       |       |  X  |  X  | 23                                   |
+| cpu.Model        |       |  X  |  X  | 1                                    |
+| cpu.Stepping     |       |  X  |  X  | 1                                    |
+| cpu.Cores        |       |  X  |  X  | 6                                    |
+| cpu.Threads      |       |  X  |  X  | 12                                   |
+| cpu.Speed        |       |  X  |  X  | 3.620 GHz                            |
+| cpu.MaxSpeed     |       |  X  |  X  | 3.620 GHz                            |
