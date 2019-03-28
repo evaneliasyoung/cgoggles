@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-15
-*  @date      2019-03-25
+*  @date      2019-03-28
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -84,7 +84,53 @@ OperatingSystem::~OperatingSystem()
 */
 void OperatingSystem::GetMac()
 {
-  platform = std::make_unique<std::string>("Darwin");
+  std::string versionCapts[13] = {
+      "Jaguar",
+      "Panther",
+      "Tiger",
+      "Leopard",
+      "Snow Leopard",
+      "Lion",
+      "Mountain Lion",
+      "Mavericks",
+      "Yosemite",
+      "El Capitan",
+      "Sierra",
+      "High Sierra",
+      "Mojave"
+  };
+  std::string temp;
+  uint32_t tempInt;
+  std::time_t tempTime;
+
+  (*platform) = "Darwin";
+  (*serial) = runCommand("system_profiler SPHardwareDataType | grep Serial | awk '{ print $4; }'");
+  trim(serial.get());
+  (*bit) = std::stoi(runCommand("getconf LONG_BIT"));
+  (*version) = new SemVer(runCommand("sysctl -n kern.osproductversion"), 0b11100u);
+  (*kernel) = new SemVer(runCommand("sysctl -n kern.osrelease"), 0b11100u);
+  (*caption) = version->Minor() > 11 ? "macOS" : "Mac OS X";
+  if (version->Major() == 10 && version->Minor() > 1  && version->Minor() < 15) {
+    (*caption) += " " + versionCapts[version->Minor() - 2];
+  }
+
+  temp = runCommand(R"(system_profiler SPInstallHistoryDataType | grep -A 4 -E '^\s{4}(macOS|OS X)' | tail -n1 | awk '{ print $3 $4; }')");
+  installTime->tm_year = std::stoi(temp.substr(0, 4)) - 1900;
+  installTime->tm_mon = std::stoi(temp.substr(5, 2)) - 1;
+  installTime->tm_mday = std::stoi(temp.substr(8, 2));
+  installTime->tm_hour = std::stoi(temp.substr(11, 2));
+  installTime->tm_min = std::stoi(temp.substr(14, 2));
+
+  tempTime = (std::time_t)std::stoi(runCommand("sysctl kern.boottime | awk '{ print substr($5, 1, length($5) - 1); }'"));
+  (*bootTime) = (*std::localtime(&tempTime));
+
+  temp = runCommand(R"(date +"%Y%m%d%H%M%S")");
+  curTime->tm_year = std::stoi(temp.substr(0, 4)) - 1900;
+  curTime->tm_mon = std::stoi(temp.substr(4, 2)) - 1;
+  curTime->tm_mday = std::stoi(temp.substr(6, 2));
+  curTime->tm_hour = std::stoi(temp.substr(8, 2));
+  curTime->tm_min = std::stoi(temp.substr(10, 2));
+  curTime->tm_sec = std::stoi(temp.substr(12, 2));
 }
 
 /**
