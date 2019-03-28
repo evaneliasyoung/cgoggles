@@ -14,12 +14,13 @@ This is made as first a passion-project and next a final-project for my programm
 
 ## News and Changes
 
-### Version 0.1.0 - 2019-03-25
+### Version 0.1.1 - 2019-03-28
 
 ### Latest Activity
 
 (last 7 major and minor version releases)
 
+- Version 0.1.1: Mac compatability
 - Version 0.1.0: Initial release
 
 You can find all changes here: [detailed changelog](CHANGELOG.md)

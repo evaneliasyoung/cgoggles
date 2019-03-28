@@ -18,7 +18,7 @@
 #include "storage.h"
 #include "storagesystem.h"
 
-#define CGOGGLES_VERSION_ 0x000110
+#define CGOGGLES_VERSION_ 0x000101
 
 std::vector<std::string> requests;
 OutputStyle style = OutputStyle::Default;
