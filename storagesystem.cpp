@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-25
-*  @date      2019-03-25
+*  @date      2019-03-28
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -12,6 +12,7 @@
 #include "storagesystem.h"
 #include "storage.h"
 #include "os.h"
+#include "utils.h"
 
 #pragma region "Contructors"
 StorageSystem::StorageSystem()
@@ -56,6 +57,118 @@ StorageSystem::~StorageSystem()
 */
 void StorageSystem::GetMac()
 {
+  std::vector<std::string> eachDrive;
+  std::vector<std::string> allDrives;
+  Storage tempDrive;
+  std::string line;
+  std::string key;
+  std::string val;
+  std::string tempName = "";
+  std::string tempIdentifier = "";
+  std::string tempType = "disk";
+  std::string tempFilesystem = "";
+  std::string tempMount = "";
+  std::uint64_t tempUsed = 0;
+  std::uint64_t tempTotal = 0;
+  std::string tempPhysical = "HDD";
+  std::string tempUuid = "";
+  std::string tempLabel = "";
+  std::string tempModel = "";
+  std::string tempSerial = "";
+  bool tempRemovable = false;
+  std::string tempProtocol = "";
+
+  splitStringVector(runCommand("diskutil info -all"), "**********", &allDrives);
+
+  for (std::size_t i = 0; i < allDrives.size(); i++)
+  {
+    tempName = "";
+    tempIdentifier = "";
+    tempType = "disk";
+    tempFilesystem = "";
+    tempMount = "";
+    tempUsed = 0;
+    tempTotal = 0;
+    tempPhysical = "HDD";
+    tempUuid = "";
+    tempLabel = "";
+    tempModel = "";
+    tempSerial = "";
+    tempRemovable = false;
+    tempProtocol = "";
+    splitStringVector(allDrives[i], "\n", &eachDrive);
+
+    for (std::size_t j = 0; j < eachDrive.size(); j++)
+    {
+      line = trim(eachDrive[j]);
+      key = trim(line.substr(0, line.find(':')));
+      val = trim(line.substr(line.find(':') + 1));
+      std::transform(key.begin(), key.end(), key.begin(), toupper);
+
+      if (key == "DEVICE IDENTIFIER")
+      {
+        tempIdentifier = val;
+      }
+      else if (key == "DEVICE NODE")
+      {
+        tempName = val;
+      }
+      else if (key == "VOLUME NAME")
+      {
+        if (val.substr(0, 14) != "Not applicable")
+        {
+          tempLabel = val;
+        }
+      }
+      else if (key == "PROTOCOL")
+      {
+        tempProtocol = val;
+      }
+      else if (key == "DISK SIZE")
+      {
+        tempTotal = std::stoull(trim(val.substr(val.find_first_of("(") + 1, (val.find_first_of("(") + val.find_first_of("B")) - 3)));
+      }
+      else if (key == "FILE SYSTEM PERSONALITY")
+      {
+        tempFilesystem = val;
+      }
+      else if (key == "MOUNT POINT")
+      {
+        tempMount = val;
+      }
+      else if (key == "VOLUME UUID")
+      {
+        tempUuid = val;
+      }
+      else if (key == "READ-ONLY MEDIA" && val == "Yes")
+      {
+        tempPhysical = "CD/DVD";
+      }
+      else if (key == "SOLIDSTATE" && val == "Yes")
+      {
+        tempPhysical = "SSD";
+      }
+      else if (key == "VIRTUAL")
+      {
+        tempType = "Virtual";
+      }
+      else if (key == "REMOVABLE MEDIA" && val == "Removable")
+      {
+        tempRemovable = true;
+      }
+      else if (key == "PARTITION TYPE")
+      {
+        tempType = "Part";
+      }
+      else if (key == "DEVICE / MEDIA NAME")
+      {
+        tempModel = val;
+      }
+    }
+    tempDrive = (new Storage(tempName, tempIdentifier, tempType, tempFilesystem, tempMount, tempUsed, tempTotal, tempPhysical, tempUuid, tempLabel, tempModel, tempSerial, tempRemovable, tempProtocol));
+    drives->push_back(tempDrive);
+    break;
+  }
 }
 
 /**
@@ -64,18 +177,6 @@ void StorageSystem::GetMac()
 void StorageSystem::GetWin()
 {
   std::string wmic = getWmicPath();
-  std::vector<std::map<std::string, std::string>> tempDrs = runListMultiWmic("logicaldisk get Caption,FileSystem,FreeSpace,Size", &wmic);
-  std::string temp;
-  Storage tempSto;
-
-  for (std::size_t i = 0; i < tempDrs.size(); i++)
-  {
-    tempSto = Storage(tempDrs[i]["Caption"],
-                      tempDrs[i]["FileSystem"],
-                      (tempDrs[i]["FreeSpace"].empty() ? 0 : std::stoull(tempDrs[i]["FreeSpace"])),
-                      (tempDrs[i]["Size"].empty() ? 0 : std::stoull(tempDrs[i]["FreeSpace"])));
-    drives->push_back(tempSto);
-  }
 }
 
 /**

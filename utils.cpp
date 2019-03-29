@@ -102,3 +102,36 @@ void trim(std::string *s, const char *t)
   rtrim(s, t);
   ltrim(s, t);
 }
+
+/**
+* @brief Trims away the specified characters from the end of a string
+*
+* @param s A pointer to the string to trim
+* @param t A collection of chars to remove
+*/
+std::string rtrim(std::string s, const char *t)
+{
+  return s.erase(s.find_last_not_of(t) + 1);
+}
+
+/**
+* @brief Trims away the specified characters from the beginning of a string
+*
+* @param s A pointer to the string to trim
+* @param t A collection of chars to remove
+*/
+std::string ltrim(std::string s, const char *t)
+{
+  return s.erase(0, s.find_first_not_of(t));
+}
+
+/**
+* @brief Trims away the specified characters from both ends of a string
+*
+* @param s A pointer to the string to trim
+* @param t A collection of chars to remove
+*/
+std::string trim(std::string s, const char *t)
+{
+  return ltrim(rtrim(s, t), t);
+}
