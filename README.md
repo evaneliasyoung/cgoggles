@@ -60,3 +60,22 @@ You can find all changes here: [detailed changelog](CHANGELOG.md)
 | cpu.Threads      |       |  X  |  X  | 12                                   |
 | cpu.Speed        |       |  X  |  X  | 3.620 GHz                            |
 | cpu.MaxSpeed     |       |  X  |  X  | 3.620 GHz                            |
+
+### 3. Storage
+
+| Call               | Linux | Mac | Win | Comments                             |
+| ------------------ | ----- | --- | --- | ------------------------------------ |
+| storage            |       |  ~  |     | *Everything below*                   |
+| storage.All        |       |  ~  |     | *Everything below*                   |
+| storage.Name       |       |  X  |     | Name                                 |
+| storage.Type       |       |  X  |     | Type                                 |
+| storage.FileSystem |       |  X  |     | NTFS                                 |
+| storage.Mount      |       |  X  |     | /disk0s1                             |
+| storage.Size       |       |  X  |     | 500277790720                         |
+| storage.Physical   |       |  X  |     | 5002HDD77790720                      |
+| storage.UUID       |       |  X  |     | XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX |
+| storage.Label      |       |  X  |     | VM                                   |
+| storage.Model      |       |  X  |     | APPLE SSD SM0512G                    |
+| storage.Serial     |       |     |     | XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX |
+| storage.Removable  |       |  X  |     | No                                   |
+| storage.Protocol   |       |  X  |     | PCI                                  |
