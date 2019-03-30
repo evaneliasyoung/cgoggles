@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-15
-*  @date      2019-03-19
+*  @date      2019-03-29
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -15,11 +15,14 @@
 #include "utils.h"
 #include "os.h"
 #include "processor.h"
+#include "storage.h"
+#include "storagesystem.h"
 
 extern std::vector<std::string> requests;
 extern OutputStyle style;
 extern OperatingSystem compOS;
 extern Processor compCPU;
+extern StorageSystem compStorage;
 
 void filterRequests();
 void parseRequests(std::string *request);

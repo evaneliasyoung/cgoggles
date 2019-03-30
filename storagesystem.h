@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-25
-*  @date      2019-03-25
+*  @date      2019-03-29
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -30,6 +30,7 @@ public:
   void *operator new(std::size_t size);
   void operator=(const StorageSystem &s);
   void operator=(StorageSystem *s);
+  std::vector<Storage> Drives();
 };
 
 #endif // CGOGGLES_STORAGESYSTEM_H_

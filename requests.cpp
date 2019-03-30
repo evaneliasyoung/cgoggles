@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-15
-*  @date      2019-03-25
+*  @date      2019-03-29
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -20,8 +20,11 @@ void filterRequests()
   std::unique_ptr<std::vector<std::string>> valids = std::make_unique<std::vector<std::string>>();
   valids->push_back("All");
   valids->push_back("os");
-  valids->push_back("cpu");
   valids->push_back("os.All");
+  valids->push_back("cpu");
+  valids->push_back("cpu.All");
+  valids->push_back("storage");
+  valids->push_back("storage.All");
   valids->push_back("os.Platform");
   valids->push_back("os.Caption");
   valids->push_back("os.Serial");
@@ -31,7 +34,6 @@ void filterRequests()
   valids->push_back("os.CurTime");
   valids->push_back("os.Kernel");
   valids->push_back("os.Version");
-  valids->push_back("cpu.All");
   valids->push_back("cpu.Manufacturer");
   valids->push_back("cpu.Architecture");
   valids->push_back("cpu.SocketType");
@@ -43,6 +45,20 @@ void filterRequests()
   valids->push_back("cpu.Threads");
   valids->push_back("cpu.Speed");
   valids->push_back("cpu.MaxSpeed");
+  valids->push_back("storage.Name");
+  valids->push_back("storage.Identifier");
+  valids->push_back("storage.Type");
+  valids->push_back("storage.FileSystem");
+  valids->push_back("storage.Mount");
+  valids->push_back("storage.Used");
+  valids->push_back("storage.Total");
+  valids->push_back("storage.Physical");
+  valids->push_back("storage.UUID");
+  valids->push_back("storage.Label");
+  valids->push_back("storage.Model");
+  valids->push_back("storage.Serial");
+  valids->push_back("storage.Removable");
+  valids->push_back("storage.Protocol");
 
   for (int i = requests.size() - 1; i >= 0; i--)
   {
@@ -72,6 +88,7 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
 {
   bool osAll = contains(&requests, "All") || contains(&requests, "os.All") || contains(&requests, "os");
   bool cpuAll = contains(&requests, "All") || contains(&requests, "cpu.All") || contains(&requests, "cpu");
+  bool stoAll = contains(&requests, "All") || contains(&requests, "storage.All") || contains(&requests, "storage");
 
   if (osAll || contains(&requests, "os.Platform"))
   {
@@ -173,6 +190,80 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
   {
     keys->push_back("cpu.MaxSpeed");
     vals->push_back(compCPU.PrettyMaxSpeed());
+  }
+
+  for (std::size_t i = 0; i < compStorage.Drives().size(); i++)
+  {
+    if (stoAll || contains(&requests, "storage.Name"))
+    {
+      keys->push_back("storage[" + std::to_string(i) + "].Name");
+      vals->push_back(compStorage.Drives()[i].Name());
+    }
+    if (stoAll || contains(&requests, "storage.Identifier"))
+    {
+      keys->push_back("storage[" + std::to_string(i) + "].Identifier");
+      vals->push_back(compStorage.Drives()[i].Identifier());
+    }
+    if (stoAll || contains(&requests, "storage.Type"))
+    {
+      keys->push_back("storage[" + std::to_string(i) + "].Type");
+      vals->push_back(compStorage.Drives()[i].Type());
+    }
+    if (stoAll || contains(&requests, "storage.FileSystem"))
+    {
+      keys->push_back("storage[" + std::to_string(i) + "].FileSystem");
+      vals->push_back(compStorage.Drives()[i].FileSystem());
+    }
+    if (stoAll || contains(&requests, "storage.Mount"))
+    {
+      keys->push_back("storage[" + std::to_string(i) + "].Mount");
+      vals->push_back(compStorage.Drives()[i].Mount());
+    }
+    if (stoAll || contains(&requests, "storage.Used"))
+    {
+      keys->push_back("storage[" + std::to_string(i) + "].Used");
+      vals->push_back(std::to_string(compStorage.Drives()[i].Used()));
+    }
+    if (stoAll || contains(&requests, "storage.Total"))
+    {
+      keys->push_back("storage[" + std::to_string(i) + "].Total");
+      vals->push_back(std::to_string(compStorage.Drives()[i].Total()));
+    }
+    if (stoAll || contains(&requests, "storage.Physical"))
+    {
+      keys->push_back("storage[" + std::to_string(i) + "].Physical");
+      vals->push_back(compStorage.Drives()[i].Physical());
+    }
+    if (stoAll || contains(&requests, "storage.UUID"))
+    {
+      keys->push_back("storage[" + std::to_string(i) + "].UUID");
+      vals->push_back(compStorage.Drives()[i].UUID());
+    }
+    if (stoAll || contains(&requests, "storage.Label"))
+    {
+      keys->push_back("storage[" + std::to_string(i) + "].Label");
+      vals->push_back(compStorage.Drives()[i].Label());
+    }
+    if (stoAll || contains(&requests, "storage.Model"))
+    {
+      keys->push_back("storage[" + std::to_string(i) + "].Model");
+      vals->push_back(compStorage.Drives()[i].Model());
+    }
+    if (stoAll || contains(&requests, "storage.Serial"))
+    {
+      keys->push_back("storage[" + std::to_string(i) + "].Serial");
+      vals->push_back(compStorage.Drives()[i].Serial());
+    }
+    if (stoAll || contains(&requests, "storage.Removable"))
+    {
+      keys->push_back("storage[" + std::to_string(i) + "].Removable");
+      vals->push_back(compStorage.Drives()[i].Removable() ? "Yes" : "No");
+    }
+    if (stoAll || contains(&requests, "storage.Protocol"))
+    {
+      keys->push_back("storage[" + std::to_string(i) + "].Protocol");
+      vals->push_back(compStorage.Drives()[i].Protocol());
+    }
   }
 }
 
