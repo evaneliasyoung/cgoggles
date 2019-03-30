@@ -19,6 +19,8 @@
 #include "storagelist.h"
 #include "fs.h"
 #include "fslist.h"
+#include "graphics.h"
+#include "graphicslist.h"
 
 #define CGOGGLES_VERSION_ 0x000101
 
@@ -27,6 +29,7 @@ OutputStyle style = OutputStyle::Default;
 
 OperatingSystem compOS;
 Processor compCPU;
+GraphicsList compGPU;
 StorageList compStorage;
 FileSystemList compFS;
 
@@ -60,7 +63,6 @@ int handleArgs(const char *argv[], std::string *request)
     outputHelp();
     return EXIT_SUCCESS;
   }
-
 
   // NOTE: JSON output disabled until further notice
   //       It's really quite a mess without a JSON library
@@ -108,6 +110,7 @@ int main(int argc, const char *argv[])
 
   compOS = new OperatingSystem(CGOGGLES_OS);
   compCPU = new Processor(CGOGGLES_OS);
+  compGPU = new GraphicsList(CGOGGLES_OS);
   compStorage = new StorageList(CGOGGLES_OS);
   compFS = new FileSystemList(CGOGGLES_OS);
 

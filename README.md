@@ -9,7 +9,7 @@
 [![Last Commit](https://img.shields.io/github/last-commit/evaneliasyoung/cgoggles.svg?style=flat)](https://github.com/evaneliasyoung/cgoggles/commit/master)
 
 The ultimate cross-platform System information CLI tool.
-Written in C++ to allow for speed-compile times and speed-operation times.
+Written in C++ to allow for speedy-compile times and speedy-operation times.
 This is made as first a passion-project and next a final-project for my programming class.
 
 ## News and Changes
@@ -29,19 +29,19 @@ You can find all changes here: [detailed changelog](CHANGELOG.md)
 
 ### 1. OS
 
-| Call             | Linux | Mac | Win | Comments                             |
-| ---------------- | ----- | --- | --- | ------------------------------------ |
-| os               |   ~   |  X  |  X  | *Everything below*                   |
-| os.All           |   ~   |  X  |  X  | *Everything below*                   |
-| os.Platform      |   X   |  X  |  x  | Windows                              |
-| os.Caption       |       |  X  |  x  | Microsoft Windows 10 Pro             |
-| os.Serial        |       |  X  |  x  | 00000-00000-00000-XXXXX              |
-| os.Bit           |       |  X  |  x  | 64                                   |
-| os.InstallTime   |       |  X  |  x  | 2018-12-04T04:41:06                  |
-| os.BootTime      |       |  X  |  x  | 2019-03-22T18:03:37                  |
-| os.CurTime       |       |  X  |  x  | 2019-03-25T17:49:18                  |
-| os.Kernel        |       |  X  |  x  | 10.0.0                               |
-| os.Version       |       |  X  |  x  | 10.0.0                               |
+| Call             | Linux | Mac | Win | Comments                 |
+| ---------------- | ----- | --- | --- | ------------------------ |
+| os               |   ~   |  X  |  X  | *Everything below*       |
+| os.All           |   ~   |  X  |  X  | *Everything below*       |
+| os.Platform      |   X   |  X  |  x  | Windows                  |
+| os.Caption       |       |  X  |  x  | Microsoft Windows 10 Pro |
+| os.Serial        |       |  X  |  x  | 00000-00000-00000-XXXXX  |
+| os.Bit           |       |  X  |  x  | 64                       |
+| os.InstallTime   |       |  X  |  x  | 2018-12-04T04:41:06      |
+| os.BootTime      |       |  X  |  x  | 2019-03-22T18:03:37      |
+| os.CurTime       |       |  X  |  x  | 2019-03-25T17:49:18      |
+| os.Kernel        |       |  X  |  x  | 10.0.0                   |
+| os.Version       |       |  X  |  x  | 10.0.0                   |
 
 ### 2. CPU
 
@@ -61,7 +61,19 @@ You can find all changes here: [detailed changelog](CHANGELOG.md)
 | cpu.Speed        |       |  X  |  X  | 3.620 GHz                            |
 | cpu.MaxSpeed     |       |  X  |  X  | 3.620 GHz                            |
 
-### 3. Storage
+### 3. GPU
+
+| Call        | Linux | Mac | Win | Comments           |
+| ----------- | ----- | --- | --- | ------------------ |
+| gpu         |       |  X  |     | *Everything below* |
+| gpu.All     |       |  X  |     | *Everything below* |
+| gpu.Vendor  |       |  X  |     | Intel              |
+| gpu.Model   |       |  X  |     | Intel Iris Pro     |
+| gpu.Bus     |       |  X  |     | Built-In           |
+| gpu.VRAM    |       |  X  |     | 1536               |
+| gpu.Dynamic |       |  X  |     | Yes                |
+
+### 4. Storage
 
 | Call               | Linux | Mac | Win | Comments                             |
 | ------------------ | ----- | --- | --- | ------------------------------------ |
@@ -80,7 +92,7 @@ You can find all changes here: [detailed changelog](CHANGELOG.md)
 | storage.Removable  |       |  X  |     | No                                   |
 | storage.Protocol   |       |  X  |     | PCI                                  |
 
-### 4. File Systems
+### 5. File Systems
 
 | Call     | Linux | Mac | Win | Comments                   |
 | -------- | ----- | --- | --- | -------------------------- |

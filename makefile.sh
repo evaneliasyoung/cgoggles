@@ -2,7 +2,7 @@
 
 FLAGS="--std=c++14 -g -Wall -Wno-unknown-pragmas"
 HEADERS=(pch.h.gch argh.h.gch)
-OBJECTS=(main.o fs.o fslist.o os.o processor.o requests.o semver.o storage.o storagelist.o temperature.o utils.o)
+OBJECTS=(main.o fs.o fslist.o graphics.o graphicslist.o os.o processor.o requests.o semver.o storage.o storagelist.o temperature.o utils.o)
 
 function join { local IFS="$1"; shift; echo "$*"; }
 

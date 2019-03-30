@@ -19,11 +19,14 @@
 #include "storagelist.h"
 #include "fs.h"
 #include "fslist.h"
+#include "graphics.h"
+#include "graphicslist.h"
 
 extern std::vector<std::string> requests;
 extern OutputStyle style;
 extern OperatingSystem compOS;
 extern Processor compCPU;
+extern GraphicsList compGPU;
 extern StorageList compStorage;
 extern FileSystemList compFS;
 

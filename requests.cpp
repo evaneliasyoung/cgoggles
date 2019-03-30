@@ -17,6 +17,8 @@
 #include "storagelist.h"
 #include "fs.h"
 #include "fslist.h"
+#include "graphics.h"
+#include "graphicslist.h"
 
 /**
 * @brief Filters out any unsupported requests from the queue
@@ -29,6 +31,8 @@ void filterRequests()
   valids->push_back("os.All");
   valids->push_back("cpu");
   valids->push_back("cpu.All");
+  valids->push_back("gpu");
+  valids->push_back("gpu.All");
   valids->push_back("storage");
   valids->push_back("storage.All");
   valids->push_back("fs");
@@ -53,6 +57,11 @@ void filterRequests()
   valids->push_back("cpu.Threads");
   valids->push_back("cpu.Speed");
   valids->push_back("cpu.MaxSpeed");
+  valids->push_back("gpu.Vendor");
+  valids->push_back("gpu.Model");
+  valids->push_back("gpu.Bus");
+  valids->push_back("gpu.VRAM");
+  valids->push_back("gpu.Dynamic");
   valids->push_back("storage.Name");
   valids->push_back("storage.Identifier");
   valids->push_back("storage.Type");
@@ -102,6 +111,7 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
   bool cpuAll = contains(&requests, "All") || contains(&requests, "cpu.All") || contains(&requests, "cpu");
   bool stoAll = contains(&requests, "All") || contains(&requests, "storage.All") || contains(&requests, "storage");
   bool fsAll = contains(&requests, "All") || contains(&requests, "fs.All") || contains(&requests, "fs");
+  bool gpuAll = contains(&requests, "All") || contains(&requests, "gpu.All") || contains(&requests, "gpu");
 
   if (osAll || contains(&requests, "os.Platform"))
   {
@@ -203,6 +213,35 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
   {
     keys->push_back("cpu.MaxSpeed");
     vals->push_back(compCPU.PrettyMaxSpeed());
+  }
+
+  for (std::size_t i = 0; i < compGPU.Controllers().size(); i++)
+  {
+    if (gpuAll || contains(&requests, "Vendor"))
+    {
+      keys->push_back("gpu[" + std::to_string(i) + "].Vendor");
+      vals->push_back(compGPU.Controllers()[i].Vendor());
+    }
+    if (gpuAll || contains(&requests, "Model"))
+    {
+      keys->push_back("gpu[" + std::to_string(i) + "].Model");
+      vals->push_back(compGPU.Controllers()[i].Model());
+    }
+    if (gpuAll || contains(&requests, "Bus"))
+    {
+      keys->push_back("gpu[" + std::to_string(i) + "].Bus");
+      vals->push_back(compGPU.Controllers()[i].Bus());
+    }
+    if (gpuAll || contains(&requests, "VRAM"))
+    {
+      keys->push_back("gpu[" + std::to_string(i) + "].VRAM");
+      vals->push_back(std::to_string(compGPU.Controllers()[i].VRAM()));
+    }
+    if (gpuAll || contains(&requests, "Dynamic"))
+    {
+      keys->push_back("gpu[" + std::to_string(i) + "].Dynamic");
+      vals->push_back(compGPU.Controllers()[i].Dynamic() ? "Yes" : "No");
+    }
   }
 
   for (std::size_t i = 0; i < compStorage.Drives().size(); i++)
