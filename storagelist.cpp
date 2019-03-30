@@ -1,6 +1,6 @@
 /**
-*  @file      storagesystem.cpp
-*  @brief     The implementation for the storagesystem class.
+*  @file      storagelist.cpp
+*  @brief     The implementation for the storagelist class.
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-25
@@ -9,18 +9,18 @@
 */
 
 #include "pch.h"
-#include "storagesystem.h"
+#include "storagelist.h"
 #include "storage.h"
 #include "os.h"
 #include "utils.h"
 
 #pragma region "Contructors"
-StorageSystem::StorageSystem()
+StorageList::StorageList()
 {
   drives = std::make_unique<std::vector<Storage>>();
 }
 
-StorageSystem::StorageSystem(std::uint8_t plt)
+StorageList::StorageList(std::uint8_t plt)
 {
   drives = std::make_unique<std::vector<Storage>>();
 
@@ -38,14 +38,14 @@ StorageSystem::StorageSystem(std::uint8_t plt)
   }
 }
 
-StorageSystem::StorageSystem(const StorageSystem &s)
+StorageList::StorageList(const StorageList &s)
 {
   drives = std::make_unique<std::vector<Storage>>();
 
   (*drives) = (*s.drives);
 }
 
-StorageSystem::~StorageSystem()
+StorageList::~StorageList()
 {
   drives.reset();
 }
@@ -53,9 +53,9 @@ StorageSystem::~StorageSystem()
 
 #pragma region "Constructors' Assistants"
 /**
-* @brief Fills in the storage system information for Darwin systems
+* @brief Fills in the storage list information for Darwin systems
 */
-void StorageSystem::GetMac()
+void StorageList::GetMac()
 {
   std::vector<std::string> eachDrive;
   std::vector<std::string> allDrives;
@@ -169,17 +169,17 @@ void StorageSystem::GetMac()
 }
 
 /**
-* @brief Fills in the storage system information for Windows systems
+* @brief Fills in the storage list information for Windows systems
 */
-void StorageSystem::GetWin()
+void StorageList::GetWin()
 {
   std::string wmic = getWmicPath();
 }
 
 /**
-* @brief Fills in the storage system information for Linux systems
+* @brief Fills in the storage list information for Linux systems
 */
-void StorageSystem::GetLux()
+void StorageList::GetLux()
 {
 }
 #pragma endregion
@@ -191,9 +191,9 @@ void StorageSystem::GetLux()
 * @param  size  The amount of memory to allocate
 * @return void* A pointer to the allocated memory
 */
-void *StorageSystem::operator new(std::size_t size)
+void *StorageList::operator new(std::size_t size)
 {
-  void *o = ::new (StorageSystem);
+  void *o = ::new (StorageList);
   return o;
 }
 
@@ -202,7 +202,7 @@ void *StorageSystem::operator new(std::size_t size)
 *
 * @param v The Storage System object to copy from
 */
-void StorageSystem::operator=(const StorageSystem &s)
+void StorageList::operator=(const StorageList &s)
 {
   if (&s == this)
   {
@@ -218,7 +218,7 @@ void StorageSystem::operator=(const StorageSystem &s)
 *
 * @param v The Storage System object to copy from
 */
-void StorageSystem::operator=(StorageSystem *s)
+void StorageList::operator=(StorageList *s)
 {
   drives = std::make_unique<std::vector<Storage>>();
 
@@ -232,7 +232,7 @@ void StorageSystem::operator=(StorageSystem *s)
 *
 * @return std::vector<Storage> The drive list
 */
-std::vector<Storage> StorageSystem::Drives()
+std::vector<Storage> StorageList::Drives()
 {
   return (*drives);
 }

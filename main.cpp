@@ -16,7 +16,7 @@
 #include "processor.h"
 #include "requests.h"
 #include "storage.h"
-#include "storagesystem.h"
+#include "storagelist.h"
 #include "fs.h"
 #include "fslist.h"
 
@@ -27,7 +27,7 @@ OutputStyle style = OutputStyle::Default;
 
 OperatingSystem compOS;
 Processor compCPU;
-StorageSystem compStorage;
+StorageList compStorage;
 FileSystemList compFS;
 
 void outputVersion()
@@ -108,7 +108,7 @@ int main(int argc, const char *argv[])
 
   compOS = new OperatingSystem(CGOGGLES_OS);
   compCPU = new Processor(CGOGGLES_OS);
-  compStorage = new StorageSystem(CGOGGLES_OS);
+  compStorage = new StorageList(CGOGGLES_OS);
   compFS = new FileSystemList(CGOGGLES_OS);
 
   parseRequests(request.get());

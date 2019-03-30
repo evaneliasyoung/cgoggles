@@ -16,7 +16,7 @@
 #include "os.h"
 #include "processor.h"
 #include "storage.h"
-#include "storagesystem.h"
+#include "storagelist.h"
 #include "fs.h"
 #include "fslist.h"
 
@@ -24,7 +24,7 @@ extern std::vector<std::string> requests;
 extern OutputStyle style;
 extern OperatingSystem compOS;
 extern Processor compCPU;
-extern StorageSystem compStorage;
+extern StorageList compStorage;
 extern FileSystemList compFS;
 
 void filterRequests();

@@ -52,7 +52,7 @@ FileSystemList::~FileSystemList()
 
 #pragma region "Constructors' Assistants"
 /**
-* @brief Fills in the storage system information for Darwin systems
+* @brief Fills in the storage list information for Darwin systems
 */
 void FileSystemList::GetMac()
 {
@@ -86,7 +86,7 @@ void FileSystemList::GetMac()
 }
 
 /**
-* @brief Fills in the storage system information for Windows systems
+* @brief Fills in the storage list information for Windows systems
 */
 void FileSystemList::GetWin()
 {
@@ -94,7 +94,7 @@ void FileSystemList::GetWin()
 }
 
 /**
-* @brief Fills in the storage system information for Linux systems
+* @brief Fills in the storage list information for Linux systems
 */
 void FileSystemList::GetLux()
 {
