@@ -21,7 +21,6 @@ private:
   std::unique_ptr<std::string> type;
   std::unique_ptr<std::string> filesystem;
   std::unique_ptr<std::string> mount;
-  std::unique_ptr<std::uint64_t> used;
   std::unique_ptr<std::uint64_t> total;
   std::unique_ptr<std::string> physical;
   std::unique_ptr<std::string> uuid;
@@ -31,13 +30,9 @@ private:
   std::unique_ptr<bool> removable;
   std::unique_ptr<std::string> protocol;
 
-  void GetMac();
-  void GetWin();
-  void GetLux();
-
 public:
   Storage();
-  Storage(std::string nm, std::string id, std::string tp, std::string fs, std::string mnt, std::uint64_t us, std::uint64_t ttl, std::string psy, std::string uid, std::string lbl, std::string mdl, std::string srl, bool rmv, std::string prt);
+  Storage(std::string nm, std::string id, std::string tp, std::string fs, std::string mnt, std::uint64_t ttl, std::string psy, std::string uid, std::string lbl, std::string mdl, std::string srl, bool rmv, std::string prt);
   Storage(const Storage &s);
   ~Storage();
   void *operator new(std::size_t size);
@@ -48,7 +43,6 @@ public:
   std::string Type();
   std::string FileSystem();
   std::string Mount();
-  std::uint64_t Used();
   std::uint64_t Total();
   std::string Physical();
   std::string UUID();

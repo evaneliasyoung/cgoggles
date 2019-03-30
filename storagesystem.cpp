@@ -68,7 +68,6 @@ void StorageSystem::GetMac()
   std::string tempType = "disk";
   std::string tempFilesystem = "";
   std::string tempMount = "";
-  std::uint64_t tempUsed = 0;
   std::uint64_t tempTotal = 0;
   std::string tempPhysical = "HDD";
   std::string tempUuid = "";
@@ -87,7 +86,6 @@ void StorageSystem::GetMac()
     tempType = "disk";
     tempFilesystem = "";
     tempMount = "";
-    tempUsed = 0;
     tempTotal = 0;
     tempPhysical = "HDD";
     tempUuid = "";
@@ -165,7 +163,7 @@ void StorageSystem::GetMac()
         tempModel = val;
       }
     }
-    tempDrive = (new Storage(tempName, tempIdentifier, tempType, tempFilesystem, tempMount, tempUsed, tempTotal, tempPhysical, tempUuid, tempLabel, tempModel, tempSerial, tempRemovable, tempProtocol));
+    tempDrive = (new Storage(tempName, tempIdentifier, tempType, tempFilesystem, tempMount, tempTotal, tempPhysical, tempUuid, tempLabel, tempModel, tempSerial, tempRemovable, tempProtocol));
     drives->push_back(tempDrive);
   }
 }

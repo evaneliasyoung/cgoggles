@@ -17,12 +17,15 @@
 #include "processor.h"
 #include "storage.h"
 #include "storagesystem.h"
+#include "fs.h"
+#include "fslist.h"
 
 extern std::vector<std::string> requests;
 extern OutputStyle style;
 extern OperatingSystem compOS;
 extern Processor compCPU;
 extern StorageSystem compStorage;
+extern FileSystemList compFS;
 
 void filterRequests();
 void parseRequests(std::string *request);

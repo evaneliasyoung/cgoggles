@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-11
-*  @date      2019-03-28
+*  @date      2019-03-30
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -17,6 +17,8 @@
 #include "requests.h"
 #include "storage.h"
 #include "storagesystem.h"
+#include "fs.h"
+#include "fslist.h"
 
 #define CGOGGLES_VERSION_ 0x000101
 
@@ -26,6 +28,7 @@ OutputStyle style = OutputStyle::Default;
 OperatingSystem compOS;
 Processor compCPU;
 StorageSystem compStorage;
+FileSystemList compFS;
 
 void outputVersion()
 {
@@ -106,6 +109,7 @@ int main(int argc, const char *argv[])
   compOS = new OperatingSystem(CGOGGLES_OS);
   compCPU = new Processor(CGOGGLES_OS);
   compStorage = new StorageSystem(CGOGGLES_OS);
+  compFS = new FileSystemList(CGOGGLES_OS);
 
   parseRequests(request.get());
   request.reset();

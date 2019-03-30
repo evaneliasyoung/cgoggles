@@ -79,3 +79,15 @@ You can find all changes here: [detailed changelog](CHANGELOG.md)
 | storage.Serial     |       |     |     | XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX |
 | storage.Removable  |       |  X  |     | No                                   |
 | storage.Protocol   |       |  X  |     | PCI                                  |
+
+### 4. File Systems
+
+| Call     | Linux | Mac | Win | Comments                   |
+| -------- | ----- | --- | --- | -------------------------- |
+| fs       |       |  X  |     | *Everything below*         |
+| fs.All   |       |  X  |     | *Everything below*         |
+| fs.FS    |       |  X  |     | /dev/disk1s1               |
+| fs.Type  |       |  X  |     | HFS                        |
+| fs.Size  |       |  X  |     | .Size=18446744072211382272 |
+| fs.Used  |       |  X  |     | .Used=18446744073346375680 |
+| fs.Mount |       |  X  |     | /                          |

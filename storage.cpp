@@ -21,7 +21,6 @@ Storage::Storage()
   type = std::make_unique<std::string>();
   filesystem = std::make_unique<std::string>();
   mount = std::make_unique<std::string>();
-  used = std::make_unique<std::uint64_t>();
   total = std::make_unique<std::uint64_t>();
   physical = std::make_unique<std::string>();
   uuid = std::make_unique<std::string>();
@@ -32,14 +31,13 @@ Storage::Storage()
   protocol = std::make_unique<std::string>();
 }
 
-Storage::Storage(std::string nm, std::string id, std::string tp, std::string fs, std::string mnt, std::uint64_t us, std::uint64_t ttl, std::string psy, std::string uid, std::string lbl, std::string mdl, std::string srl, bool rmv, std::string prt)
+Storage::Storage(std::string nm, std::string id, std::string tp, std::string fs, std::string mnt, std::uint64_t ttl, std::string psy, std::string uid, std::string lbl, std::string mdl, std::string srl, bool rmv, std::string prt)
 {
   name = std::make_unique<std::string>(nm);
   identifier = std::make_unique<std::string>(id);
   type = std::make_unique<std::string>(tp);
   filesystem = std::make_unique<std::string>(fs);
   mount = std::make_unique<std::string>(mnt);
-  used = std::make_unique<std::uint64_t>(us);
   total = std::make_unique<std::uint64_t>(ttl);
   physical = std::make_unique<std::string>(psy);
   uuid = std::make_unique<std::string>(uid);
@@ -57,7 +55,6 @@ Storage::Storage(const Storage &s)
   type = std::make_unique<std::string>();
   filesystem = std::make_unique<std::string>();
   mount = std::make_unique<std::string>();
-  used = std::make_unique<std::uint64_t>();
   total = std::make_unique<std::uint64_t>();
   physical = std::make_unique<std::string>();
   uuid = std::make_unique<std::string>();
@@ -72,7 +69,6 @@ Storage::Storage(const Storage &s)
   (*type) = (*s.type);
   (*filesystem) = (*s.filesystem);
   (*mount) = (*s.mount);
-  (*used) = (*s.used);
   (*total) = (*s.total);
   (*physical) = (*s.physical);
   (*uuid) = (*s.uuid);
@@ -90,7 +86,6 @@ Storage::~Storage()
   type.reset();
   filesystem.reset();
   mount.reset();
-  used.reset();
   total.reset();
   physical.reset();
   uuid.reset();
@@ -131,7 +126,6 @@ void Storage::operator=(const Storage &s)
   type = std::make_unique<std::string>();
   filesystem = std::make_unique<std::string>();
   mount = std::make_unique<std::string>();
-  used = std::make_unique<std::uint64_t>();
   total = std::make_unique<std::uint64_t>();
   physical = std::make_unique<std::string>();
   uuid = std::make_unique<std::string>();
@@ -146,7 +140,6 @@ void Storage::operator=(const Storage &s)
   (*type) = (*s.type);
   (*filesystem) = (*s.filesystem);
   (*mount) = (*s.mount);
-  (*used) = (*s.used);
   (*total) = (*s.total);
   (*physical) = (*s.physical);
   (*uuid) = (*s.uuid);
@@ -169,7 +162,6 @@ void Storage::operator=(Storage *s)
   type = std::make_unique<std::string>();
   filesystem = std::make_unique<std::string>();
   mount = std::make_unique<std::string>();
-  used = std::make_unique<std::uint64_t>();
   total = std::make_unique<std::uint64_t>();
   physical = std::make_unique<std::string>();
   uuid = std::make_unique<std::string>();
@@ -184,7 +176,6 @@ void Storage::operator=(Storage *s)
   (*type) = (*s->type);
   (*filesystem) = (*s->filesystem);
   (*mount) = (*s->mount);
-  (*used) = (*s->used);
   (*total) = (*s->total);
   (*physical) = (*s->physical);
   (*uuid) = (*s->uuid);
@@ -215,10 +206,6 @@ std::string Storage::FileSystem() {
 
 std::string Storage::Mount() {
   return (*mount);
-}
-
-std::uint64_t Storage::Used() {
-  return (*used);
 }
 
 std::uint64_t Storage::Total() {

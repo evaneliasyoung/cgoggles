@@ -4,13 +4,19 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-15
-*  @date      2019-03-29
+*  @date      2019-03-30
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
 #include "pch.h"
 #include "requests.h"
 #include "utils.h"
+#include "os.h"
+#include "processor.h"
+#include "storage.h"
+#include "storagesystem.h"
+#include "fs.h"
+#include "fslist.h"
 
 /**
 * @brief Filters out any unsupported requests from the queue
@@ -25,6 +31,8 @@ void filterRequests()
   valids->push_back("cpu.All");
   valids->push_back("storage");
   valids->push_back("storage.All");
+  valids->push_back("fs");
+  valids->push_back("fs.All");
   valids->push_back("os.Platform");
   valids->push_back("os.Caption");
   valids->push_back("os.Serial");
@@ -50,7 +58,6 @@ void filterRequests()
   valids->push_back("storage.Type");
   valids->push_back("storage.FileSystem");
   valids->push_back("storage.Mount");
-  valids->push_back("storage.Used");
   valids->push_back("storage.Total");
   valids->push_back("storage.Physical");
   valids->push_back("storage.UUID");
@@ -59,6 +66,11 @@ void filterRequests()
   valids->push_back("storage.Serial");
   valids->push_back("storage.Removable");
   valids->push_back("storage.Protocol");
+  valids->push_back("fs.FS");
+  valids->push_back("fs.Type");
+  valids->push_back("fs.Size");
+  valids->push_back("fs.Used");
+  valids->push_back("fs.Mount");
 
   for (int i = requests.size() - 1; i >= 0; i--)
   {
@@ -89,6 +101,7 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
   bool osAll = contains(&requests, "All") || contains(&requests, "os.All") || contains(&requests, "os");
   bool cpuAll = contains(&requests, "All") || contains(&requests, "cpu.All") || contains(&requests, "cpu");
   bool stoAll = contains(&requests, "All") || contains(&requests, "storage.All") || contains(&requests, "storage");
+  bool fsAll = contains(&requests, "All") || contains(&requests, "fs.All") || contains(&requests, "fs");
 
   if (osAll || contains(&requests, "os.Platform"))
   {
@@ -219,11 +232,6 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
       keys->push_back("storage[" + std::to_string(i) + "].Mount");
       vals->push_back(compStorage.Drives()[i].Mount());
     }
-    if (stoAll || contains(&requests, "storage.Used"))
-    {
-      keys->push_back("storage[" + std::to_string(i) + "].Used");
-      vals->push_back(std::to_string(compStorage.Drives()[i].Used()));
-    }
     if (stoAll || contains(&requests, "storage.Total"))
     {
       keys->push_back("storage[" + std::to_string(i) + "].Total");
@@ -263,6 +271,35 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
     {
       keys->push_back("storage[" + std::to_string(i) + "].Protocol");
       vals->push_back(compStorage.Drives()[i].Protocol());
+    }
+  }
+
+  for (std::size_t i = 0; i < compFS.FileSystems().size(); i++)
+  {
+    if (fsAll || contains(&requests, "fs.FS"))
+    {
+      keys->push_back("fs[" + std::to_string(i) + "].FS");
+      vals->push_back(compFS.FileSystems()[i].FS());
+    }
+    if (fsAll || contains(&requests, "fs.Type"))
+    {
+      keys->push_back("fs[" + std::to_string(i) + "].Type");
+      vals->push_back(compFS.FileSystems()[i].Type());
+    }
+    if (fsAll || contains(&requests, "fs.Size"))
+    {
+      keys->push_back("fs[" + std::to_string(i) + "].Size");
+      vals->push_back(std::to_string(compFS.FileSystems()[i].Size()));
+    }
+    if (fsAll || contains(&requests, "fs.Used"))
+    {
+      keys->push_back("fs[" + std::to_string(i) + "].Used");
+      vals->push_back(std::to_string(compFS.FileSystems()[i].Used()));
+    }
+    if (fsAll || contains(&requests, "fs.Mount"))
+    {
+      keys->push_back("fs[" + std::to_string(i) + "].Mount");
+      vals->push_back(compFS.FileSystems()[i].Mount());
     }
   }
 }
