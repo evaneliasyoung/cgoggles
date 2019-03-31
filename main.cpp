@@ -55,12 +55,14 @@ int handleArgs(const char *argv[], std::string *request)
   if (cmdl[{"v", "ver", "version"}])
   {
     outputVersion();
+    std::exit(EXIT_SUCCESS);
     return EXIT_SUCCESS;
   }
 
   if (cmdl[{"h", "help"}])
   {
     outputHelp();
+    std::exit(EXIT_SUCCESS);
     return EXIT_SUCCESS;
   }
 
@@ -94,6 +96,7 @@ int handleArgs(const char *argv[], std::string *request)
   if (!(cmdl({"g", "get"}) >> (*request)))
   {
     outputHelp();
+    std::exit(EXIT_FAILURE);
     return EXIT_FAILURE;
   }
   return EXIT_SUCCESS;

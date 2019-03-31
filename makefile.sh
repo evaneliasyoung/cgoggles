@@ -13,7 +13,7 @@ function compileX { g++-8 $FLAGS $1 -o $2; }
 if [ -z "$1" ]; then
     for i in ${HEADERS[@]}; do
         if [ ! -f $i ]; then
-            echo "c++14    -c ${i//.o/.cpp}"
+            echo "c++14    -c ${i//.h.gch/.h}"
             compile ${i//.h.gch/.h} $i
         fi
     done
@@ -25,6 +25,7 @@ if [ -z "$1" ]; then
 
     echo "c++14       cgoggles.exe"
     compileX "$(join " " ${OBJECTS[@]})" cgoggles.exe
+    chmod 755 cgoggles.exe
 elif [ "$1" == "clean" ]; then
     rm *.o
     rm *.gch
