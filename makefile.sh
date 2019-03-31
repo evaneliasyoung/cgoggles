@@ -24,7 +24,8 @@ if [ -z "$1" ]; then
     done
 
     echo "c++14       cgoggles.exe"
-    compileX "$(join " " ${OBJECTS[@]})" cgoggles.exe
+    compileX "$(join " " ${OBJECTS[@]})" cgoggles
+    chmod 755 cgoggles
 elif [ "$1" == "clean" ]; then
     rm *.o
     rm *.gch
