@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-11
-*  @date      2019-03-30
+*  @date      2019-03-31
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -110,6 +110,12 @@ int main(int argc, const char *argv[])
 
   parseRequests(request.get());
   request.reset();
+
+  compOS = new OperatingSystem(CGOGGLES_OS);
+  compCPU = new Processor(CGOGGLES_OS);
+  compGPU = new GraphicsList(CGOGGLES_OS);
+  compStorage = new StorageList(CGOGGLES_OS);
+  compFS = new FileSystemList(CGOGGLES_OS);
 
   runCommand("echo");
 

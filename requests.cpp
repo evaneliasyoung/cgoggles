@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-15
-*  @date      2019-03-30
+*  @date      2019-03-31
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -112,217 +112,107 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
   bool stoAll = contains(&requests, "All") || contains(&requests, "storage.All") || contains(&requests, "storage");
   bool fsAll = contains(&requests, "All") || contains(&requests, "fs.All") || contains(&requests, "fs");
   bool gpuAll = contains(&requests, "All") || contains(&requests, "gpu.All") || contains(&requests, "gpu");
-  bool initOS = false;
-  bool initCPU = false;
-  bool initGPU = false;
-  bool initStorage = false;
-  bool initFS = false;
 
   if (osAll || contains(&requests, "os.Platform"))
   {
-    if (!initOS)
-    {
-      compOS = new OperatingSystem(CGOGGLES_OS);
-      initOS = true;
-    }
     keys->push_back("os.Platform");
     vals->push_back(compOS.Platform());
   }
   if (osAll || contains(&requests, "os.Caption"))
   {
-    if (!initOS)
-    {
-      compOS = new OperatingSystem(CGOGGLES_OS);
-      initOS = true;
-    }
     keys->push_back("os.Caption");
     vals->push_back(compOS.Caption());
   }
   if (osAll || contains(&requests, "os.Serial"))
   {
-    if (!initOS)
-    {
-      compOS = new OperatingSystem(CGOGGLES_OS);
-      initOS = true;
-    }
     keys->push_back("os.Serial");
     vals->push_back(compOS.Serial());
   }
   if (osAll || contains(&requests, "os.Bit"))
   {
-    if (!initOS)
-    {
-      compOS = new OperatingSystem(CGOGGLES_OS);
-      initOS = true;
-    }
     keys->push_back("os.Bit");
     vals->push_back(std::to_string(compOS.Bit()));
   }
   if (osAll || contains(&requests, "os.InstallTime"))
   {
-    if (!initOS)
-    {
-      compOS = new OperatingSystem(CGOGGLES_OS);
-      initOS = true;
-    }
     keys->push_back("os.InstallTime");
     vals->push_back(compOS.InstallTime("%Y-%m-%dT%H:%M:%S"));
   }
   if (osAll || contains(&requests, "os.BootTime"))
   {
-    if (!initOS)
-    {
-      compOS = new OperatingSystem(CGOGGLES_OS);
-      initOS = true;
-    }
     keys->push_back("os.BootTime");
     vals->push_back(compOS.BootTime("%Y-%m-%dT%H:%M:%S"));
   }
   if (osAll || contains(&requests, "os.CurTime"))
   {
-    if (!initOS)
-    {
-      compOS = new OperatingSystem(CGOGGLES_OS);
-      initOS = true;
-    }
     keys->push_back("os.CurTime");
     vals->push_back(compOS.CurTime("%Y-%m-%dT%H:%M:%S"));
   }
   if (osAll || contains(&requests, "os.Kernel"))
   {
-    if (!initOS)
-    {
-      compOS = new OperatingSystem(CGOGGLES_OS);
-      initOS = true;
-    }
     keys->push_back("os.Kernel");
     vals->push_back(compOS.Kernel().Pretty());
   }
   if (osAll || contains(&requests, "os.Version"))
   {
-    if (!initOS)
-    {
-      compOS = new OperatingSystem(CGOGGLES_OS);
-      initOS = true;
-    }
     keys->push_back("os.Version");
     vals->push_back(compOS.Version().Pretty());
   }
 
   if (cpuAll || contains(&requests, "cpu.Manufacturer"))
   {
-    if (!initCPU)
-    {
-      compCPU = new Processor(CGOGGLES_OS);
-      initCPU = true;
-    }
     keys->push_back("cpu.Manufacturer");
     vals->push_back(compCPU.Manufacturer());
   }
   if (cpuAll || contains(&requests, "cpu.Architecture"))
   {
-    if (!initCPU)
-    {
-      compCPU = new Processor(CGOGGLES_OS);
-      initCPU = true;
-    }
     keys->push_back("cpu.Architecture");
     vals->push_back(compCPU.Architecture());
   }
   if (cpuAll || contains(&requests, "cpu.SocketType"))
   {
-    if (!initCPU)
-    {
-      compCPU = new Processor(CGOGGLES_OS);
-      initCPU = true;
-    }
     keys->push_back("cpu.SocketType");
     vals->push_back(compCPU.SocketType());
   }
   if (cpuAll || contains(&requests, "cpu.Brand"))
   {
-    if (!initCPU)
-    {
-      compCPU = new Processor(CGOGGLES_OS);
-      initCPU = true;
-    }
     keys->push_back("cpu.Brand");
     vals->push_back(compCPU.Brand());
   }
   if (cpuAll || contains(&requests, "cpu.Family"))
   {
-    if (!initCPU)
-    {
-      compCPU = new Processor(CGOGGLES_OS);
-      initCPU = true;
-    }
     keys->push_back("cpu.Family");
     vals->push_back(std::to_string(compCPU.Family()));
   }
   if (cpuAll || contains(&requests, "cpu.Model"))
   {
-    if (!initCPU)
-    {
-      compCPU = new Processor(CGOGGLES_OS);
-      initCPU = true;
-    }
     keys->push_back("cpu.Model");
     vals->push_back(std::to_string(compCPU.Model()));
   }
   if (cpuAll || contains(&requests, "cpu.Stepping"))
   {
-    if (!initCPU)
-    {
-      compCPU = new Processor(CGOGGLES_OS);
-      initCPU = true;
-    }
     keys->push_back("cpu.Stepping");
     vals->push_back(std::to_string(compCPU.Stepping()));
   }
   if (cpuAll || contains(&requests, "cpu.Cores"))
   {
-    if (!initCPU)
-    {
-      compCPU = new Processor(CGOGGLES_OS);
-      initCPU = true;
-    }
     keys->push_back("cpu.Cores");
     vals->push_back(std::to_string(compCPU.Cores()));
   }
   if (cpuAll || contains(&requests, "cpu.Threads"))
   {
-    if (!initCPU)
-    {
-      compCPU = new Processor(CGOGGLES_OS);
-      initCPU = true;
-    }
     keys->push_back("cpu.Threads");
     vals->push_back(std::to_string(compCPU.Threads()));
   }
   if (cpuAll || contains(&requests, "cpu.Speed"))
   {
-    if (!initCPU)
-    {
-      compCPU = new Processor(CGOGGLES_OS);
-      initCPU = true;
-    }
     keys->push_back("cpu.Speed");
     vals->push_back(compCPU.PrettySpeed());
   }
   if (cpuAll || contains(&requests, "cpu.MaxSpeed"))
   {
-    if (!initCPU)
-    {
-      compCPU = new Processor(CGOGGLES_OS);
-      initCPU = true;
-    }
     keys->push_back("cpu.MaxSpeed");
     vals->push_back(compCPU.PrettyMaxSpeed());
-  }
-
-  if (!initGPU)
-  {
-    compGPU = new GraphicsList(CGOGGLES_OS);
   }
   for (std::size_t i = 0; i < compGPU.Controllers().size(); i++)
   {
@@ -353,11 +243,6 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
     }
   }
 
-  if (!initStorage)
-  {
-    compStorage = new StorageList(CGOGGLES_OS);
-    initStorage = true;
-  }
   for (std::size_t i = 0; i < compStorage.Drives().size(); i++)
   {
     if (stoAll || contains(&requests, "storage.Name"))
@@ -427,11 +312,6 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
     }
   }
 
-  if (!initFS)
-  {
-    compFS = new FileSystemList(CGOGGLES_OS);
-    initFS = true;
-  }
   for (std::size_t i = 0; i < compFS.FileSystems().size(); i++)
   {
     if (fsAll || contains(&requests, "fs.FS"))
