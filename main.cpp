@@ -108,12 +108,6 @@ int main(int argc, const char *argv[])
     return EXIT_FAILURE;
   }
 
-  compOS = new OperatingSystem(CGOGGLES_OS);
-  compCPU = new Processor(CGOGGLES_OS);
-  compGPU = new GraphicsList(CGOGGLES_OS);
-  compStorage = new StorageList(CGOGGLES_OS);
-  compFS = new FileSystemList(CGOGGLES_OS);
-
   parseRequests(request.get());
   request.reset();
 
