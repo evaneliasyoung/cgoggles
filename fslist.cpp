@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-30
-*  @date      2019-03-31
+*  @date      2019-04-01
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -103,8 +103,8 @@ void FileSystemList::GetWin()
   {
     tempFS = allFS[i]["Caption"];
     tempType = allFS[i]["FileSystem"];
-    tempSize = std::stoull(allFS[i]["Size"]);
-    tempUsed = std::stoull(allFS[i]["FreeSpace"]);
+    tempSize = allFS[i]["Size"] == "" ? 0 : std::stoull(allFS[i]["Size"]);
+    tempUsed = allFS[i]["FreeSpace"] == "" ? 0 : std::stoull(allFS[i]["FreeSpace"]);
     tempMount = allFS[i]["Caption"];
 
     tempFileSystem = FileSystem(tempFS, tempType, tempSize, tempUsed, tempMount);

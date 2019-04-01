@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-30
-*  @date      2019-03-31
+*  @date      2019-04-01
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -206,7 +206,7 @@ void StorageList::GetWin()
     tempIdentifier = allDrives[i]["Caption"];
     tempFilesystem = allDrives[i]["FileSystem"];
     tempMount = allDrives[i]["Caption"];
-    tempTotal = std::stoull(allDrives[i]["Size"]);
+    tempTotal = allDrives[i]["Size"] == "" ? 0 : std::stoull(allDrives[i]["Size"]);
     tempPhysical = std::uint32_t(std::stoi(allDrives[i]["DriveType"])) <= 6 ? driveTypes[std::stoi(allDrives[i]["DriveType"])] : driveTypes[0];
     tempUuid = allDrives[i]["VolumeSerialNumber"];
     tempLabel = allDrives[i]["VolumeName"] == "" ? allDrives[i]["Caption"] : allDrives[i]["VolumeName"];
