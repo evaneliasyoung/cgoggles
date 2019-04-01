@@ -77,19 +77,19 @@ You can find all changes here: [detailed changelog](CHANGELOG.md)
 
 | Call               | Linux | Mac | Win | Comments                             |
 | ------------------ | ----- | --- | --- | ------------------------------------ |
-| storage            |       |  ~  |     | *Everything below*                   |
-| storage.All        |       |  ~  |     | *Everything below*                   |
-| storage.Name       |       |  X  |     | Name                                 |
-| storage.Type       |       |  X  |     | Type                                 |
-| storage.FileSystem |       |  X  |     | NTFS                                 |
-| storage.Mount      |       |  X  |     | /disk0s1                             |
-| storage.Size       |       |  X  |     | 500277790720                         |
-| storage.Physical   |       |  X  |     | 5002HDD77790720                      |
-| storage.UUID       |       |  X  |     | XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX |
-| storage.Label      |       |  X  |     | VM                                   |
+| storage            |       |  ~  |  ~  | *Everything below*                   |
+| storage.All        |       |  ~  |  ~  | *Everything below*                   |
+| storage.Name       |       |  X  |  X  | Name                                 |
+| storage.Type       |       |  X  |  X  | Type                                 |
+| storage.FileSystem |       |  X  |  X  | NTFS                                 |
+| storage.Mount      |       |  X  |  X  | /dev/disk0s1                         |
+| storage.Size       |       |  X  |  X  | 500277790720                         |
+| storage.Physical   |       |  X  |  X  | 5002HDD77790720                      |
+| storage.UUID       |       |  X  |  X  | XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX |
+| storage.Label      |       |  X  |  X  | VM                                   |
 | storage.Model      |       |  X  |     | APPLE SSD SM0512G                    |
-| storage.Serial     |       |     |     | XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX |
-| storage.Removable  |       |  X  |     | No                                   |
+| storage.Serial     |       |     |  X  | XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX |
+| storage.Removable  |       |  X  |  X  | No                                   |
 | storage.Protocol   |       |  X  |     | PCI                                  |
 
 ### 5. File Systems

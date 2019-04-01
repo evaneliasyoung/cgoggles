@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-30
-*  @date      2019-03-30
+*  @date      2019-03-31
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -65,7 +65,7 @@ void StorageList::GetMac()
   std::string val;
   std::string tempName = "";
   std::string tempIdentifier = "";
-  std::string tempType = "disk";
+  std::string tempType = "Disk";
   std::string tempFilesystem = "";
   std::string tempMount = "";
   std::uint64_t tempTotal = 0;
@@ -83,7 +83,7 @@ void StorageList::GetMac()
   {
     tempName = "";
     tempIdentifier = "";
-    tempType = "disk";
+    tempType = "Disk";
     tempFilesystem = "";
     tempMount = "";
     tempTotal = 0;
@@ -174,6 +174,48 @@ void StorageList::GetMac()
 void StorageList::GetWin()
 {
   std::string wmic = getWmicPath();
+  std::vector<std::string> eachDrive;
+  std::vector<std::map<std::string, std::string>> allDrives = runListMultiWmic("logicaldisk get Caption, DriveType, FileSystem, Name, Size, VolumeName, VolumeSerialNumber", &wmic);
+  std::string driveTypes[7] = {"Unknown", "NoRoot", "Removable", "Local", "Network", "CD/DVD", "RAM"};
+  Storage tempDrive;
+  std::string line;
+  std::string key;
+  std::string val;
+  std::string tempName = "";
+  std::string tempIdentifier = "";
+  std::string tempType = "Disk";
+  std::string tempFilesystem = "";
+  std::string tempMount = "";
+  std::uint64_t tempTotal = 0;
+  std::string tempPhysical = "HDD";
+  std::string tempUuid = "";
+  std::string tempLabel = "";
+  std::string tempModel = "";
+  std::string tempSerial = "";
+  bool tempRemovable = false;
+  std::string tempProtocol = "";
+
+  for (std::size_t i = 0; i < allDrives.size(); i++)
+  {
+    if ((allDrives[i]["DriveType"] == ""))
+    {
+      continue;
+    }
+
+    tempName = allDrives[i]["Name"];
+    tempIdentifier = allDrives[i]["Caption"];
+    tempFilesystem = allDrives[i]["FileSystem"];
+    tempMount = allDrives[i]["Caption"];
+    tempTotal = std::stoull(allDrives[i]["Size"]);
+    tempPhysical = std::uint32_t(std::stoi(allDrives[i]["DriveType"])) <= 6 ? driveTypes[std::stoi(allDrives[i]["DriveType"])] : driveTypes[0];
+    tempUuid = allDrives[i]["VolumeSerialNumber"];
+    tempLabel = allDrives[i]["VolumeName"] == "" ? allDrives[i]["Caption"] : allDrives[i]["VolumeName"];
+    tempSerial = allDrives[i]["VolumeSerialNumber"];
+    tempRemovable = allDrives[i]["DriveType"] == "2";
+
+    tempDrive = (new Storage(tempName, tempIdentifier, tempType, tempFilesystem, tempMount, tempTotal, tempPhysical, tempUuid, tempLabel, tempModel, tempSerial, tempRemovable, tempProtocol));
+    drives->push_back(tempDrive);
+  }
 }
 
 /**
