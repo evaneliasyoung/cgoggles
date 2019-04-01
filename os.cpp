@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-15
-*  @date      2019-03-28
+*  @date      2019-03-31
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -97,8 +97,7 @@ void OperatingSystem::GetMac()
       "El Capitan",
       "Sierra",
       "High Sierra",
-      "Mojave"
-  };
+      "Mojave"};
   std::string temp;
   std::time_t tempTime;
 
@@ -109,7 +108,8 @@ void OperatingSystem::GetMac()
   (*version) = new SemVer(runCommand("sysctl -n kern.osproductversion"), 0b11100u);
   (*kernel) = new SemVer(runCommand("sysctl -n kern.osrelease"), 0b11100u);
   (*caption) = version->Minor() > 11 ? "macOS" : "Mac OS X";
-  if (version->Major() == 10 && version->Minor() > 1  && version->Minor() < 15) {
+  if (version->Major() == 10 && version->Minor() > 1 && version->Minor() < 15)
+  {
     (*caption) += " " + versionCapts[version->Minor() - 2];
   }
 
@@ -519,16 +519,17 @@ std::vector<std::map<std::string, std::string>> runListMultiWmic(const std::stri
   temp = buffer.str();
 
   temp.erase(0, 4);
-  temp.erase(temp.length() - 5);
+  temp.erase(temp.length() - 4);
   splitStringVector(temp, "\r\n", &lines);
 
   for (size_t i = 0; i < lines.size(); i++)
   {
-    if (i < lines.size() && lines[i] == "" && lines[i + 1] == "")
+    if (i < lines.size() && lines[i] == "")
     {
       ret.push_back(acc);
       acc.clear();
       i += 2;
+      continue;
     }
     acc[lines[i].substr(0, lines[i].find_first_of('='))] = lines[i].substr(lines[i].find_first_of('=') + 1);
   }
