@@ -528,7 +528,7 @@ std::vector<std::map<std::string, std::string>> runListMultiWmic(const std::stri
     {
       ret.push_back(acc);
       acc.clear();
-      i += 2;
+      i++;
       continue;
     }
     acc[lines[i].substr(0, lines[i].find_first_of('='))] = lines[i].substr(lines[i].find_first_of('=') + 1);
