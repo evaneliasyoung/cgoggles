@@ -96,10 +96,10 @@ You can find all changes here: [detailed changelog](CHANGELOG.md)
 
 | Call     | Linux | Mac | Win | Comments             |
 | -------- | ----- | --- | --- | -------------------- |
-| fs       |       |  X  |     | *Everything below*   |
-| fs.All   |       |  X  |     | *Everything below*   |
-| fs.FS    |       |  X  |     | /dev/disk1s1         |
-| fs.Type  |       |  X  |     | HFS                  |
-| fs.Size  |       |  X  |     | 18446744072211382272 |
-| fs.Used  |       |  X  |     | 18446744073346375680 |
-| fs.Mount |       |  X  |     | /                    |
+| fs       |       |  X  |  X  | *Everything below*   |
+| fs.All   |       |  X  |  X  | *Everything below*   |
+| fs.FS    |       |  X  |  X  | /dev/disk1s1         |
+| fs.Type  |       |  X  |  X  | HFS                  |
+| fs.Size  |       |  X  |  X  | 18446744072211382272 |
+| fs.Used  |       |  X  |  X  | 18446744073346375680 |
+| fs.Mount |       |  X  |  X  | /                    |

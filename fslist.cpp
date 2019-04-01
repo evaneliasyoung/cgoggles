@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-30
-*  @date      2019-03-30
+*  @date      2019-03-31
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -58,12 +58,12 @@ void FileSystemList::GetMac()
 {
   std::vector<std::string> eachFS;
   std::vector<std::string> allFS;
+  FileSystem tempFileSystem;
   std::string tempFS = "";
   std::string tempType = "";
   std::uint64_t tempSize = 0;
   std::uint64_t tempUsed = 0;
   std::string tempMount = "";
-  FileSystem tempFileSystem;
 
   splitStringVector(runCommand("df -lkP | grep ^/"), "\n", &allFS);
 
@@ -91,6 +91,25 @@ void FileSystemList::GetMac()
 void FileSystemList::GetWin()
 {
   std::string wmic = getWmicPath();
+  std::vector<std::map<std::string, std::string>> allFS = runListMultiWmic("logicaldisk get Caption, FileSystem, FreeSpace, Size", &wmic);
+  FileSystem tempFileSystem;
+  std::string tempFS = "";
+  std::string tempType = "";
+  std::uint64_t tempSize = 0;
+  std::uint64_t tempUsed = 0;
+  std::string tempMount = "";
+
+  for (std::size_t i = 0; i < allFS.size(); i++)
+  {
+    tempFS = allFS[i]["Caption"];
+    tempType = allFS[i]["FileSystem"];
+    tempSize = std::stoull(allFS[i]["Size"]);
+    tempUsed = std::stoull(allFS[i]["FreeSpace"]);
+    tempMount = allFS[i]["Caption"];
+
+    tempFileSystem = FileSystem(tempFS, tempType, tempSize, tempUsed, tempMount);
+    fsList->push_back(tempFileSystem);
+  }
 }
 
 /**
