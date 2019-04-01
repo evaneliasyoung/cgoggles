@@ -65,13 +65,13 @@ You can find all changes here: [detailed changelog](CHANGELOG.md)
 
 | Call        | Linux | Mac | Win | Comments           |
 | ----------- | ----- | --- | --- | ------------------ |
-| gpu         |       |  X  |     | *Everything below* |
-| gpu.All     |       |  X  |     | *Everything below* |
-| gpu.Vendor  |       |  X  |     | Intel              |
-| gpu.Model   |       |  X  |     | Intel Iris Pro     |
-| gpu.Bus     |       |  X  |     | Built-In           |
-| gpu.VRAM    |       |  X  |     | 1536               |
-| gpu.Dynamic |       |  X  |     | Yes                |
+| gpu         |       |  X  |  X  | *Everything below* |
+| gpu.All     |       |  X  |  X  | *Everything below* |
+| gpu.Vendor  |       |  X  |  X  | Intel              |
+| gpu.Model   |       |  X  |  X  | Intel Iris Pro     |
+| gpu.Bus     |       |  X  |  X  | Built-In           |
+| gpu.VRAM    |       |  X  |  X  | 1536               |
+| gpu.Dynamic |       |  X  |  X  | Yes                |
 
 ### 4. Storage
 

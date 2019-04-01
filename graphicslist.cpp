@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-30
-*  @date      2019-03-30
+*  @date      2019-03-31
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -113,7 +113,7 @@ void GraphicsList::GetMac()
         }
       }
     }
-    tempController = (new Graphics(tempVendor, tempModel, tempBus, tempVRAM, tempDynamic));
+    tempController = new Graphics(tempVendor, tempModel, tempBus, tempVRAM, tempDynamic);
     controllers->push_back(tempController);
   }
 }
@@ -124,6 +124,25 @@ void GraphicsList::GetMac()
 void GraphicsList::GetWin()
 {
   std::string wmic = getWmicPath();
+  std::vector<std::map<std::string, std::string>> gpuList = runListMultiWmic("path win32_VideoController get AdapterCompatibility, AdapterRAM, PNPDeviceID, Name, VideoMemoryType", &wmic);
+  Graphics tempController;
+  std::string tempVendor = "";
+  std::string tempModel = "";
+  std::string tempBus = "";
+  std::uint32_t tempVRAM = 0;
+  bool tempDynamic = false;
+
+  for (std::size_t i = 0; i < gpuList.size(); i++)
+  {
+    tempVendor = gpuList[i]["AdapterCompatibility"];
+    tempModel = gpuList[i]["Name"];
+    tempBus = gpuList[i]["PNPDeviceID"].substr(0, 3) == "PCI" ? "PCIe" : "";
+    tempVRAM = std::stoul(gpuList[i]["AdapterRAM"]) / 1024 / 1024;
+    tempDynamic = gpuList[i]["VideoMemoryType"] == "2";
+
+    tempController = new Graphics(tempVendor, tempModel, tempBus, tempVRAM, tempDynamic);
+    controllers->push_back(tempController);
+  }
 }
 
 /**
