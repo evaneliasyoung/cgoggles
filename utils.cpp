@@ -4,11 +4,12 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-12
-*  @date      2019-03-25
+*  @date      2019-04-02
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
 #include "pch.h"
+#include "argh.h"
 #include "utils.h"
 
 /**
@@ -134,4 +135,179 @@ std::string ltrim(std::string s, const char *t)
 std::string trim(std::string s, const char *t)
 {
   return ltrim(rtrim(s, t), t);
+}
+
+void outputVersion(const int &ver)
+{
+  std::cout << ((ver & 0xFF0000) >> (4 * 4)) << '.';
+  std::cout << ((ver & 0x00FF00) >> (2 * 4)) << '.';
+  std::cout << ((ver & 0x0000FF) >> (0 * 4)) << std::endl;
+}
+
+void outputHelp()
+{
+  // NOTE: JSON output disabled until further notice
+  // std::cout << "usage: cgoggles [-v|--ver|--version] [-h|--help] [-l|--list|-j|--json|-m|--minjson] -get=[<args>]" << std::endl;
+  std::cout << "usage: cgoggles [-v|--ver|--version] [-h|--help] [-l|--list] <command> [<args>]" << std::endl
+            << "  get   Makes a query to the computer's internals" << std::endl
+            << "  list  List the values that you can query to CGoggles" << std::endl
+            << std::endl
+            << "example: cgoggles get cpu.Brand, cpu.Cores, os.Version" << std::endl;
+}
+
+void outputList(const std::string &cat)
+{
+  std::vector<std::string> osList = {
+      "os", "os.All", "os.Platform",
+      "os.Caption", "os.Serial", "os.Bit",
+      "os.InstallTime", "os.BootTime", "os.CurTime",
+      "os.Kernel", "os.Version"};
+  std::vector<std::string> cpuList = {
+      "cpu", "cpu.All", "cpu.Manufacturer",
+      "cpu.Architecture", "cpu.SocketType", "cpu.Brand",
+      "cpu.Family", "cpu.Model", "cpu.Stepping",
+      "cpu.Cores", "cpu.Threads", "cpu.Speed",
+      "cpu.MaxSpeed"};
+  std::vector<std::string> gpuList = {
+      "gpu", "gpu.All", "gpu.Vendor",
+      "gpu.Model", "gpu.Bus", "gpu.VRAM",
+      "gpu.Dynamic"};
+  std::vector<std::string> storageList = {
+      "storage", "storage.All", "storage.Name",
+      "storage.Identifier", "storage.Type", "storage.FileSystem",
+      "storage.Mount", "storage.Total", "storage.Physical",
+      "storage.UUID", "storage.Label", "storage.Model",
+      "storage.Serial", "storage.Removable", "storage.Protocol"};
+  std::vector<std::string> fsList = {
+      "fs", "fs.All", "fs.FS",
+      "fs.Type", "fs.Size", "fs.Used",
+      "fs.Mount"};
+  std::vector<std::vector<std::string>> liList = {
+      osList, cpuList, gpuList,
+      storageList, fsList};
+
+  if (cat == "" || cat == "all" || cat == "All")
+  {
+    std::cout << "All available queriesfor CGoggles." << '\n';
+    for (std::size_t i = 0; i < liList.size(); ++i)
+    {
+      std::cout << liList[i][0] << std::endl;
+      for (std::size_t j = 0; j < liList[i].size(); ++j)
+      {
+        std::cout << liList[i][j] << std::endl;
+      }
+    }
+    return;
+  }
+
+  std::cout << "Available queries for the specified category." << '\n';
+  if (cat == "os")
+  {
+    for (std::size_t i = 0; i < osList.size(); ++i)
+    {
+      std::cout << osList[i] << std::endl;
+    }
+  }
+  if (cat == "cpu")
+  {
+    for (std::size_t i = 0; i < cpuList.size(); ++i)
+    {
+      std::cout << cpuList[i] << std::endl;
+    }
+  }
+  if (cat == "gpu")
+  {
+    for (std::size_t i = 0; i < gpuList.size(); ++i)
+    {
+      std::cout << gpuList[i] << std::endl;
+    }
+  }
+  if (cat == "storage")
+  {
+    for (std::size_t i = 0; i < storageList.size(); ++i)
+    {
+      std::cout << storageList[i] << std::endl;
+    }
+  }
+  if (cat == "fs")
+  {
+    for (std::size_t i = 0; i < fsList.size(); ++i)
+    {
+      std::cout << fsList[i] << std::endl;
+    }
+  }
+}
+
+int handleArgs(int argc, const char *argv[], std::string *request, const int &ver)
+{
+  argh::parser cmdl(argv);
+  bool getArgs = false;
+
+  if (cmdl[{"v", "ver", "version"}])
+  {
+    outputVersion(ver);
+    std::exit(EXIT_SUCCESS);
+  }
+
+  if (cmdl[{"h", "help"}])
+  {
+    outputHelp();
+    std::exit(EXIT_SUCCESS);
+  }
+
+  // NOTE: JSON output disabled until further notice
+  //       It's really quite a mess without a JSON library
+  // if (cmdl[{"m", "minjson"}])
+  // {
+  //   if (cmdl[{"j", "json", "l", "list"}]) {
+  //     outputHelp();
+  //     return EXIT_FAILURE;
+  //   }
+
+  //   style = OutputStyle::MinJSON;
+  // }
+
+  // if (cmdl[{"j", "json"}])
+  // {
+  //   if (cmdl[{"m", "minjson", "l", "list"}]) {
+  //     outputHelp();
+  //     return EXIT_FAILURE;
+  //   }
+
+  //   style = OutputStyle::JSON;
+  // }
+
+  if (cmdl[{"l", "list"}])
+  {
+    style = OutputStyle::List;
+  }
+
+  for (std::size_t i = 0; i < argc; ++i)
+  {
+    if (!std::strcmp(argv[i], "list"))
+    {
+      outputList(i + 1 < argc ? argv[++i] : "");
+      return EXIT_SUCCESS;
+    }
+    if (!getArgs || i == 0 || argv[i][0] == '-')
+    {
+      continue;
+    }
+  }
+
+  for (std::size_t i = 0; i < argc; ++i)
+  {
+    if (!std::strcmp(argv[i], "get"))
+    {
+      getArgs = true;
+      continue;
+    }
+    if (!getArgs || i == 0 || argv[i][0] == '-')
+    {
+      continue;
+    }
+    (*request) += argv[i];
+  }
+
+  return EXIT_SUCCESS;
 }

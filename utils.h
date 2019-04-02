@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-12
-*  @date      2019-03-25
+*  @date      2019-04-02
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -13,8 +13,6 @@
 
 #include "pch.h"
 
-extern std::vector<std::string> requests;
-
 enum class OutputStyle : std::uint8_t
 {
   Default,
@@ -22,6 +20,9 @@ enum class OutputStyle : std::uint8_t
   JSON,
   MinJSON
 };
+
+extern std::vector<std::string> requests;
+extern OutputStyle style;
 
 void splitStringVector(const std::string &s, const std::string &d, std::vector<std::string> *v);
 void removeDuplicates(std::vector<std::string> *v);
@@ -32,5 +33,9 @@ void trim(std::string *s, const char *t = " \t\n\r\f\v");
 std::string rtrim(std::string s, const char *t = " \t\n\r\f\v");
 std::string ltrim(std::string s, const char *t = " \t\n\r\f\v");
 std::string trim(std::string s, const char *t = " \t\n\r\f\v");
+void outputVersion(const int &ver);
+void outputList(const std::string &cat = "");
+void outputHelp();
+int handleArgs(int argc, const char *argv[], std::string *request, const int &ver);
 
 #endif // CGOGGLES_UTILS_H_
