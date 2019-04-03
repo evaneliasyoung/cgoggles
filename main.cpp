@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-11
-*  @date      2019-04-02
+*  @date      2019-04-03
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -20,6 +20,7 @@
 #include "fslist.h"
 #include "graphics.h"
 #include "graphicslist.h"
+#include "system.h"
 
 #define CGOGGLES_VERSION_ 0x000200
 
@@ -27,6 +28,7 @@ std::vector<std::string> requests;
 OutputStyle style = OutputStyle::Default;
 
 OperatingSystem compOS;
+System compSys;
 Processor compCPU;
 GraphicsList compGPU;
 StorageList compStorage;
@@ -41,6 +43,7 @@ int main(int argc, const char *argv[])
   request.reset();
 
   compOS = new OperatingSystem(CGOGGLES_OS);
+  compSys = new System(CGOGGLES_OS);
   compCPU = new Processor(CGOGGLES_OS);
   compGPU = new GraphicsList(CGOGGLES_OS);
   compStorage = new StorageList(CGOGGLES_OS);

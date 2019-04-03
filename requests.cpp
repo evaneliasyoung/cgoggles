@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-15
-*  @date      2019-03-31
+*  @date      2019-04-03
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -19,6 +19,7 @@
 #include "fslist.h"
 #include "graphics.h"
 #include "graphicslist.h"
+#include "system.h"
 
 /**
 * @brief Filters out any unsupported requests from the queue
@@ -29,6 +30,8 @@ void filterRequests()
   valids->push_back("All");
   valids->push_back("os");
   valids->push_back("os.All");
+  valids->push_back("sys");
+  valids->push_back("sys.All");
   valids->push_back("cpu");
   valids->push_back("cpu.All");
   valids->push_back("gpu");
@@ -46,6 +49,11 @@ void filterRequests()
   valids->push_back("os.CurTime");
   valids->push_back("os.Kernel");
   valids->push_back("os.Version");
+  valids->push_back("sys.Manufacturer");
+  valids->push_back("sys.Model");
+  valids->push_back("sys.Version");
+  valids->push_back("sys.Serial");
+  valids->push_back("sys.UUID");
   valids->push_back("cpu.Manufacturer");
   valids->push_back("cpu.Architecture");
   valids->push_back("cpu.SocketType");
@@ -108,6 +116,7 @@ void parseRequests(std::string *request)
 void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *vals)
 {
   bool osAll = contains(&requests, "All") || contains(&requests, "os.All") || contains(&requests, "os");
+  bool sysAll = contains(&requests, "All") || contains(&requests, "sys.All") || contains(&requests, "sys");
   bool cpuAll = contains(&requests, "All") || contains(&requests, "cpu.All") || contains(&requests, "cpu");
   bool stoAll = contains(&requests, "All") || contains(&requests, "storage.All") || contains(&requests, "storage");
   bool fsAll = contains(&requests, "All") || contains(&requests, "fs.All") || contains(&requests, "fs");
@@ -157,6 +166,32 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
   {
     keys->push_back("os.Version");
     vals->push_back(compOS.Version().Pretty());
+  }
+
+  if (sysAll || contains(&requests, "sys.Manufacturer"))
+  {
+    keys->push_back("sys.Manufacturer");
+    vals->push_back(compSys.Manufacturer());
+  }
+  if (sysAll || contains(&requests, "sys.Model"))
+  {
+    keys->push_back("sys.Model");
+    vals->push_back(compSys.Model());
+  }
+  if (sysAll || contains(&requests, "sys.Version"))
+  {
+    keys->push_back("sys.Version");
+    vals->push_back(compSys.Version());
+  }
+  if (sysAll || contains(&requests, "sys.Serial"))
+  {
+    keys->push_back("sys.Serial");
+    vals->push_back(compSys.Serial());
+  }
+  if (sysAll || contains(&requests, "sys.UUID"))
+  {
+    keys->push_back("sys.UUID");
+    vals->push_back(compSys.UUID());
   }
 
   if (cpuAll || contains(&requests, "cpu.Manufacturer"))
