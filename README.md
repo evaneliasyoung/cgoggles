@@ -74,7 +74,25 @@ You can find all changes here: [detailed changelog](CHANGELOG.md)
 | gpu.VRAM    |       |  X  |  X  | 1536               |
 | gpu.Dynamic |       |  X  |  X  | Yes                |
 
-### 4. Storage
+### 4. RAM
+
+| Call                        | Linux | Mac | Win | Comments           |
+| --------------------------- | ----- | --- | --- | ------------------ |
+| ram                         |       |  ~  |  ~  | *Everything below* |
+| ram.All                     |       |  ~  |  ~  | *Everything below* |
+| ram.Size                    |       |     |  X  | 8589934592         |
+| ram.Bank                    |       |     |  X  | DIMM1              |
+| ram.Type                    |       |     |  X  | DDR4               |
+| ram.Speed                   |       |     |  X  | 3200 MHz           |
+| ram.FormFactor              |       |     |  X  | DIMM               |
+| ram.Manufacturer            |       |     |  X  | Samsung            |
+| ram.Part                    |       |     |  X  | M378B1G73EB0-YK0   |
+| ram.Serial                  |       |     |  X  | XXXXXXXXXXXX       |
+| ram.VoltageConfigured       |       |     |  X  | 2.4 V              |
+| ram.VoltageMin              |       |     |  X  | 2.4 V              |
+| ram.VoltageMax              |       |     |  X  | 2.4 V              |
+
+### 5. Storage
 
 | Call               | Linux | Mac | Win | Comments                             |
 | ------------------ | ----- | --- | --- | ------------------------------------ |
@@ -93,7 +111,7 @@ You can find all changes here: [detailed changelog](CHANGELOG.md)
 | storage.Removable  |       |  X  |  X  | No                                   |
 | storage.Protocol   |       |  X  |     | PCI                                  |
 
-### 5. File Systems
+### 6. File Systems
 
 | Call     | Linux | Mac | Win | Comments             |
 | -------- | ----- | --- | --- | -------------------- |

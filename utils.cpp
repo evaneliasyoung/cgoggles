@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-12
-*  @date      2019-04-02
+*  @date      2019-04-04
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -172,6 +172,12 @@ void outputList(const std::string &cat)
       "gpu", "gpu.All", "gpu.Vendor",
       "gpu.Model", "gpu.Bus", "gpu.VRAM",
       "gpu.Dynamic"};
+  std::vector<std::string> ramList = {
+      "ram", "ram.All", "ram.Size",
+      "ram.Bank", "ram.Type", "ram.Speed",
+      "ram.FormFactor", "ram.Manufacturer", "ram.Part",
+      "ram.Serial", "ram.VoltageConfigured", "ram.VoltageMin",
+      "ram.VoltageMax"};
   std::vector<std::string> storageList = {
       "storage", "storage.All", "storage.Name",
       "storage.Identifier", "storage.Type", "storage.FileSystem",
@@ -184,11 +190,11 @@ void outputList(const std::string &cat)
       "fs.Mount"};
   std::vector<std::vector<std::string>> liList = {
       osList, cpuList, gpuList,
-      storageList, fsList};
+      ramList, storageList, fsList};
 
   if (cat == "" || cat == "all" || cat == "All")
   {
-    std::cout << "All available queriesfor CGoggles." << '\n';
+    std::cout << "All available queries for CGoggles." << '\n';
     for (std::size_t i = 0; i < liList.size(); ++i)
     {
       std::cout << liList[i][0] << std::endl;
@@ -220,6 +226,13 @@ void outputList(const std::string &cat)
     for (std::size_t i = 0; i < gpuList.size(); ++i)
     {
       std::cout << gpuList[i] << std::endl;
+    }
+  }
+  if (cat == "ram")
+  {
+    for (std::size_t i = 0; i < ramList.size(); ++i)
+    {
+      std::cout << ramList[i] << std::endl;
     }
   }
   if (cat == "storage")

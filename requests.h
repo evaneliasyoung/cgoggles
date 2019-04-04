@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-15
-*  @date      2019-04-03
+*  @date      2019-04-04
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -15,6 +15,8 @@
 #include "utils.h"
 #include "os.h"
 #include "processor.h"
+#include "ram.h"
+#include "ramlist.h"
 #include "storage.h"
 #include "storagelist.h"
 #include "fs.h"
@@ -30,6 +32,7 @@ extern OperatingSystem compOS;
 extern System compSys;
 extern Processor compCPU;
 extern GraphicsList compGPU;
+extern RAMList compRAM;
 extern StorageList compStorage;
 extern FileSystemList compFS;
 

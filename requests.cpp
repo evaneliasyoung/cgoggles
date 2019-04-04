@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-15
-*  @date      2019-04-03
+*  @date      2019-04-04
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -13,6 +13,8 @@
 #include "utils.h"
 #include "os.h"
 #include "processor.h"
+#include "ram.h"
+#include "ramlist.h"
 #include "storage.h"
 #include "storagelist.h"
 #include "fs.h"
@@ -38,6 +40,8 @@ void filterRequests()
   valids->push_back("gpu.All");
   valids->push_back("storage");
   valids->push_back("storage.All");
+  valids->push_back("ram");
+  valids->push_back("ram.All");
   valids->push_back("fs");
   valids->push_back("fs.All");
   valids->push_back("os.Platform");
@@ -70,6 +74,17 @@ void filterRequests()
   valids->push_back("gpu.Bus");
   valids->push_back("gpu.VRAM");
   valids->push_back("gpu.Dynamic");
+  valids->push_back("ram.Size");
+  valids->push_back("ram.Bank");
+  valids->push_back("ram.Type");
+  valids->push_back("ram.Speed");
+  valids->push_back("ram.FormFactor");
+  valids->push_back("ram.Manufacturer");
+  valids->push_back("ram.Part");
+  valids->push_back("ram.Serial");
+  valids->push_back("ram.VoltageConfigured");
+  valids->push_back("ram.VoltageMin");
+  valids->push_back("ram.VoltageMax");
   valids->push_back("storage.Name");
   valids->push_back("storage.Identifier");
   valids->push_back("storage.Type");
@@ -118,6 +133,7 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
   bool osAll = contains(&requests, "All") || contains(&requests, "os.All") || contains(&requests, "os");
   bool sysAll = contains(&requests, "All") || contains(&requests, "sys.All") || contains(&requests, "sys");
   bool cpuAll = contains(&requests, "All") || contains(&requests, "cpu.All") || contains(&requests, "cpu");
+  bool ramAll = contains(&requests, "All") || contains(&requests, "ram.All") || contains(&requests, "ram");
   bool stoAll = contains(&requests, "All") || contains(&requests, "storage.All") || contains(&requests, "storage");
   bool fsAll = contains(&requests, "All") || contains(&requests, "fs.All") || contains(&requests, "fs");
   bool gpuAll = contains(&requests, "All") || contains(&requests, "gpu.All") || contains(&requests, "gpu");
@@ -249,6 +265,7 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
     keys->push_back("cpu.MaxSpeed");
     vals->push_back(compCPU.PrettyMaxSpeed());
   }
+
   for (std::size_t i = 0; i < compGPU.Controllers().size(); i++)
   {
     if (gpuAll || contains(&requests, "Vendor"))
@@ -275,6 +292,65 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
     {
       keys->push_back("gpu[" + std::to_string(i) + "].Dynamic");
       vals->push_back(compGPU.Controllers()[i].Dynamic() ? "Yes" : "No");
+    }
+  }
+
+  for (std::size_t i = 0; i < compRAM.Chips().size(); i++)
+  {
+    if (ramAll || contains(&requests, "Size"))
+    {
+      keys->push_back("ram[" + std::to_string(i) + "].Size");
+      vals->push_back(std::to_string(compRAM.Chips()[i].Size()));
+    }
+    if (ramAll || contains(&requests, "Bank"))
+    {
+      keys->push_back("ram[" + std::to_string(i) + "].Bank");
+      vals->push_back(compRAM.Chips()[i].Bank());
+    }
+    if (ramAll || contains(&requests, "Type"))
+    {
+      keys->push_back("ram[" + std::to_string(i) + "].Type");
+      vals->push_back(compRAM.Chips()[i].Type());
+    }
+    if (ramAll || contains(&requests, "Speed"))
+    {
+      keys->push_back("ram[" + std::to_string(i) + "].Speed");
+      vals->push_back(compRAM.Chips()[i].PrettySpeed());
+    }
+    if (ramAll || contains(&requests, "FormFactor"))
+    {
+      keys->push_back("ram[" + std::to_string(i) + "].FormFactor");
+      vals->push_back(compRAM.Chips()[i].FormFactor());
+    }
+    if (ramAll || contains(&requests, "Manufacturer"))
+    {
+      keys->push_back("ram[" + std::to_string(i) + "].Manufacturer");
+      vals->push_back(compRAM.Chips()[i].Manufacturer());
+    }
+    if (ramAll || contains(&requests, "Part"))
+    {
+      keys->push_back("ram[" + std::to_string(i) + "].Part");
+      vals->push_back(compRAM.Chips()[i].Part());
+    }
+    if (ramAll || contains(&requests, "Serial"))
+    {
+      keys->push_back("ram[" + std::to_string(i) + "].Serial");
+      vals->push_back(compRAM.Chips()[i].Serial());
+    }
+    if (ramAll || contains(&requests, "VoltageConfigured"))
+    {
+      keys->push_back("ram[" + std::to_string(i) + "].VoltageConfigured");
+      vals->push_back(compRAM.Chips()[i].PrettyVoltageConfigured());
+    }
+    if (ramAll || contains(&requests, "VoltageMin"))
+    {
+      keys->push_back("ram[" + std::to_string(i) + "].VoltageMin");
+      vals->push_back(compRAM.Chips()[i].PrettyVoltageMin());
+    }
+    if (ramAll || contains(&requests, "VoltageMax"))
+    {
+      keys->push_back("ram[" + std::to_string(i) + "].VoltageMax");
+      vals->push_back(compRAM.Chips()[i].PrettyVoltageMax());
     }
   }
 
