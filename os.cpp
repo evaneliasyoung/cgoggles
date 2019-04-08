@@ -433,14 +433,16 @@ std::string getTempDir()
 */
 std::string runCommand(const std::string &cmd)
 {
-  std::string path = joinPath({getTempDir(), "cgoggles.txt"});
-  std::ifstream file(path);
-  std::stringstream buffer;
+  char buffer[65536];
+  std::string result = "";
+  FILE *pipe = P_POPEN(cmd.c_str(), "r");
+  while (fgets(buffer, sizeof buffer, pipe) != NULL)
+  {
+    result += buffer;
+  }
+  P_CLOSE(pipe);
 
-  std::system((cmd + " > " + path).c_str());
-  buffer << file.rdbuf();
-
-  return buffer.str();
+  return result;
 }
 
 /**

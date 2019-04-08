@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-15
-*  @date      2019-03-25
+*  @date      2019-04-08
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -44,6 +44,14 @@
 #define CGOGGLES_OS OS_MAC
 #else
 #define CGOGGLES_OS OS_ERR
+#endif
+
+#if CGOGGLES_OS == OS_WIN || CGOGGLES_OS == OS_DOS
+#define P_POPEN _popen
+#define P_CLOSE _pclose
+#else
+#define P_POPEN popen
+#define P_CLOSE pclose
 #endif
 
 /**
@@ -111,7 +119,7 @@ public:
   OperatingSystem();
   OperatingSystem(std::uint8_t plt);
   ~OperatingSystem();
-  void operator=(OperatingSystem* o);
+  void operator=(OperatingSystem *o);
   std::string Platform();
   std::string Caption();
   std::string Serial();
