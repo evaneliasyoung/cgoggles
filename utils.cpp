@@ -141,7 +141,8 @@ void outputVersion()
 {
   std::cout << ((CGOGGLES_VERSION_ & 0xFF0000) >> (4 * 4)) << '.'
             << ((CGOGGLES_VERSION_ & 0x00FF00) >> (2 * 4)) << '.'
-            << ((CGOGGLES_VERSION_ & 0x0000FF) >> (0 * 4)) << std::endl;
+            << ((CGOGGLES_VERSION_ & 0x0000FF) >> (0 * 4)) << ' '
+            << 'x' << CGOGGLES_ENVIRONMENT_ << std::endl;
 }
 
 void outputHelp()

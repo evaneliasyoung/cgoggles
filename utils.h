@@ -14,6 +14,22 @@
 #include "pch.h"
 
 #define CGOGGLES_VERSION_ 0x000200
+#if _WIN32 || _WIN64
+#if _WIN64
+#define CGOGGLES_ENVIRONMENT_ 0x40u
+#else
+#define CGOGGLES_ENVIRONMENT_ 0x20u
+#endif
+#elif __GNUC__
+#if __x86_64__ || __ppc64__
+#define CGOGGLES_ENVIRONMENT_ 0x40u
+#else
+#define CGOGGLES_ENVIRONMENT_ 0x20u
+#endif
+#else
+#define CGOGGLES_ENVIRONMENT_ 0x20u
+#endif
+
 enum class OutputStyle : std::uint8_t
 {
   Default,
