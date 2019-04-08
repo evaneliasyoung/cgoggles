@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-15
-*  @date      2019-03-31
+*  @date      2019-04-08
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -433,14 +433,13 @@ std::string getTempDir()
 */
 std::string runCommand(const std::string &cmd)
 {
-  char buffer[65536];
-  std::string result = "";
-  FILE *pipe = P_POPEN(cmd.c_str(), "r");
-  while (fgets(buffer, sizeof buffer, pipe) != NULL)
+  std::array<char, 128> buffer;
+  std::string result;
+  std::unique_ptr<_iobuf, decltype(&P_PCLOSE)> pipe(P_POPEN(cmd.c_str(), "r"), P_PCLOSE);
+  while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr)
   {
-    result += buffer;
+    result += buffer.data();
   }
-  P_CLOSE(pipe);
 
   return result;
 }

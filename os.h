@@ -48,10 +48,10 @@
 
 #if CGOGGLES_OS == OS_WIN || CGOGGLES_OS == OS_DOS
 #define P_POPEN _popen
-#define P_CLOSE _pclose
+#define P_PCLOSE _pclose
 #else
 #define P_POPEN popen
-#define P_CLOSE pclose
+#define P_PCLOSE pclose
 #endif
 
 /**
