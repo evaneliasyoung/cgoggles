@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-12
-*  @date      2019-04-02
+*  @date      2019-04-08
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -13,6 +13,7 @@
 
 #include "pch.h"
 
+#define CGOGGLES_VERSION_ 0x000200
 enum class OutputStyle : std::uint8_t
 {
   Default,
@@ -33,9 +34,9 @@ void trim(std::string *s, const char *t = " \t\n\r\f\v");
 std::string rtrim(std::string s, const char *t = " \t\n\r\f\v");
 std::string ltrim(std::string s, const char *t = " \t\n\r\f\v");
 std::string trim(std::string s, const char *t = " \t\n\r\f\v");
-void outputVersion(const int &ver);
+void outputVersion();
 void outputList(const std::string &cat = "");
 void outputHelp();
-int handleArgs(int argc, const char *argv[], std::string *request, const int &ver);
+int handleArgs(int argc, const char *argv[], std::string *request);
 
 #endif // CGOGGLES_UTILS_H_

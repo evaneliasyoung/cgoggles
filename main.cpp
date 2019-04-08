@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-11
-*  @date      2019-04-04
+*  @date      2019-04-08
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -24,8 +24,6 @@
 #include "graphicslist.h"
 #include "system.h"
 
-#define CGOGGLES_VERSION_ 0x000201
-
 std::vector<std::string> requests;
 OutputStyle style = OutputStyle::Default;
 
@@ -42,7 +40,7 @@ int main(int argc, const char *argv[])
   std::string *request = new std::string();
   runCommand("echo");
 
-  handleArgs(argc, argv, request, CGOGGLES_VERSION_);
+  handleArgs(argc, argv, request);
   parseRequests(request);
 
   compOS = new OperatingSystem(CGOGGLES_OS);

@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-12
-*  @date      2019-04-04
+*  @date      2019-04-08
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -137,11 +137,11 @@ std::string trim(std::string s, const char *t)
   return ltrim(rtrim(s, t), t);
 }
 
-void outputVersion(const int &ver)
+void outputVersion()
 {
-  std::cout << ((ver & 0xFF0000) >> (4 * 4)) << '.';
-  std::cout << ((ver & 0x00FF00) >> (2 * 4)) << '.';
-  std::cout << ((ver & 0x0000FF) >> (0 * 4)) << std::endl;
+  std::cout << ((CGOGGLES_VERSION_ & 0xFF0000) >> (4 * 4)) << '.'
+            << ((CGOGGLES_VERSION_ & 0x00FF00) >> (2 * 4)) << '.'
+            << ((CGOGGLES_VERSION_ & 0x0000FF) >> (0 * 4)) << std::endl;
 }
 
 void outputHelp()
@@ -251,14 +251,14 @@ void outputList(const std::string &cat)
   }
 }
 
-int handleArgs(int argc, const char *argv[], std::string *request, const int &ver)
+int handleArgs(int argc, const char *argv[], std::string *request)
 {
   argh::parser cmdl(argv);
   bool getArgs = false;
 
   if (cmdl[{"v", "ver", "version"}])
   {
-    outputVersion(ver);
+    outputVersion();
     std::exit(EXIT_SUCCESS);
   }
 
