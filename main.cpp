@@ -24,7 +24,7 @@
 #include "graphicslist.h"
 #include "system.h"
 
-#define CGOGGLES_VERSION_ 0x000200
+#define CGOGGLES_VERSION_ 0x000201
 
 std::vector<std::string> requests;
 OutputStyle style = OutputStyle::Default;
@@ -39,11 +39,11 @@ FileSystemList compFS;
 
 int main(int argc, const char *argv[])
 {
-  std::unique_ptr<std::string> request = std::make_unique<std::string>();
+  std::string *request = new std::string();
+  runCommand("echo");
 
-  handleArgs(argc, argv, request.get(), CGOGGLES_VERSION_);
-  parseRequests(request.get());
-  request.reset();
+  handleArgs(argc, argv, request, CGOGGLES_VERSION_);
+  parseRequests(request);
 
   compOS = new OperatingSystem(CGOGGLES_OS);
   compSys = new System(CGOGGLES_OS);
@@ -52,8 +52,6 @@ int main(int argc, const char *argv[])
   compGPU = new GraphicsList(CGOGGLES_OS);
   compStorage = new StorageList(CGOGGLES_OS);
   compFS = new FileSystemList(CGOGGLES_OS);
-
-  runCommand("echo");
 
   outputRequests();
 
