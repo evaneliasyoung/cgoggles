@@ -16,18 +16,24 @@
 #define CGOGGLES_VERSION_ 0x000200
 #if _WIN32 || _WIN64
 #if _WIN64
-#define CGOGGLES_ENVIRONMENT_ 0x40u
+#define CGOGGLES_ENVIRONMENT_ 64
 #else
-#define CGOGGLES_ENVIRONMENT_ 0x20u
+#define CGOGGLES_ENVIRONMENT_ 32
 #endif
 #elif __GNUC__
 #if __x86_64__ || __ppc64__
-#define CGOGGLES_ENVIRONMENT_ 0x40u
+#define CGOGGLES_ENVIRONMENT_ 64
 #else
-#define CGOGGLES_ENVIRONMENT_ 0x20u
+#define CGOGGLES_ENVIRONMENT_ 32
 #endif
+#endif
+
+#if CGOGGLES_ENVIRONMENT_ == 64
+static_assert(sizeof(void *) == 8, "Void pointer should be 8 bytes long.");
+#elif CGOGGLES_ENVIRONMENT_ == 32
+static_assert(sizeof(void *) == 4, "Void pointer should be 4 bytes long.");
 #else
-#define CGOGGLES_ENVIRONMENT_ 0x20u
+#error "Must define CGOGGLES_ENVIRONMENT_"
 #endif
 
 enum class OutputStyle : std::uint8_t
