@@ -435,7 +435,7 @@ std::string runCommand(const std::string &cmd)
 {
   std::array<char, 128> buffer;
   std::string result;
-  std::unique_ptr<_iobuf, decltype(&P_PCLOSE)> pipe(P_POPEN(cmd.c_str(), "r"), P_PCLOSE);
+  std::unique_ptr<FILE, decltype(&P_PCLOSE)> pipe(P_POPEN(cmd.c_str(), "r"), P_PCLOSE);
   while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr)
   {
     result += buffer.data();
