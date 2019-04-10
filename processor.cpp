@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-16
-*  @date      2019-03-25
+*  @date      2019-04-10
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -215,8 +215,8 @@ void Processor::GetWin()
   (*maxSpeed) = std::round(std::stof(dataMap["MaxClockSpeed"]) / 10) / 100;
   (*speed) = std::round(std::stof(dataMap["MaxClockSpeed"]) / 10) / 100;
 
-  delete architectureMap;
-  delete socketTypeMap;
+  delete[] architectureMap;
+  delete[] socketTypeMap;
 }
 
 /**
@@ -224,6 +224,43 @@ void Processor::GetWin()
 */
 void Processor::GetLux()
 {
+  std::string temp;
+  std::vector<std::string> tempLines;
+  std::map<std::string, std::string> dataMap;
+  std::string line;
+
+  temp = runCommand("export LC_ALL=C; lscpu; unset LC_ALL");
+  splitStringVector(temp, "\n", &tempLines);
+  for (std::size_t i = 0; i < tempLines.size(); i++)
+  {
+    line = trim(tempLines[i]);
+    dataMap[trim(line.substr(0, line.find(':')))] = trim(line.substr(line.find(':') + 1));
+  }
+
+  (*manufacturer) = dataMap["Vendor ID"];
+  (*cores) = std::stoi(dataMap["Core(s) per socket"]) * std::stoi(dataMap["Socket(s)"]);
+  (*threads) = std::stoi(dataMap["Thread(s) per core"]) * (*cores);
+
+  (*architecture) = dataMap["Architecture"];
+  (*architecture) = (*architecture).substr((*architecture).size() - 2) == "64"
+                        ? "x64"
+                        : (*architecture).substr((*architecture).size() - 2) == "86"
+                              ? "x86"
+                              : (*architecture).substr(0, 3) == "arm"
+                                    ? "ARM"
+                                    : "Unknown";
+  (*socketType) = "Unknown";
+
+  (*brand) = dataMap["Model name"];
+  if (brand->find("@") != std::string::npos)
+  {
+    brand->erase(brand->find_first_of("@"));
+  }
+  trim(brand.get());
+
+  (*family) = std::stoi(dataMap["CPU family"]);
+  (*model) = std::stoi(dataMap["Model"]);
+  (*stepping) = std::stoi(dataMap["Stepping"]);
 }
 #pragma endregion
 
