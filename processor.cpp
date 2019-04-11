@@ -248,7 +248,7 @@ void Processor::GetLux()
                         ? "x64"
                         : endswith((*architecture), "86")
                               ? "x86"
-                              : endswith((*architecture), "arm")
+                              : startswith((*architecture), "arm")
                                     ? "ARM"
                                     : "Unknown";
   (*socketType) = "Unknown";
