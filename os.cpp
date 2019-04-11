@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-15
-*  @date      2019-04-08
+*  @date      2019-04-11
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -178,7 +178,17 @@ void OperatingSystem::GetWin()
 */
 void OperatingSystem::GetLux()
 {
-  platform = std::make_unique<std::string>("Linux");
+  std::string temp;
+
+  (*platform) = "Linux";
+  temp = runCommand("lsb_release -d");
+  (*caption) = trim(temp.substr(temp.find_first_of(":") + 1));
+  temp = trim(runCommand("uname -m"));
+  (*bit) = endswith(temp, "64") || temp.find("armv8") != std::string::npos ? 64 : 32;
+  temp = runCommand("lsb_release -r");
+  (*version) = new SemVer(trim(temp.substr(temp.find_first_of(":") + 1)), 0b11000u);
+  temp = runCommand("uname -r");
+  (*kernel) = new SemVer(trim(temp.substr(0, temp.find_first_of("-"))), 0b11000u);
 }
 #pragma endregion "Constructors' Assistants"
 

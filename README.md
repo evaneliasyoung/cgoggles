@@ -35,14 +35,14 @@ You can find all changes here: [detailed changelog](CHANGELOG.md)
 | os               |   ~   |  X  |  X  | *Everything below*       |
 | os.All           |   ~   |  X  |  X  | *Everything below*       |
 | os.Platform      |   X   |  X  |  X  | Windows                  |
-| os.Caption       |       |  X  |  X  | Microsoft Windows 10 Pro |
+| os.Caption       |   X   |  X  |  X  | Microsoft Windows 10 Pro |
 | os.Serial        |       |  X  |  X  | 00000-00000-00000-XXXXX  |
-| os.Bit           |       |  X  |  X  | 64                       |
+| os.Bit           |   X   |  X  |  X  | 64                       |
 | os.InstallTime   |       |  X  |  X  | 2018-12-04T04:41:06      |
 | os.BootTime      |       |  X  |  X  | 2019-03-22T18:03:37      |
 | os.CurTime       |       |  X  |  X  | 2019-03-25T17:49:18      |
-| os.Kernel        |       |  X  |  X  | 10.0.0                   |
-| os.Version       |       |  X  |  X  | 10.0.0                   |
+| os.Kernel        |   X   |  X  |  X  | 10.0.0                   |
+| os.Version       |   X   |  X  |  X  | 10.0.0                   |
 
 ### 2. CPU
 
