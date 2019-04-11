@@ -94,6 +94,14 @@ void System::GetWin()
 */
 void System::GetLux()
 {
+  std::ifstream tempFile;
+  std::string *temp = new std::string;
+
+  (*manufacturer) = readFile("/sys/devices/virtual/dmi/id/sys_vendor", temp) ? trim((*temp)) : "";
+  (*model) = readFile("/sys/devices/virtual/dmi/id/product_name", temp) ? trim((*temp)) : "";
+  (*version) = readFile("/sys/devices/virtual/dmi/id/product_version", temp) ? trim((*temp)) : "";
+  (*serial) = readFile("/sys/devices/virtual/dmi/id/product_serial", temp) ? trim((*temp)) : "";
+  (*uuid) = readFile("/sys/devices/virtual/dmi/id/product_uuid", temp) ? trim((*temp)) : "";
 }
 #pragma endregion
 

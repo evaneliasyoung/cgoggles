@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-16
-*  @date      2019-04-10
+*  @date      2019-04-11
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -228,6 +228,8 @@ void Processor::GetLux()
   std::vector<std::string> tempLines;
   std::map<std::string, std::string> dataMap;
   std::string line;
+  std::string mapTry;
+  std::string mapTry2;
 
   temp = runCommand("export LC_ALL=C; lscpu; unset LC_ALL");
   splitStringVector(temp, "\n", &tempLines);
@@ -237,30 +239,41 @@ void Processor::GetLux()
     dataMap[trim(line.substr(0, line.find(':')))] = trim(line.substr(line.find(':') + 1));
   }
 
-  (*manufacturer) = dataMap["Vendor ID"];
-  (*cores) = std::stoi(dataMap["Core(s) per socket"]) * std::stoi(dataMap["Socket(s)"]);
-  (*threads) = std::stoi(dataMap["Thread(s) per core"]) * (*cores);
+  (*manufacturer) = tryGetValue<std::string, std::string>(dataMap, "Vendor ID", &mapTry) ? mapTry : "";
+  (*cores) = tryGetValue<std::string, std::string>(dataMap, "Core(s) per socket", &mapTry) && tryGetValue<std::string, std::string>(dataMap, "Socket(s)", &mapTry2) ? std::stoi(mapTry) * std::stoi(mapTry2) : 0;
+  (*threads) = tryGetValue<std::string, std::string>(dataMap, "Thread(s) per core", &mapTry) ? std::stoi(mapTry) * (*cores) : 0;
 
-  (*architecture) = dataMap["Architecture"];
-  (*architecture) = (*architecture).substr((*architecture).size() - 2) == "64"
+  (*architecture) = tryGetValue<std::string, std::string>(dataMap, "Architecture", &mapTry) ? mapTry : "";
+  (*architecture) = endswith((*architecture), "64")
                         ? "x64"
-                        : (*architecture).substr((*architecture).size() - 2) == "86"
+                        : endswith((*architecture), "86")
                               ? "x86"
-                              : (*architecture).substr(0, 3) == "arm"
+                              : endswith((*architecture), "arm")
                                     ? "ARM"
                                     : "Unknown";
   (*socketType) = "Unknown";
 
-  (*brand) = dataMap["Model name"];
+  (*brand) = tryGetValue<std::string, std::string>(dataMap, "Model name", &mapTry) ? mapTry : "";
   if (brand->find("@") != std::string::npos)
   {
     brand->erase(brand->find_first_of("@"));
   }
   trim(brand.get());
 
-  (*family) = std::stoi(dataMap["CPU family"]);
-  (*model) = std::stoi(dataMap["Model"]);
-  (*stepping) = std::stoi(dataMap["Stepping"]);
+  (*family) = std::stoi(tryGetValue<std::string, std::string>(dataMap, "CPU family", &mapTry) ? mapTry : 0);
+  (*model) = std::stoi(tryGetValue<std::string, std::string>(dataMap, "Model", &mapTry) ? mapTry : 0);
+  (*stepping) = std::stoi(tryGetValue<std::string, std::string>(dataMap, "Stepping", &mapTry) ? mapTry : 0);
+
+  if (tryGetValue<std::string, std::string>(dataMap, "CPU MHz", &mapTry))
+  {
+    (*maxSpeed) = std::round(std::stof(mapTry)) / 1000;
+    (*speed) = std::round(std::stof(mapTry)) / 1000;
+  }
+  if (tryGetValue<std::string, std::string>(dataMap, "CPU max MHz", &mapTry))
+  {
+    (*maxSpeed) = std::round(std::stof(mapTry)) / 1000;
+    (*speed) = std::round(std::stof(mapTry)) / 1000;
+  }
 }
 #pragma endregion
 

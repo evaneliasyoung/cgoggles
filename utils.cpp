@@ -137,6 +137,58 @@ std::string trim(std::string s, const char *t)
   return ltrim(rtrim(s, t), t);
 }
 
+bool startswith(const std::string &s, const std::string &r)
+{
+  if (r.size() > s.size())
+  {
+    return false;
+  }
+
+  if (s.substr(0, r.size()) == r)
+  {
+    return true;
+  }
+
+  return false;
+}
+bool endswith(const std::string &s, const std::string &r)
+{
+  if (r.size() > s.size())
+  {
+    return false;
+  }
+
+  if (s.substr(s.size() - r.size()) == r)
+  {
+    return true;
+  }
+
+  return false;
+}
+
+bool readFile(const std::string &p, std::string *o)
+{
+  std::ifstream t(p);
+  std::stringstream buffer;
+
+  if (!t.good())
+  {
+    return false;
+  }
+
+  try
+  {
+    buffer << t.rdbuf();
+    (*o) = buffer.str();
+  }
+  catch (...)
+  {
+    return false;
+  }
+
+  return true;
+}
+
 void outputVersion()
 {
   std::cout << ((CGOGGLES_VERSION_ & 0xFF0000) >> (4 * 4)) << '.'
@@ -296,7 +348,7 @@ int handleArgs(int argc, const char *argv[], std::string *request)
     style = OutputStyle::List;
   }
 
-  for (std::size_t i = 0; i < argc; ++i)
+  for (int i = 0; i < argc; ++i)
   {
     if (!std::strcmp(argv[i], "list"))
     {
@@ -309,7 +361,7 @@ int handleArgs(int argc, const char *argv[], std::string *request)
     }
   }
 
-  for (std::size_t i = 0; i < argc; ++i)
+  for (int i = 0; i < argc; ++i)
   {
     if (!std::strcmp(argv[i], "get"))
     {

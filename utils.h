@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-12
-*  @date      2019-04-08
+*  @date      2019-04-11
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -56,6 +56,20 @@ void trim(std::string *s, const char *t = " \t\n\r\f\v");
 std::string rtrim(std::string s, const char *t = " \t\n\r\f\v");
 std::string ltrim(std::string s, const char *t = " \t\n\r\f\v");
 std::string trim(std::string s, const char *t = " \t\n\r\f\v");
+bool startswith(const std::string &s, const std::string &r);
+bool endswith(const std::string &s, const std::string &r);
+template <class T, class R>
+bool tryGetValue(const std::map<T, R> &m, const T &k, R *v)
+{
+  auto mapFind = m.find(k);
+  if (mapFind != m.end())
+  {
+    (*v) = mapFind->second;
+    return true;
+  }
+  return false;
+}
+bool readFile(const std::string &p, std::string *o);
 void outputVersion();
 void outputList(const std::string &cat = "");
 void outputHelp();
