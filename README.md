@@ -49,15 +49,15 @@ S Sudo Support
 | os.Version     | X     | X   | X   | 10.0.0                   |
 
 ### 2. System
-| Call             | Linux | Mac | Win | Comments           |
-| ---------------- | ----- | --- | --- | ------------------ |
-| sys              | X     | X   | X   | *Everything below* |
-| sys.All          | X     | X   | X   | *Everything below* |
-| sys.Manufacturer | X     |     | X   |
-| sys.Model        | X     |     | X   |
-| sys.Version      | X     |     | X   |
-| sys.Serial       | S     |     | X   |
-| sys.UUID         | S     |     | X   |
+| Call             | Linux | Mac | Win | Comments                             |
+| ---------------- | ----- | --- | --- | ------------------------------------ |
+| sys              | X     | X   | X   | *Everything below*                   |
+| sys.All          | X     | X   | X   | *Everything below*                   |
+| sys.Manufacturer | X     | X   | X   | Apple Inc.                           |
+| sys.Model        | X     | X   | X   | MacBookPro11,5                       |
+| sys.Version      | X     | X   | X   | 1.0                                  |
+| sys.Serial       | S     | X   | X   | XXXXXXXXXXXX                         |
+| sys.UUID         | S     | X   | X   | XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX |
 
 ### 2. CPU
 

@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-04-03
-*  @date      2019-04-03
+*  @date      2019-04-11
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -72,6 +72,44 @@ System::~System()
 */
 void System::GetMac()
 {
+  std::string temp;
+  std::vector<std::string> lines;
+  std::string key;
+  std::string val;
+  splitStringVector(runCommand("ioreg -c IOPlatformExpertDevice -d 2"), "\n", &lines);
+
+  for (std::size_t i = 0; i < lines.size(); i++)
+  {
+    if (!(startswith(trim(lines[i]), "\"") && lines[i].find(" = ") != std::string::npos))
+    {
+      continue;
+    }
+
+    splitKeyValuePair(trim(lines[i]), &key, &val, true, '=');
+    key = key.substr(1, key.size() - 2);
+    val = val.substr(1, val.size() - 2);
+
+    if (key == "manufacturer")
+    {
+      (*manufacturer) = val.substr(1, val.size() - 2);
+    }
+    if (key == "model")
+    {
+      (*version) = val.substr(1, val.size() - 2);
+    }
+    if (key == "version")
+    {
+      (*version) = val.substr(1, val.size() - 2);
+    }
+    if (key == "IOPlatformSerialNumber")
+    {
+      (*serial) = val;
+    }
+    if (key == "IOPlatformUUID")
+    {
+      (*uuid) = val;
+    }
+  }
 }
 
 /**
