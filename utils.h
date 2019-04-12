@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-12
-*  @date      2019-04-11
+*  @date      2019-04-12
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -13,7 +13,7 @@
 
 #include "pch.h"
 
-#define CGOGGLES_VERSION_ 0x000200
+#define CGOGGLES_VERSION_ 0x000300
 #if _WIN32 || _WIN64
 #if _WIN64
 #define CGOGGLES_ENVIRONMENT_ 64
