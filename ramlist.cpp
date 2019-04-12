@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-04-04
-*  @date      2019-04-04
+*  @date      2019-04-11
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -12,6 +12,7 @@
 #include "ramlist.h"
 #include "ram.h"
 #include "os.h"
+#include "utils.h"
 
 #pragma region "Contructors"
 RAMList::RAMList()
@@ -124,6 +125,91 @@ void RAMList::GetWin()
 */
 void RAMList::GetLux()
 {
+  std::vector<std::string> lines;
+  std::string line;
+  std::string key;
+  std::string val;
+  RAM tempChip;
+  std::uint64_t tempSize = 0;
+  std::string tempBank = "";
+  std::string tempType = "";
+  float tempSpeed = 0;
+  std::string tempFormFactor = "";
+  std::string tempManufacturer = "";
+  std::string tempPart = "";
+  std::string tempSerial = "";
+  float tempVoltageConfigured = 0;
+  float tempVoltageMin = 0;
+  float tempVoltageMax = 0;
+  splitStringVector(runCommand("export LC_ALL=C; dmidecode -t memory 2>/dev/null | grep -iE \"Size:|Type|Speed|Manufacturer|Form Factor|Locator|Memory Device|Serial Number|Voltage|Part Number\"; unset LC_ALL"), "\n", &lines);
+
+  if (lines.size() <= 1)
+  {
+    return;
+  }
+
+  for (std::size_t i = 3; i < lines.size(); i++)
+  {
+    // While in range and NOT starting a new RAM chip
+    while (i < lines.size() && !startswith(lines[i], "Handle 0x"))
+    {
+      line = trim(lines[++i]);
+      // Residual header for new RAM chip
+      if (startswith(line, "Memory Device"))
+      {
+        continue;
+      }
+      // No module in the slot, skip it
+      if (endswith(line, "No Module Installed"))
+      {
+        break;
+      }
+
+      splitKeyValuePair(line, &key, &val);
+
+      if (key == "Size")
+      {
+        tempSize = std::stoi(val.substr(0, val.size() - 3));
+        tempSize *= endswith(val, "MB") ? 1024 * 1024 : 1024 * 1024 * 1024;
+        (*total) += tempSize;
+      }
+      if (key == "Locator")
+      {
+        tempBank = val;
+      }
+      if (key == "Type")
+      {
+        tempType = val;
+      }
+      if (key == "Speed")
+      {
+        tempSpeed = std::stoi(val.substr(0, val.size() - 4));
+      }
+      if (key == "Form Factor")
+      {
+        tempFormFactor = val;
+      }
+      if (key == "Manufacturer")
+      {
+        tempManufacturer = val;
+      }
+      if (key == "Part Number")
+      {
+        tempPart = val;
+      }
+      if (key == "Serial Number")
+      {
+        tempSerial = val;
+      }
+    }
+
+    // New RAM chip beginning
+    if (startswith(lines[i], "Handle 0x") && tempManufacturer != "FFFFFFFFFFFF")
+    {
+      tempChip = (new RAM(tempSize, tempBank, tempType, tempSpeed, tempFormFactor, tempManufacturer, tempPart, tempSerial, tempVoltageConfigured, tempVoltageMin, tempVoltageMax));
+      chips->push_back(tempChip);
+    }
+  }
 }
 #pragma endregion
 

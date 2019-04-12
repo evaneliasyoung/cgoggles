@@ -58,6 +58,7 @@ std::string ltrim(std::string s, const char *t = " \t\n\r\f\v");
 std::string trim(std::string s, const char *t = " \t\n\r\f\v");
 bool startswith(const std::string &s, const std::string &r);
 bool endswith(const std::string &s, const std::string &r);
+bool splitKeyValuePair(const std::string &base, std::string *k, std::string *v, const bool &doTrim = true, const char &spl = ':');
 template <class T, class R>
 bool tryGetValue(const std::map<T, R> &m, const T &k, R *v)
 {

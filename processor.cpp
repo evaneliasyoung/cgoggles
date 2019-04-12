@@ -227,6 +227,8 @@ void Processor::GetLux()
   std::string temp;
   std::vector<std::string> tempLines;
   std::map<std::string, std::string> dataMap;
+  std::string key;
+  std::string val;
   std::string line;
   std::string mapTry;
   std::string mapTry2;
@@ -236,7 +238,8 @@ void Processor::GetLux()
   for (std::size_t i = 0; i < tempLines.size(); i++)
   {
     line = trim(tempLines[i]);
-    dataMap[trim(line.substr(0, line.find(':')))] = trim(line.substr(line.find(':') + 1));
+    splitKeyValuePair(line, &key, &val);
+    dataMap[key] = val;
   }
 
   (*manufacturer) = tryGetValue<std::string, std::string>(dataMap, "Vendor ID", &mapTry) ? mapTry : "";

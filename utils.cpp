@@ -137,6 +137,14 @@ std::string trim(std::string s, const char *t)
   return ltrim(rtrim(s, t), t);
 }
 
+/**
+* @brief Determines whether or not a string s starts with string r
+*
+* @param s      The string to analyze
+* @param r      The string to search for
+* @return true  The string starts with the other string
+* @return false The string does NOT start with the other string
+*/
 bool startswith(const std::string &s, const std::string &r)
 {
   if (r.size() > s.size())
@@ -151,6 +159,15 @@ bool startswith(const std::string &s, const std::string &r)
 
   return false;
 }
+
+/**
+* @brief Determines whether or not a string s ends with string r
+*
+* @param s      The string to analyze
+* @param r      The string to search for
+* @return true  The string ends with the other string
+* @return false The string does NOT end with the other string
+*/
 bool endswith(const std::string &s, const std::string &r)
 {
   if (r.size() > s.size())
@@ -166,6 +183,44 @@ bool endswith(const std::string &s, const std::string &r)
   return false;
 }
 
+/**
+* @brief Splits a key/value pair base on a delimiter
+*
+* @param base   The base string to derive the key and value from
+* @param k      The key
+* @param v      The value
+* @param doTrim Whether or not to trim the output
+* @param spl    The character to split upon
+* @return true  The split was successful
+* @return false The split was NOT successful
+*/
+bool splitKeyValuePair(const std::string &base, std::string *k, std::string *v, const bool &doTrim, const char &spl)
+{
+  if (base.find_first_of(spl) == std::string::npos)
+  {
+    return false;
+  }
+
+  (*k) = base.substr(0, base.find_first_of(spl));
+  (*v) = base.substr(base.find_first_of(spl) + 1);
+
+  if (doTrim)
+  {
+    trim(k);
+    trim(v);
+  }
+
+  return true;
+}
+
+/**
+* @brief Attempts to read a file and get its contents
+*
+* @param p      The path to the file to read
+* @param o      The output of the file, if read
+* @return true  The file was read successfully
+* @return false The file was NOT read successfully
+*/
 bool readFile(const std::string &p, std::string *o)
 {
   std::ifstream t(p);
