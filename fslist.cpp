@@ -117,6 +117,33 @@ void FileSystemList::GetWin()
 */
 void FileSystemList::GetLux()
 {
+  std::vector<std::string> eachFS;
+  std::vector<std::string> allFS;
+  FileSystem tempFileSystem;
+  std::string tempFS = "";
+  std::string tempType = "";
+  std::uint64_t tempSize = 0;
+  std::uint64_t tempUsed = 0;
+  std::string tempMount = "";
+
+  splitStringVector(runCommand("df -lkP | grep ^/"), "\n", &allFS);
+
+  for (std::size_t i = 0; i < allFS.size(); i++)
+  {
+    if (allFS[i] == "")
+    {
+      break;
+    }
+    splitStringVector(std::regex_replace(allFS[i], std::regex(R"(  +)"), " "), " ", &eachFS);
+    tempFS = eachFS[0];
+    tempType = eachFS[1];
+    tempSize = std::stoi(eachFS[2]) * 1024;
+    tempUsed = std::stoi(eachFS[3]) * 1024;
+    tempMount = eachFS[eachFS.size() - 1];
+
+    tempFileSystem = FileSystem(tempFS, tempType, tempSize, tempUsed, tempMount);
+    fsList->push_back(tempFileSystem);
+  }
 }
 #pragma endregion
 

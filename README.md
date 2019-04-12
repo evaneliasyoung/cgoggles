@@ -119,10 +119,10 @@ S Sudo Support
 
 | Call     | Linux | Mac | Win | Comments             |
 | -------- | ----- | --- | --- | -------------------- |
-| fs       |       | X   | X   | *Everything below*   |
-| fs.All   |       | X   | X   | *Everything below*   |
-| fs.FS    |       | X   | X   | /dev/disk1s1         |
-| fs.Type  |       | X   | X   | HFS                  |
-| fs.Size  |       | X   | X   | 18446744072211382272 |
-| fs.Used  |       | X   | X   | 18446744073346375680 |
-| fs.Mount |       | X   | X   | /                    |
+| fs       |   X   | X   | X   | *Everything below*   |
+| fs.All   |   X   | X   | X   | *Everything below*   |
+| fs.FS    |   X   | X   | X   | /dev/disk1s1         |
+| fs.Type  |   X   | X   | X   | HFS                  |
+| fs.Size  |   X   | X   | X   | 18446744072211382272 |
+| fs.Used  |   X   | X   | X   | 18446744073346375680 |
+| fs.Mount |   X   | X   | X   | /                    |
