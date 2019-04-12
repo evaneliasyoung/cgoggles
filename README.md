@@ -100,20 +100,20 @@ S Sudo Support
 
 | Call               | Linux | Mac | Win | Comments                             |
 | ------------------ | ----- | --- | --- | ------------------------------------ |
-| storage            |       | ~   | ~   | *Everything below*                   |
-| storage.All        |       | ~   | ~   | *Everything below*                   |
-| storage.Name       |       | X   | X   | Name                                 |
-| storage.Type       |       | X   | X   | Type                                 |
-| storage.FileSystem |       | X   | X   | NTFS                                 |
-| storage.Mount      |       | X   | X   | /dev/disk0s1                         |
-| storage.Size       |       | X   | X   | 500277790720                         |
-| storage.Physical   |       | X   | X   | 5002HDD77790720                      |
-| storage.UUID       |       | X   | X   | XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX |
-| storage.Label      |       | X   | X   | VM                                   |
-| storage.Model      |       | X   |     | APPLE SSD SM0512G                    |
-| storage.Serial     |       |     | X   | XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX |
-| storage.Removable  |       | X   | X   | No                                   |
-| storage.Protocol   |       | X   |     | PCI                                  |
+| storage            |   X   | ~   | ~   | *Everything below*                   |
+| storage.All        |   X   | ~   | ~   | *Everything below*                   |
+| storage.Name       |   X   | X   | X   | Name                                 |
+| storage.Type       |   X   | X   | X   | Type                                 |
+| storage.FileSystem |   X   | X   | X   | NTFS                                 |
+| storage.Mount      |   X   | X   | X   | /dev/disk0s1                         |
+| storage.Size       |   X   | X   | X   | 500277790720                         |
+| storage.Physical   |   X   | X   | X   | 5002HDD77790720                      |
+| storage.UUID       |   X   | X   | X   | XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX |
+| storage.Label      |   X   | X   | X   | VM                                   |
+| storage.Model      |   X   | X   |     | APPLE SSD SM0512G                    |
+| storage.Serial     |   X   |     | X   | XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX |
+| storage.Removable  |   X   | X   | X   | No                                   |
+| storage.Protocol   |   X   | X   |     | PCI                                  |
 
 ### 6. File Systems
 
