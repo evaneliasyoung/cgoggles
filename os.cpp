@@ -179,16 +179,36 @@ void OperatingSystem::GetWin()
 void OperatingSystem::GetLux()
 {
   std::string temp;
+  std::time_t t = std::time(0);
 
   (*platform) = "Linux";
   temp = runCommand("lsb_release -d");
   (*caption) = trim(temp.substr(temp.find_first_of(":") + 1));
+  (*serial) = readFile("/sys/devices/virtual/dmi/id/product_serial", &temp) ? trim(temp) : "";
   temp = trim(runCommand("uname -m"));
   (*bit) = endswith(temp, "64") || temp.find("armv8") != std::string::npos ? 64 : 32;
   temp = runCommand("lsb_release -r");
   (*version) = new SemVer(trim(temp.substr(temp.find_first_of(":") + 1)), 0b11000u);
   temp = runCommand("uname -r");
   (*kernel) = new SemVer(trim(temp.substr(0, temp.find_first_of("-"))), 0b11000u);
+
+  temp = runCommand("stat -c %y /var/cache/apt");
+  installTime->tm_year = std::stoi(temp.substr(0, 4)) - 1900;
+  installTime->tm_mon = std::stoi(temp.substr(5, 2)) - 1;
+  installTime->tm_mday = std::stoi(temp.substr(8, 2));
+  installTime->tm_hour = std::stoi(temp.substr(11, 2));
+  installTime->tm_min = std::stoi(temp.substr(14, 2));
+  installTime->tm_sec = std::stoi(temp.substr(17, 2));
+
+  temp = runCommand("uptime -s");
+  bootTime->tm_year = std::stoi(temp.substr(0, 4)) - 1900;
+  bootTime->tm_mon = std::stoi(temp.substr(5, 2)) - 1;
+  bootTime->tm_mday = std::stoi(temp.substr(8, 2));
+  bootTime->tm_hour = std::stoi(temp.substr(11, 2));
+  bootTime->tm_min = std::stoi(temp.substr(14, 2));
+  bootTime->tm_sec = std::stoi(temp.substr(17, 2));
+
+  (*curTime) = (*std::localtime(&t));
 }
 #pragma endregion "Constructors' Assistants"
 
