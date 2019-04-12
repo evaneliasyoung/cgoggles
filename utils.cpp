@@ -270,12 +270,16 @@ void outputList(const std::string &cat)
       "os.Caption", "os.Serial", "os.Bit",
       "os.InstallTime", "os.BootTime", "os.CurTime",
       "os.Kernel", "os.Version"};
-  std::vector<std::string> cpuList = {
-      "cpu", "cpu.All", "cpu.Manufacturer",
-      "cpu.Architecture", "cpu.SocketType", "cpu.Brand",
-      "cpu.Family", "cpu.Model", "cpu.Stepping",
-      "cpu.Cores", "cpu.Threads", "cpu.Speed",
-      "cpu.MaxSpeed"};
+  std::vector<std::string> sysList = {
+      "sys",
+      "sys.All"
+      "sys.Manufacturer",
+      "sys.Model",
+      "sys.Version",
+      "sys.Serial",
+      "sys.UUID"};
+  std::vector<std::string>
+      cpuList = {"cpu", "cpu.All", "cpu.Manufacturer", "cpu.Architecture", "cpu.SocketType", "cpu.Brand", "cpu.Family", "cpu.Model", "cpu.Stepping", "cpu.Cores", "cpu.Threads", "cpu.Speed", "cpu.MaxSpeed"};
   std::vector<std::string> gpuList = {
       "gpu", "gpu.All", "gpu.Vendor",
       "gpu.Model", "gpu.Bus", "gpu.VRAM",
@@ -297,7 +301,7 @@ void outputList(const std::string &cat)
       "fs.Type", "fs.Size", "fs.Used",
       "fs.Mount"};
   std::vector<std::vector<std::string>> liList = {
-      osList, cpuList, gpuList,
+      osList, sysList, cpuList, gpuList,
       ramList, storageList, fsList};
 
   if (cat == "" || cat == "all" || cat == "All")

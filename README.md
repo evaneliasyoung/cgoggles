@@ -48,6 +48,17 @@ S Sudo Support
 | os.Kernel      | X     | X   | X   | 10.0.0                   |
 | os.Version     | X     | X   | X   | 10.0.0                   |
 
+### 2. System
+| Call             | Linux | Mac | Win | Comments           |
+| ---------------- | ----- | --- | --- | ------------------ |
+| sys              | X     | X   | X   | *Everything below* |
+| sys.All          | X     | X   | X   | *Everything below* |
+| sys.Manufacturer | X     |     | X   |
+| sys.Model        | X     |     | X   |
+| sys.Version      | X     |     | X   |
+| sys.Serial       | S     |     | X   |
+| sys.UUID         | S     |     | X   |
+
 ### 2. CPU
 
 | Call             | Linux | Mac | Win | Comments                             |
@@ -100,29 +111,29 @@ S Sudo Support
 
 | Call               | Linux | Mac | Win | Comments                             |
 | ------------------ | ----- | --- | --- | ------------------------------------ |
-| storage            |   X   | ~   | ~   | *Everything below*                   |
-| storage.All        |   X   | ~   | ~   | *Everything below*                   |
-| storage.Name       |   X   | X   | X   | Name                                 |
-| storage.Type       |   X   | X   | X   | Type                                 |
-| storage.FileSystem |   X   | X   | X   | NTFS                                 |
-| storage.Mount      |   X   | X   | X   | /dev/disk0s1                         |
-| storage.Size       |   X   | X   | X   | 500277790720                         |
-| storage.Physical   |   X   | X   | X   | 5002HDD77790720                      |
-| storage.UUID       |   X   | X   | X   | XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX |
-| storage.Label      |   X   | X   | X   | VM                                   |
-| storage.Model      |   X   | X   |     | APPLE SSD SM0512G                    |
-| storage.Serial     |   X   |     | X   | XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX |
-| storage.Removable  |   X   | X   | X   | No                                   |
-| storage.Protocol   |   X   | X   |     | PCI                                  |
+| storage            | X     | ~   | ~   | *Everything below*                   |
+| storage.All        | X     | ~   | ~   | *Everything below*                   |
+| storage.Name       | X     | X   | X   | Name                                 |
+| storage.Type       | X     | X   | X   | Type                                 |
+| storage.FileSystem | X     | X   | X   | NTFS                                 |
+| storage.Mount      | X     | X   | X   | /dev/disk0s1                         |
+| storage.Size       | X     | X   | X   | 500277790720                         |
+| storage.Physical   | X     | X   | X   | 5002HDD77790720                      |
+| storage.UUID       | X     | X   | X   | XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX |
+| storage.Label      | X     | X   | X   | VM                                   |
+| storage.Model      | X     | X   |     | APPLE SSD SM0512G                    |
+| storage.Serial     | X     |     | X   | XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX |
+| storage.Removable  | X     | X   | X   | No                                   |
+| storage.Protocol   | X     | X   |     | PCI                                  |
 
 ### 6. File Systems
 
 | Call     | Linux | Mac | Win | Comments             |
 | -------- | ----- | --- | --- | -------------------- |
-| fs       |   X   | X   | X   | *Everything below*   |
-| fs.All   |   X   | X   | X   | *Everything below*   |
-| fs.FS    |   X   | X   | X   | /dev/disk1s1         |
-| fs.Type  |   X   | X   | X   | HFS                  |
-| fs.Size  |   X   | X   | X   | 18446744072211382272 |
-| fs.Used  |   X   | X   | X   | 18446744073346375680 |
-| fs.Mount |   X   | X   | X   | /                    |
+| fs       | X     | X   | X   | *Everything below*   |
+| fs.All   | X     | X   | X   | *Everything below*   |
+| fs.FS    | X     | X   | X   | /dev/disk1s1         |
+| fs.Type  | X     | X   | X   | HFS                  |
+| fs.Size  | X     | X   | X   | 18446744072211382272 |
+| fs.Used  | X     | X   | X   | 18446744073346375680 |
+| fs.Mount | X     | X   | X   | /                    |
