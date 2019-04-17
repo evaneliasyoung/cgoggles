@@ -29,80 +29,80 @@
 void filterRequests()
 {
   std::unique_ptr<std::vector<std::string>> valids = std::make_unique<std::vector<std::string>>();
-  valids->push_back("All");
-  valids->push_back("os");
-  valids->push_back("os.All");
-  valids->push_back("sys");
-  valids->push_back("sys.All");
-  valids->push_back("cpu");
-  valids->push_back("cpu.All");
-  valids->push_back("gpu");
-  valids->push_back("gpu.All");
-  valids->push_back("storage");
-  valids->push_back("storage.All");
-  valids->push_back("ram");
-  valids->push_back("ram.All");
-  valids->push_back("fs");
-  valids->push_back("fs.All");
-  valids->push_back("os.Platform");
-  valids->push_back("os.Caption");
-  valids->push_back("os.Serial");
-  valids->push_back("os.Bit");
-  valids->push_back("os.InstallTime");
-  valids->push_back("os.BootTime");
-  valids->push_back("os.CurTime");
-  valids->push_back("os.Kernel");
-  valids->push_back("os.Version");
-  valids->push_back("sys.Manufacturer");
-  valids->push_back("sys.Model");
-  valids->push_back("sys.Version");
-  valids->push_back("sys.Serial");
-  valids->push_back("sys.UUID");
-  valids->push_back("cpu.Manufacturer");
-  valids->push_back("cpu.Architecture");
-  valids->push_back("cpu.SocketType");
-  valids->push_back("cpu.Brand");
-  valids->push_back("cpu.Family");
-  valids->push_back("cpu.Model");
-  valids->push_back("cpu.Stepping");
-  valids->push_back("cpu.Cores");
-  valids->push_back("cpu.Threads");
-  valids->push_back("cpu.Speed");
-  valids->push_back("cpu.MaxSpeed");
-  valids->push_back("gpu.Vendor");
-  valids->push_back("gpu.Model");
-  valids->push_back("gpu.Bus");
-  valids->push_back("gpu.VRAM");
-  valids->push_back("gpu.Dynamic");
-  valids->push_back("ram.Size");
-  valids->push_back("ram.Bank");
-  valids->push_back("ram.Type");
-  valids->push_back("ram.Speed");
-  valids->push_back("ram.FormFactor");
-  valids->push_back("ram.Manufacturer");
-  valids->push_back("ram.Part");
-  valids->push_back("ram.Serial");
-  valids->push_back("ram.VoltageConfigured");
-  valids->push_back("ram.VoltageMin");
-  valids->push_back("ram.VoltageMax");
-  valids->push_back("storage.Name");
-  valids->push_back("storage.Identifier");
-  valids->push_back("storage.Type");
-  valids->push_back("storage.FileSystem");
-  valids->push_back("storage.Mount");
-  valids->push_back("storage.Total");
-  valids->push_back("storage.Physical");
-  valids->push_back("storage.UUID");
-  valids->push_back("storage.Label");
-  valids->push_back("storage.Model");
-  valids->push_back("storage.Serial");
-  valids->push_back("storage.Removable");
-  valids->push_back("storage.Protocol");
-  valids->push_back("fs.FS");
-  valids->push_back("fs.Type");
-  valids->push_back("fs.Size");
-  valids->push_back("fs.Used");
-  valids->push_back("fs.Mount");
+  valids->push_back("ALL");
+  valids->push_back("OS");
+  valids->push_back("OS.ALL");
+  valids->push_back("SYS");
+  valids->push_back("SYS.ALL");
+  valids->push_back("CPU");
+  valids->push_back("CPU.ALL");
+  valids->push_back("GPU");
+  valids->push_back("GPU.ALL");
+  valids->push_back("STORAGE");
+  valids->push_back("STORAGE.ALL");
+  valids->push_back("RAM");
+  valids->push_back("RAM.ALL");
+  valids->push_back("FS");
+  valids->push_back("FS.ALL");
+  valids->push_back("OS.PLATFORM");
+  valids->push_back("OS.CAPTION");
+  valids->push_back("OS.SERIAL");
+  valids->push_back("OS.BIT");
+  valids->push_back("OS.INSTALLTIME");
+  valids->push_back("OS.BOOTTIME");
+  valids->push_back("OS.CURTIME");
+  valids->push_back("OS.KERNEL");
+  valids->push_back("OS.VERSION");
+  valids->push_back("SYS.MANUFACTURER");
+  valids->push_back("SYS.MODEL");
+  valids->push_back("SYS.VERSION");
+  valids->push_back("SYS.SERIAL");
+  valids->push_back("SYS.UUID");
+  valids->push_back("CPU.MANUFACTURER");
+  valids->push_back("CPU.ARCHITECTURE");
+  valids->push_back("CPU.SOCKETTYPE");
+  valids->push_back("CPU.BRAND");
+  valids->push_back("CPU.FAMILY");
+  valids->push_back("CPU.MODEL");
+  valids->push_back("CPU.STEPPING");
+  valids->push_back("CPU.CORES");
+  valids->push_back("CPU.THREADS");
+  valids->push_back("CPU.SPEED");
+  valids->push_back("CPU.MAXSPEED");
+  valids->push_back("GPU.VENDOR");
+  valids->push_back("GPU.MODEL");
+  valids->push_back("GPU.BUS");
+  valids->push_back("GPU.VRAM");
+  valids->push_back("GPU.DYNAMIC");
+  valids->push_back("RAM.SIZE");
+  valids->push_back("RAM.BANK");
+  valids->push_back("RAM.TYPE");
+  valids->push_back("RAM.SPEED");
+  valids->push_back("RAM.FORMFACTOR");
+  valids->push_back("RAM.MANUFACTURER");
+  valids->push_back("RAM.PART");
+  valids->push_back("RAM.SERIAL");
+  valids->push_back("RAM.VOLTAGECONFIGURED");
+  valids->push_back("RAM.VOLTAGEMIN");
+  valids->push_back("RAM.VOLTAGEMAX");
+  valids->push_back("STORAGE.NAME");
+  valids->push_back("STORAGE.IDENTIFIER");
+  valids->push_back("STORAGE.TYPE");
+  valids->push_back("STORAGE.FILESYSTEM");
+  valids->push_back("STORAGE.MOUNT");
+  valids->push_back("STORAGE.TOTAL");
+  valids->push_back("STORAGE.PHYSICAL");
+  valids->push_back("STORAGE.UUID");
+  valids->push_back("STORAGE.LABEL");
+  valids->push_back("STORAGE.MODEL");
+  valids->push_back("STORAGE.SERIAL");
+  valids->push_back("STORAGE.REMOVABLE");
+  valids->push_back("STORAGE.PROTOCOL");
+  valids->push_back("FS.FS");
+  valids->push_back("FS.TYPE");
+  valids->push_back("FS.SIZE");
+  valids->push_back("FS.USED");
+  valids->push_back("FS.MOUNT");
 
   for (int i = requests.size() - 1; i >= 0; i--)
   {
@@ -130,137 +130,137 @@ void parseRequests(std::string *request)
 */
 void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *vals)
 {
-  bool osAll = contains(&requests, "All") || contains(&requests, "os.All") || contains(&requests, "os");
-  bool sysAll = contains(&requests, "All") || contains(&requests, "sys.All") || contains(&requests, "sys");
-  bool cpuAll = contains(&requests, "All") || contains(&requests, "cpu.All") || contains(&requests, "cpu");
-  bool ramAll = contains(&requests, "All") || contains(&requests, "ram.All") || contains(&requests, "ram");
-  bool stoAll = contains(&requests, "All") || contains(&requests, "storage.All") || contains(&requests, "storage");
-  bool fsAll = contains(&requests, "All") || contains(&requests, "fs.All") || contains(&requests, "fs");
-  bool gpuAll = contains(&requests, "All") || contains(&requests, "gpu.All") || contains(&requests, "gpu");
+  bool osAll = contains(&requests, "ALL") || contains(&requests, "OS.ALL") || contains(&requests, "OS");
+  bool sysAll = contains(&requests, "ALL") || contains(&requests, "SYS.ALL") || contains(&requests, "SYS");
+  bool cpuAll = contains(&requests, "ALL") || contains(&requests, "CPU.ALL") || contains(&requests, "CPU");
+  bool ramAll = contains(&requests, "ALL") || contains(&requests, "RAM.ALL") || contains(&requests, "RAM");
+  bool stoAll = contains(&requests, "ALL") || contains(&requests, "STORAGE.ALL") || contains(&requests, "STORAGE");
+  bool fsAll = contains(&requests, "ALL") || contains(&requests, "FS.ALL") || contains(&requests, "FS");
+  bool gpuAll = contains(&requests, "ALL") || contains(&requests, "GPU.ALL") || contains(&requests, "GPU");
 
-  if (osAll || contains(&requests, "os.Platform"))
+  if (osAll || contains(&requests, "OS.PLATFORM"))
   {
     keys->push_back("os.Platform");
     vals->push_back(compOS.Platform());
   }
-  if (osAll || contains(&requests, "os.Caption"))
+  if (osAll || contains(&requests, "OS.CAPTION"))
   {
     keys->push_back("os.Caption");
     vals->push_back(compOS.Caption());
   }
-  if (osAll || contains(&requests, "os.Serial"))
+  if (osAll || contains(&requests, "OS.SERIAL"))
   {
     keys->push_back("os.Serial");
     vals->push_back(compOS.Serial());
   }
-  if (osAll || contains(&requests, "os.Bit"))
+  if (osAll || contains(&requests, "OS.BIT"))
   {
     keys->push_back("os.Bit");
     vals->push_back(std::to_string(compOS.Bit()));
   }
-  if (osAll || contains(&requests, "os.InstallTime"))
+  if (osAll || contains(&requests, "OS.INSTALLTIME"))
   {
     keys->push_back("os.InstallTime");
     vals->push_back(compOS.InstallTime("%Y-%m-%dT%H:%M:%S"));
   }
-  if (osAll || contains(&requests, "os.BootTime"))
+  if (osAll || contains(&requests, "OS.BOOTTIME"))
   {
     keys->push_back("os.BootTime");
     vals->push_back(compOS.BootTime("%Y-%m-%dT%H:%M:%S"));
   }
-  if (osAll || contains(&requests, "os.CurTime"))
+  if (osAll || contains(&requests, "OS.CURTIME"))
   {
     keys->push_back("os.CurTime");
     vals->push_back(compOS.CurTime("%Y-%m-%dT%H:%M:%S"));
   }
-  if (osAll || contains(&requests, "os.Kernel"))
+  if (osAll || contains(&requests, "OS.KERNEL"))
   {
     keys->push_back("os.Kernel");
     vals->push_back(compOS.Kernel().Pretty());
   }
-  if (osAll || contains(&requests, "os.Version"))
+  if (osAll || contains(&requests, "OS.VERSION"))
   {
     keys->push_back("os.Version");
     vals->push_back(compOS.Version().Pretty());
   }
 
-  if (sysAll || contains(&requests, "sys.Manufacturer"))
+  if (sysAll || contains(&requests, "SYS.MANUFACTURER"))
   {
     keys->push_back("sys.Manufacturer");
     vals->push_back(compSys.Manufacturer());
   }
-  if (sysAll || contains(&requests, "sys.Model"))
+  if (sysAll || contains(&requests, "SYS.MODEL"))
   {
     keys->push_back("sys.Model");
     vals->push_back(compSys.Model());
   }
-  if (sysAll || contains(&requests, "sys.Version"))
+  if (sysAll || contains(&requests, "SYS.VERSION"))
   {
     keys->push_back("sys.Version");
     vals->push_back(compSys.Version());
   }
-  if (sysAll || contains(&requests, "sys.Serial"))
+  if (sysAll || contains(&requests, "SYS.SERIAL"))
   {
     keys->push_back("sys.Serial");
     vals->push_back(compSys.Serial());
   }
-  if (sysAll || contains(&requests, "sys.UUID"))
+  if (sysAll || contains(&requests, "SYS.UUID"))
   {
     keys->push_back("sys.UUID");
     vals->push_back(compSys.UUID());
   }
 
-  if (cpuAll || contains(&requests, "cpu.Manufacturer"))
+  if (cpuAll || contains(&requests, "CPU.MANUFACTURER"))
   {
     keys->push_back("cpu.Manufacturer");
     vals->push_back(compCPU.Manufacturer());
   }
-  if (cpuAll || contains(&requests, "cpu.Architecture"))
+  if (cpuAll || contains(&requests, "CPU.ARCHITECTURE"))
   {
     keys->push_back("cpu.Architecture");
     vals->push_back(compCPU.Architecture());
   }
-  if (cpuAll || contains(&requests, "cpu.SocketType"))
+  if (cpuAll || contains(&requests, "CPU.SOCKETTYPE"))
   {
     keys->push_back("cpu.SocketType");
     vals->push_back(compCPU.SocketType());
   }
-  if (cpuAll || contains(&requests, "cpu.Brand"))
+  if (cpuAll || contains(&requests, "CPU.BRAND"))
   {
     keys->push_back("cpu.Brand");
     vals->push_back(compCPU.Brand());
   }
-  if (cpuAll || contains(&requests, "cpu.Family"))
+  if (cpuAll || contains(&requests, "CPU.FAMILY"))
   {
     keys->push_back("cpu.Family");
     vals->push_back(std::to_string(compCPU.Family()));
   }
-  if (cpuAll || contains(&requests, "cpu.Model"))
+  if (cpuAll || contains(&requests, "CPU.MODEL"))
   {
     keys->push_back("cpu.Model");
     vals->push_back(std::to_string(compCPU.Model()));
   }
-  if (cpuAll || contains(&requests, "cpu.Stepping"))
+  if (cpuAll || contains(&requests, "CPU.STEPPING"))
   {
     keys->push_back("cpu.Stepping");
     vals->push_back(std::to_string(compCPU.Stepping()));
   }
-  if (cpuAll || contains(&requests, "cpu.Cores"))
+  if (cpuAll || contains(&requests, "CPU.CORES"))
   {
     keys->push_back("cpu.Cores");
     vals->push_back(std::to_string(compCPU.Cores()));
   }
-  if (cpuAll || contains(&requests, "cpu.Threads"))
+  if (cpuAll || contains(&requests, "CPU.THREADS"))
   {
     keys->push_back("cpu.Threads");
     vals->push_back(std::to_string(compCPU.Threads()));
   }
-  if (cpuAll || contains(&requests, "cpu.Speed"))
+  if (cpuAll || contains(&requests, "CPU.SPEED"))
   {
     keys->push_back("cpu.Speed");
     vals->push_back(compCPU.PrettySpeed());
   }
-  if (cpuAll || contains(&requests, "cpu.MaxSpeed"))
+  if (cpuAll || contains(&requests, "CPU.MAXSPEED"))
   {
     keys->push_back("cpu.MaxSpeed");
     vals->push_back(compCPU.PrettyMaxSpeed());
@@ -268,27 +268,27 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
 
   for (std::size_t i = 0; i < compGPU.Controllers().size(); i++)
   {
-    if (gpuAll || contains(&requests, "Vendor"))
+    if (gpuAll || contains(&requests, "GPU.VENDOR"))
     {
       keys->push_back("gpu[" + std::to_string(i) + "].Vendor");
       vals->push_back(compGPU.Controllers()[i].Vendor());
     }
-    if (gpuAll || contains(&requests, "Model"))
+    if (gpuAll || contains(&requests, "GPU.MODEL"))
     {
       keys->push_back("gpu[" + std::to_string(i) + "].Model");
       vals->push_back(compGPU.Controllers()[i].Model());
     }
-    if (gpuAll || contains(&requests, "Bus"))
+    if (gpuAll || contains(&requests, "GPU.BUS"))
     {
       keys->push_back("gpu[" + std::to_string(i) + "].Bus");
       vals->push_back(compGPU.Controllers()[i].Bus());
     }
-    if (gpuAll || contains(&requests, "VRAM"))
+    if (gpuAll || contains(&requests, "GPU.VRAM"))
     {
       keys->push_back("gpu[" + std::to_string(i) + "].VRAM");
       vals->push_back(std::to_string(compGPU.Controllers()[i].VRAM()));
     }
-    if (gpuAll || contains(&requests, "Dynamic"))
+    if (gpuAll || contains(&requests, "GPU.DYNAMIC"))
     {
       keys->push_back("gpu[" + std::to_string(i) + "].Dynamic");
       vals->push_back(compGPU.Controllers()[i].Dynamic() ? "Yes" : "No");
@@ -297,57 +297,57 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
 
   for (std::size_t i = 0; i < compRAM.Chips().size(); i++)
   {
-    if (ramAll || contains(&requests, "Size"))
+    if (ramAll || contains(&requests, "RAM.SIZE"))
     {
       keys->push_back("ram[" + std::to_string(i) + "].Size");
       vals->push_back(std::to_string(compRAM.Chips()[i].Size()));
     }
-    if (ramAll || contains(&requests, "Bank"))
+    if (ramAll || contains(&requests, "RAM.BANK"))
     {
       keys->push_back("ram[" + std::to_string(i) + "].Bank");
       vals->push_back(compRAM.Chips()[i].Bank());
     }
-    if (ramAll || contains(&requests, "Type"))
+    if (ramAll || contains(&requests, "RAM.TYPE"))
     {
       keys->push_back("ram[" + std::to_string(i) + "].Type");
       vals->push_back(compRAM.Chips()[i].Type());
     }
-    if (ramAll || contains(&requests, "Speed"))
+    if (ramAll || contains(&requests, "RAM.SPEED"))
     {
       keys->push_back("ram[" + std::to_string(i) + "].Speed");
       vals->push_back(compRAM.Chips()[i].PrettySpeed());
     }
-    if (ramAll || contains(&requests, "FormFactor"))
+    if (ramAll || contains(&requests, "RAM.FORMFACTOR"))
     {
       keys->push_back("ram[" + std::to_string(i) + "].FormFactor");
       vals->push_back(compRAM.Chips()[i].FormFactor());
     }
-    if (ramAll || contains(&requests, "Manufacturer"))
+    if (ramAll || contains(&requests, "RAM.MANUFACTURER"))
     {
       keys->push_back("ram[" + std::to_string(i) + "].Manufacturer");
       vals->push_back(compRAM.Chips()[i].Manufacturer());
     }
-    if (ramAll || contains(&requests, "Part"))
+    if (ramAll || contains(&requests, "RAM.PART"))
     {
       keys->push_back("ram[" + std::to_string(i) + "].Part");
       vals->push_back(compRAM.Chips()[i].Part());
     }
-    if (ramAll || contains(&requests, "Serial"))
+    if (ramAll || contains(&requests, "RAM.SERIAL"))
     {
       keys->push_back("ram[" + std::to_string(i) + "].Serial");
       vals->push_back(compRAM.Chips()[i].Serial());
     }
-    if (ramAll || contains(&requests, "VoltageConfigured"))
+    if (ramAll || contains(&requests, "RAM.VOLTAGECONFIGURED"))
     {
       keys->push_back("ram[" + std::to_string(i) + "].VoltageConfigured");
       vals->push_back(compRAM.Chips()[i].PrettyVoltageConfigured());
     }
-    if (ramAll || contains(&requests, "VoltageMin"))
+    if (ramAll || contains(&requests, "RAM.VOLTAGEMIN"))
     {
       keys->push_back("ram[" + std::to_string(i) + "].VoltageMin");
       vals->push_back(compRAM.Chips()[i].PrettyVoltageMin());
     }
-    if (ramAll || contains(&requests, "VoltageMax"))
+    if (ramAll || contains(&requests, "RAM.VOLTAGEMAX"))
     {
       keys->push_back("ram[" + std::to_string(i) + "].VoltageMax");
       vals->push_back(compRAM.Chips()[i].PrettyVoltageMax());
@@ -356,68 +356,68 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
 
   for (std::size_t i = 0; i < compStorage.Drives().size(); i++)
   {
-    if (stoAll || contains(&requests, "storage.Name"))
+    if (stoAll || contains(&requests, "STORAGE.NAME"))
     {
       keys->push_back("storage[" + std::to_string(i) + "].Name");
       vals->push_back(compStorage.Drives()[i].Name());
     }
-    if (stoAll || contains(&requests, "storage.Identifier"))
+    if (stoAll || contains(&requests, "STORAGE.IDENTIFIER"))
     {
       keys->push_back("storage[" + std::to_string(i) + "].Identifier");
       vals->push_back(compStorage.Drives()[i].Identifier());
     }
-    if (stoAll || contains(&requests, "storage.Type"))
+    if (stoAll || contains(&requests, "STORAGE.TYPE"))
     {
       keys->push_back("storage[" + std::to_string(i) + "].Type");
       vals->push_back(compStorage.Drives()[i].Type());
     }
-    if (stoAll || contains(&requests, "storage.FileSystem"))
+    if (stoAll || contains(&requests, "STORAGE.FILESYSTEM"))
     {
       keys->push_back("storage[" + std::to_string(i) + "].FileSystem");
       vals->push_back(compStorage.Drives()[i].FileSystem());
     }
-    if (stoAll || contains(&requests, "storage.Mount"))
+    if (stoAll || contains(&requests, "STORAGE.MOUNT"))
     {
       keys->push_back("storage[" + std::to_string(i) + "].Mount");
       vals->push_back(compStorage.Drives()[i].Mount());
     }
-    if (stoAll || contains(&requests, "storage.Total"))
+    if (stoAll || contains(&requests, "STORAGE.TOTAL"))
     {
       keys->push_back("storage[" + std::to_string(i) + "].Total");
       vals->push_back(pretty ? prettyOutputStorage(compStorage.Drives()[i].Total())
                              : std::to_string(compStorage.Drives()[i].Total()));
     }
-    if (stoAll || contains(&requests, "storage.Physical"))
+    if (stoAll || contains(&requests, "STORAGE.PHYSICAL"))
     {
       keys->push_back("storage[" + std::to_string(i) + "].Physical");
       vals->push_back(compStorage.Drives()[i].Physical());
     }
-    if (stoAll || contains(&requests, "storage.UUID"))
+    if (stoAll || contains(&requests, "STORAGE.UUID"))
     {
       keys->push_back("storage[" + std::to_string(i) + "].UUID");
       vals->push_back(compStorage.Drives()[i].UUID());
     }
-    if (stoAll || contains(&requests, "storage.Label"))
+    if (stoAll || contains(&requests, "STORAGE.LABEL"))
     {
       keys->push_back("storage[" + std::to_string(i) + "].Label");
       vals->push_back(compStorage.Drives()[i].Label());
     }
-    if (stoAll || contains(&requests, "storage.Model"))
+    if (stoAll || contains(&requests, "STORAGE.MODEL"))
     {
       keys->push_back("storage[" + std::to_string(i) + "].Model");
       vals->push_back(compStorage.Drives()[i].Model());
     }
-    if (stoAll || contains(&requests, "storage.Serial"))
+    if (stoAll || contains(&requests, "STORAGE.SERIAL"))
     {
       keys->push_back("storage[" + std::to_string(i) + "].Serial");
       vals->push_back(compStorage.Drives()[i].Serial());
     }
-    if (stoAll || contains(&requests, "storage.Removable"))
+    if (stoAll || contains(&requests, "STORAGE.REMOVABLE"))
     {
       keys->push_back("storage[" + std::to_string(i) + "].Removable");
       vals->push_back(compStorage.Drives()[i].Removable() ? "Yes" : "No");
     }
-    if (stoAll || contains(&requests, "storage.Protocol"))
+    if (stoAll || contains(&requests, "STORAGE.PROTOCOL"))
     {
       keys->push_back("storage[" + std::to_string(i) + "].Protocol");
       vals->push_back(compStorage.Drives()[i].Protocol());
@@ -426,29 +426,29 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
 
   for (std::size_t i = 0; i < compFS.FileSystems().size(); i++)
   {
-    if (fsAll || contains(&requests, "fs.FS"))
+    if (fsAll || contains(&requests, "FS.FS"))
     {
       keys->push_back("fs[" + std::to_string(i) + "].FS");
       vals->push_back(compFS.FileSystems()[i].FS());
     }
-    if (fsAll || contains(&requests, "fs.Type"))
+    if (fsAll || contains(&requests, "FS.TYPE"))
     {
       keys->push_back("fs[" + std::to_string(i) + "].Type");
       vals->push_back(compFS.FileSystems()[i].Type());
     }
-    if (fsAll || contains(&requests, "fs.Size"))
+    if (fsAll || contains(&requests, "FS.SIZE"))
     {
       keys->push_back("fs[" + std::to_string(i) + "].Size");
       vals->push_back(pretty ? prettyOutputStorage(compFS.FileSystems()[i].Size())
                              : std::to_string(compFS.FileSystems()[i].Size()));
     }
-    if (fsAll || contains(&requests, "fs.Used"))
+    if (fsAll || contains(&requests, "FS.USED"))
     {
       keys->push_back("fs[" + std::to_string(i) + "].Used");
       vals->push_back(pretty ? prettyOutputStorage(compFS.FileSystems()[i].Used())
                              : std::to_string(compFS.FileSystems()[i].Used()));
     }
-    if (fsAll || contains(&requests, "fs.Mount"))
+    if (fsAll || contains(&requests, "FS.MOUNT"))
     {
       keys->push_back("fs[" + std::to_string(i) + "].Mount");
       vals->push_back(compFS.FileSystems()[i].Mount());

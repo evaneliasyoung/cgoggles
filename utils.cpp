@@ -498,6 +498,7 @@ int handleArgs(int argc, const char *argv[], std::string *request)
     }
     (*request) += argv[i];
   }
+  std::transform(request->begin(), request->end(), request->begin(), ::toupper);
 
   return EXIT_SUCCESS;
 }
