@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-15
-*  @date      2019-04-04
+*  @date      2019-04-17
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -27,6 +27,7 @@
 
 extern std::vector<std::string> requests;
 extern OutputStyle style;
+extern bool pretty;
 
 extern OperatingSystem compOS;
 extern System compSys;

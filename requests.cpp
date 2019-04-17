@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-15
-*  @date      2019-04-04
+*  @date      2019-04-17
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -384,7 +384,8 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
     if (stoAll || contains(&requests, "storage.Total"))
     {
       keys->push_back("storage[" + std::to_string(i) + "].Total");
-      vals->push_back(std::to_string(compStorage.Drives()[i].Total()));
+      vals->push_back(pretty ? prettyOutputStorage(compStorage.Drives()[i].Total())
+                             : std::to_string(compStorage.Drives()[i].Total()));
     }
     if (stoAll || contains(&requests, "storage.Physical"))
     {
@@ -438,12 +439,14 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
     if (fsAll || contains(&requests, "fs.Size"))
     {
       keys->push_back("fs[" + std::to_string(i) + "].Size");
-      vals->push_back(std::to_string(compFS.FileSystems()[i].Size()));
+      vals->push_back(pretty ? prettyOutputStorage(compFS.FileSystems()[i].Size())
+                             : std::to_string(compFS.FileSystems()[i].Size()));
     }
     if (fsAll || contains(&requests, "fs.Used"))
     {
       keys->push_back("fs[" + std::to_string(i) + "].Used");
-      vals->push_back(std::to_string(compFS.FileSystems()[i].Used()));
+      vals->push_back(pretty ? prettyOutputStorage(compFS.FileSystems()[i].Used())
+                             : std::to_string(compFS.FileSystems()[i].Used()));
     }
     if (fsAll || contains(&requests, "fs.Mount"))
     {

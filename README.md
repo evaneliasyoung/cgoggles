@@ -14,12 +14,13 @@ This is made as first a passion-project and next a final-project for my programm
 
 ## News and Changes
 
-### Version 0.3.0 - 2019-04-12
+### Version 0.3.1 - 2019-04-17
 
 ### Latest Activity
 
 (last 7 major and minor version releases)
 
+- Version 0.3.1: Pretty-print option for storage
 - Version 0.3.0: System information and Most Linux support
 - Version 0.2.0: GPU, Storage, and FileSystem information
 - Version 0.1.1: Mac compatability

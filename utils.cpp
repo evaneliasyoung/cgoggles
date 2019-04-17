@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-12
-*  @date      2019-04-08
+*  @date      2019-04-17
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -244,6 +244,66 @@ bool readFile(const std::string &p, std::string *o)
   return true;
 }
 
+std::string siUnits(const std::uint64_t &num, const std::uint8_t &plc)
+{
+  std::stringstream ss;
+  char suf[9] = {'\0', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'};
+
+  for (std::size_t i = 5; i >= 0; --i)
+  {
+    if (num >= pow(1024, i))
+    {
+      ss << std::fixed << std::setprecision(plc) << num / pow(1024, i) << ' ' << suf[i];
+      return ss.str();
+    }
+  }
+}
+
+std::string siUnits(const std::uint32_t &num, const std::uint8_t &plc)
+{
+  std::stringstream ss;
+  char suf[9] = {'\0', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'};
+
+  for (std::size_t i = 5; i >= 0; --i)
+  {
+    if (num >= pow(1024, i))
+    {
+      ss << std::fixed << std::setprecision(plc) << num / pow(1024, i) << ' ' << suf[i];
+      return ss.str();
+    }
+  }
+}
+
+std::string siUnits(const float &num, const std::uint8_t &plc)
+{
+  std::stringstream ss;
+  char suf[9] = {'\0', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'};
+
+  for (std::size_t i = 5; i >= 0; --i)
+  {
+    if (num >= pow(1024, i))
+    {
+      ss << std::fixed << std::setprecision(plc) << num / pow(1024, i) << ' ' << suf[i];
+      return ss.str();
+    }
+  }
+}
+
+std::string prettyOutputStorage(const std::uint64_t &num, const std::uint8_t &plc)
+{
+  return siUnits(num, plc) + "B";
+}
+
+std::string prettyOutputStorage(const std::uint32_t &num, const std::uint8_t &plc)
+{
+  return siUnits(num, plc) + "B";
+}
+
+std::string prettyOutputStorage(const float &num, const std::uint8_t &plc)
+{
+  return siUnits(num, plc) + "B";
+}
+
 void outputVersion()
 {
   std::cout << ((CGOGGLES_VERSION_ & 0xFF0000) >> (4 * 4)) << '.'
@@ -256,7 +316,7 @@ void outputHelp()
 {
   // NOTE: JSON output disabled until further notice
   // std::cout << "usage: cgoggles [-v|--ver|--version] [-h|--help] [-l|--list|-j|--json|-m|--minjson] -get=[<args>]" << std::endl;
-  std::cout << "usage: cgoggles [-v|--ver|--version] [-h|--help] [-l|--list] <command> [<args>]" << std::endl
+  std::cout << "usage: cgoggles [-v|--ver|--version] [-h|--help] [-l|--list] [-p|--pretty] <command> [<args>]" << std::endl
             << "  get   Makes a query to the computer's internals" << std::endl
             << "  list  List the values that you can query to CGoggles" << std::endl
             << std::endl
@@ -405,6 +465,11 @@ int handleArgs(int argc, const char *argv[], std::string *request)
   if (cmdl[{"l", "list"}])
   {
     style = OutputStyle::List;
+  }
+
+  if (cmdl[{"p", "pretty"}])
+  {
+    pretty = true;
   }
 
   for (int i = 0; i < argc; ++i)
