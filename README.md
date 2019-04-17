@@ -29,9 +29,12 @@ You can find all changes here: [detailed changelog](CHANGELOG.md)
 
 ## Reference
 
-~ Partial Suuport
+~ Partial Support
+
 X Complete Support
+
 S Sudo Support
+
 
 ### 1. OS
 
