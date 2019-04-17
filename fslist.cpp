@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-30
-*  @date      2019-04-01
+*  @date      2019-04-17
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -76,8 +76,8 @@ void FileSystemList::GetMac()
     splitStringVector(std::regex_replace(allFS[i], std::regex(R"(  +)"), " "), " ", &eachFS);
     tempFS = eachFS[0];
     tempType = "HFS";
-    tempSize = std::stoi(eachFS[1]) * 1024;
-    tempUsed = std::stoi(eachFS[2]) * 1024;
+    tempSize = std::stoull(eachFS[1]) * 1024;
+    tempUsed = std::stoull(eachFS[2]) * 1024;
     tempMount = eachFS[eachFS.size() - 1];
 
     tempFileSystem = FileSystem(tempFS, tempType, tempSize, tempUsed, tempMount);
@@ -137,8 +137,8 @@ void FileSystemList::GetLux()
     splitStringVector(std::regex_replace(allFS[i], std::regex(R"(  +)"), " "), " ", &eachFS);
     tempFS = eachFS[0];
     tempType = eachFS[1];
-    tempSize = std::stoi(eachFS[2]) * 1024;
-    tempUsed = std::stoi(eachFS[3]) * 1024;
+    tempSize = std::stoull(eachFS[2]) * 1024;
+    tempUsed = std::stoull(eachFS[3]) * 1024;
     tempMount = eachFS[eachFS.size() - 1];
 
     tempFileSystem = FileSystem(tempFS, tempType, tempSize, tempUsed, tempMount);
