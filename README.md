@@ -98,16 +98,16 @@ S Sudo Support
 
 | Call                  | Linux | Mac | Win | Comments           |
 | --------------------- | ----- | --- | --- | ------------------ |
-| ram                   | S     |     | ~   | *Everything below* |
-| ram.All               | S     |     | ~   | *Everything below* |
-| ram.Size              | S     |     | X   | 8589934592         |
-| ram.Bank              | S     |     | X   | DIMM1              |
-| ram.Type              | S     |     | X   | DDR4               |
-| ram.Speed             | S     |     | X   | 3200 MHz           |
+| ram                   | S     |  ~  | ~   | *Everything below* |
+| ram.All               | S     |  ~  | ~   | *Everything below* |
+| ram.Size              | S     |  X  | X   | 8589934592         |
+| ram.Bank              | S     |  X  | X   | DIMM1              |
+| ram.Type              | S     |  X  | X   | DDR4               |
+| ram.Speed             | S     |  X  | X   | 3200 MHz           |
 | ram.FormFactor        | S     |     | X   | DIMM               |
-| ram.Manufacturer      | S     |     | X   | Samsung            |
-| ram.Part              | S     |     | X   | M378B1G73EB0-YK0   |
-| ram.Serial            | S     |     | X   | XXXXXXXXXXXX       |
+| ram.Manufacturer      | S     |  X  | X   | Samsung            |
+| ram.Part              | S     |  X  | X   | M378B1G73EB0-YK0   |
+| ram.Serial            | S     |  X  | X   | XXXXXXXXXXXX       |
 | ram.VoltageConfigured | S     |     | X   | 2.4 V              |
 | ram.VoltageMin        | S     |     | X   | 2.4 V              |
 | ram.VoltageMax        | S     |     | X   | 2.4 V              |

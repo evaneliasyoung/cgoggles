@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-04-04
-*  @date      2019-04-11
+*  @date      2019-04-18
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -62,6 +62,86 @@ RAMList::~RAMList()
 */
 void RAMList::GetMac()
 {
+  std::map<std::string, std::string> manufMap = {
+      {"0x014F", "Transcend Information"},
+      {"0x2C00", "Micron Technology Inc."},
+      {"0x802C", "Micron Technology Inc."},
+      {"0x80AD", "Hynix Semiconductor Inc."},
+      {"0x80CE", "Samsung Electronics Inc."},
+      {"0xAD00", "Hynix Semiconductor Inc."},
+      {"0xCE00", "Samsung Electronics Inc."},
+      {"0x02FE", "Elpida"},
+      {"0x5105", "Qimonda AG i. In."},
+      {"0x8551", "Qimonda AG i. In."},
+      {"0x859B", "Crucial"}};
+  std::vector<std::string> allChips;
+  RAM tempChip;
+  std::uint64_t tempSize = 0;
+  std::string tempBank = "";
+  std::string tempType = "";
+  float tempSpeed = 0;
+  std::string tempFormFactor = "";
+  std::string tempManufacturer = "";
+  std::string tempPart = "";
+  std::string tempSerial = "";
+  float tempVoltageConfigured = 0;
+  float tempVoltageMin = 0;
+  float tempVoltageMax = 0;
+  std::string key;
+  std::string val;
+  splitStringVector(runCommand("system_profiler SPMemoryDataType"), "\n", &allChips);
+
+  for (std::size_t i = 0; i < allChips.size(); ++i)
+  {
+    if (trim(allChips[i]).empty())
+    {
+      continue;
+    }
+    if (splitKeyValuePair(trim(allChips[i]), &key, &val))
+    {
+      if (key == "Size")
+      {
+        tempSize = std::stoull(val.substr(0, val.size() - 3)) * 1024 * 1024 * 1024;
+        std::cout << tempSize << '\n';
+      }
+      else if (startswith(key, "BANK "))
+      {
+        tempBank = key.substr(key.find_first_of("/") + 1);
+        std::cout << tempBank << '\n';
+      }
+      else if (key == "Type")
+      {
+        tempType = val;
+        std::cout << tempType << '\n';
+      }
+      else if (key == "Speed")
+      {
+        tempSpeed = std::stof(val.substr(0, val.size() - 4));
+        std::cout << tempSpeed << '\n';
+      }
+      else if (key == "Manufacturer")
+      {
+        tryGetValue(manufMap, val, &tempManufacturer);
+        std::cout << tempManufacturer << '\n';
+      }
+      else if (key == "Part Number")
+      {
+        tempPart = val;
+        std::cout << tempPart << '\n';
+      }
+      else if (key == "Serial Number")
+      {
+        tempSerial = val;
+        std::cout << tempSerial << '\n';
+      }
+
+      if (i == allChips.size() - 3 || (i > 7 && i < allChips.size() - 3 && startswith(trim(allChips[i + 2]), "BANK ")))
+      {
+        tempChip = (new RAM(tempSize, tempBank, tempType, tempSpeed, tempFormFactor, tempManufacturer, tempPart, tempSerial, tempVoltageConfigured, tempVoltageMin, tempVoltageMax));
+        chips->push_back(tempChip);
+      }
+    }
+  }
 }
 
 /**
