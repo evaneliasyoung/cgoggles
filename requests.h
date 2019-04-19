@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-15
-*  @date      2019-04-17
+*  @date      2019-04-19
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -40,8 +40,8 @@ extern FileSystemList compFS;
 void filterRequests();
 void parseRequests(std::string *request);
 void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *vals);
-void outputSimple(std::vector<std::string> *keys, std::vector<std::string> *vals, const char &del = '\n');
-void outputJson(std::vector<std::string> *keys, std::vector<std::string> *vals, const bool &min = false);
-void outputRequests();
+void outputSimple(std::ostream& stream, std::vector<std::string> *keys, std::vector<std::string> *vals, const char &del = '\n');
+void outputJson(std::ostream& stream, std::vector<std::string> *keys, std::vector<std::string> *vals, const bool &min = false);
+void outputRequests(std::ostream& stream = std::cout);
 
 #endif // CGOGGLES_REQUESTS_H_

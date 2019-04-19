@@ -102,37 +102,30 @@ void RAMList::GetMac()
       if (key == "Size")
       {
         tempSize = std::stoull(val.substr(0, val.size() - 3)) * 1024 * 1024 * 1024;
-        std::cout << tempSize << '\n';
       }
       else if (startswith(key, "BANK "))
       {
         tempBank = key.substr(key.find_first_of("/") + 1);
-        std::cout << tempBank << '\n';
       }
       else if (key == "Type")
       {
         tempType = val;
-        std::cout << tempType << '\n';
       }
       else if (key == "Speed")
       {
         tempSpeed = std::stof(val.substr(0, val.size() - 4));
-        std::cout << tempSpeed << '\n';
       }
       else if (key == "Manufacturer")
       {
         tryGetValue(manufMap, val, &tempManufacturer);
-        std::cout << tempManufacturer << '\n';
       }
       else if (key == "Part Number")
       {
         tempPart = val;
-        std::cout << tempPart << '\n';
       }
       else if (key == "Serial Number")
       {
         tempSerial = val;
-        std::cout << tempSerial << '\n';
       }
 
       if (i == allChips.size() - 3 || (i > 7 && i < allChips.size() - 3 && startswith(trim(allChips[i + 2]), "BANK ")))
