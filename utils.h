@@ -13,7 +13,7 @@
 
 #include "pch.h"
 
-#define CGOGGLES_VERSION_ 0x000300
+#define CGOGGLES_VERSION_ 0x000302
 #if _WIN32 || _WIN64
 #if _WIN64
 #define CGOGGLES_ENVIRONMENT_ 64

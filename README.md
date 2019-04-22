@@ -14,14 +14,15 @@ This is made as first a passion-project and next a final-project for my programm
 
 ## News and Changes
 
-### Version 0.3.1 - 2019-04-17
+### Version 0.3.2 - 2019-04-22
 
 ### Latest Activity
 
 (last 7 major and minor version releases)
 
+- Version 0.3.2: Performance improvements, RAM information for Mac
 - Version 0.3.1: Pretty-print option for storage
-- Version 0.3.0: System information and Most Linux support
+- Version 0.3.0: System information and most Linux support
 - Version 0.2.0: GPU, Storage, and FileSystem information
 - Version 0.1.1: Mac compatability
 - Version 0.1.0: Initial release
@@ -98,16 +99,16 @@ S Sudo Support
 
 | Call                  | Linux | Mac | Win | Comments           |
 | --------------------- | ----- | --- | --- | ------------------ |
-| ram                   | S     |  ~  | ~   | *Everything below* |
-| ram.All               | S     |  ~  | ~   | *Everything below* |
-| ram.Size              | S     |  X  | X   | 8589934592         |
-| ram.Bank              | S     |  X  | X   | DIMM1              |
-| ram.Type              | S     |  X  | X   | DDR4               |
-| ram.Speed             | S     |  X  | X   | 3200 MHz           |
+| ram                   | S     | ~   | ~   | *Everything below* |
+| ram.All               | S     | ~   | ~   | *Everything below* |
+| ram.Size              | S     | X   | X   | 8589934592         |
+| ram.Bank              | S     | X   | X   | DIMM1              |
+| ram.Type              | S     | X   | X   | DDR4               |
+| ram.Speed             | S     | X   | X   | 3200 MHz           |
 | ram.FormFactor        | S     |     | X   | DIMM               |
-| ram.Manufacturer      | S     |  X  | X   | Samsung            |
-| ram.Part              | S     |  X  | X   | M378B1G73EB0-YK0   |
-| ram.Serial            | S     |  X  | X   | XXXXXXXXXXXX       |
+| ram.Manufacturer      | S     | X   | X   | Samsung            |
+| ram.Part              | S     | X   | X   | M378B1G73EB0-YK0   |
+| ram.Serial            | S     | X   | X   | XXXXXXXXXXXX       |
 | ram.VoltageConfigured | S     |     | X   | 2.4 V              |
 | ram.VoltageMin        | S     |     | X   | 2.4 V              |
 | ram.VoltageMax        | S     |     | X   | 2.4 V              |
