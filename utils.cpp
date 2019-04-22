@@ -249,7 +249,7 @@ std::string siUnits(const std::uint64_t &num, const std::uint8_t &plc, const std
   std::stringstream ss;
   char suf[9] = {'\0', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'};
 
-  for (std::size_t i = 5; i >= 0; --i)
+  for (std::size_t i = 5; i > 0; --i)
   {
     if (num >= pow(1024, i))
     {
@@ -264,7 +264,7 @@ std::string siUnits(const std::uint32_t &num, const std::uint8_t &plc, const std
   std::stringstream ss;
   char suf[9] = {'\0', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'};
 
-  for (std::size_t i = 5; i >= 0; --i)
+  for (std::size_t i = 5; i > 0; --i)
   {
     if (num >= pow(1024, i))
     {
@@ -279,7 +279,7 @@ std::string siUnits(const float &num, const std::uint8_t &plc, const std::string
   std::stringstream ss;
   char suf[9] = {'\0', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'};
 
-  for (std::size_t i = 5; i >= 0; --i)
+  for (std::size_t i = 5; i > 0; --i)
   {
     if (num >= pow(1024, i))
     {
