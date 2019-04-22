@@ -1,10 +1,10 @@
 /**
-*  @file      utils.cpp
-*  @brief     The implementation for the utilities.
+*  @file      utils.h
+*  @brief     The interface for the utilities.
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-12
-*  @date      2019-04-17
+*  @date      2019-04-22
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
