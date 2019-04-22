@@ -372,7 +372,8 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
     if (gpuAll || contains(&requests, "GPU.VRAM"))
     {
       keys->push_back("gpu[" + std::to_string(i) + "].VRAM");
-      vals->push_back(std::to_string(compGPU.Controllers()[i].VRAM()));
+      vals->push_back(pretty ? prettyOutputStorage(compGPU.Controllers()[i].VRAM())
+                             : std::to_string(compGPU.Controllers()[i].VRAM()));
     }
     if (gpuAll || contains(&requests, "GPU.DYNAMIC"))
     {
