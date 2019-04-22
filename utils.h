@@ -72,9 +72,9 @@ bool tryGetValue(const std::map<T, R> &m, const T &k, R *v)
   return false;
 }
 bool readFile(const std::string &p, std::string *o);
-std::string siUnits(const std::uint64_t &num, const std::uint8_t &plc = 2);
-std::string siUnits(const std::uint32_t &num, const std::uint8_t &plc = 2);
-std::string siUnits(const float &num, const std::uint8_t &plc = 2);
+std::string siUnits(const std::uint64_t &num, const std::uint8_t &plc = 2, const std::string &suff = "");
+std::string siUnits(const std::uint32_t &num, const std::uint8_t &plc = 2, const std::string &suff = "");
+std::string siUnits(const float &num, const std::uint8_t &plc = 2, const std::string &suff = "");
 std::string prettyOutputStorage(const std::uint64_t &num, const std::uint8_t &plc = 2);
 std::string prettyOutputStorage(const std::uint32_t &num, const std::uint8_t &plc = 2);
 std::string prettyOutputStorage(const float &num, const std::uint8_t &plc = 2);

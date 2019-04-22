@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-12
-*  @date      2019-04-17
+*  @date      2019-04-22
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -244,7 +244,7 @@ bool readFile(const std::string &p, std::string *o)
   return true;
 }
 
-std::string siUnits(const std::uint64_t &num, const std::uint8_t &plc)
+std::string siUnits(const std::uint64_t &num, const std::uint8_t &plc, const std::string &suff)
 {
   std::stringstream ss;
   char suf[9] = {'\0', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'};
@@ -253,13 +253,13 @@ std::string siUnits(const std::uint64_t &num, const std::uint8_t &plc)
   {
     if (num >= pow(1024, i))
     {
-      ss << std::fixed << std::setprecision(plc) << num / pow(1024, i) << ' ' << suf[i];
+      ss << std::fixed << std::setprecision(plc) << num / pow(1024, i) << ' ' << suf[i] << suff;
       return ss.str();
     }
   }
 }
 
-std::string siUnits(const std::uint32_t &num, const std::uint8_t &plc)
+std::string siUnits(const std::uint32_t &num, const std::uint8_t &plc, const std::string &suff)
 {
   std::stringstream ss;
   char suf[9] = {'\0', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'};
@@ -268,13 +268,13 @@ std::string siUnits(const std::uint32_t &num, const std::uint8_t &plc)
   {
     if (num >= pow(1024, i))
     {
-      ss << std::fixed << std::setprecision(plc) << num / pow(1024, i) << ' ' << suf[i];
+      ss << std::fixed << std::setprecision(plc) << num / pow(1024, i) << ' ' << suf[i] << suff;
       return ss.str();
     }
   }
 }
 
-std::string siUnits(const float &num, const std::uint8_t &plc)
+std::string siUnits(const float &num, const std::uint8_t &plc, const std::string &suff)
 {
   std::stringstream ss;
   char suf[9] = {'\0', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'};
@@ -283,7 +283,7 @@ std::string siUnits(const float &num, const std::uint8_t &plc)
   {
     if (num >= pow(1024, i))
     {
-      ss << std::fixed << std::setprecision(plc) << num / pow(1024, i) << ' ' << suf[i];
+      ss << std::fixed << std::setprecision(plc) << num / pow(1024, i) << ' ' << suf[i] << suff;
       return ss.str();
     }
   }
@@ -291,17 +291,17 @@ std::string siUnits(const float &num, const std::uint8_t &plc)
 
 std::string prettyOutputStorage(const std::uint64_t &num, const std::uint8_t &plc)
 {
-  return siUnits(num, plc) + "B";
+  return siUnits(num, plc, "B");
 }
 
 std::string prettyOutputStorage(const std::uint32_t &num, const std::uint8_t &plc)
 {
-  return siUnits(num, plc) + "B";
+  return siUnits(num, plc, "B");
 }
 
 std::string prettyOutputStorage(const float &num, const std::uint8_t &plc)
 {
-  return siUnits(num, plc) + "B";
+  return siUnits(num, plc, "B");
 }
 
 void outputVersion()

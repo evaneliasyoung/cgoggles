@@ -79,7 +79,7 @@ void RAMList::GetMac()
   std::uint64_t tempSize = 0;
   std::string tempBank = "";
   std::string tempType = "";
-  float tempSpeed = 0;
+  std::uint64_t tempSpeed = 0;
   std::string tempFormFactor = "";
   std::string tempManufacturer = "";
   std::string tempPart = "";
@@ -101,7 +101,7 @@ void RAMList::GetMac()
     {
       if (key == "Size")
       {
-        tempSize = std::stoull(val.substr(0, val.size() - 3)) * 1024 * 1024 * 1024;
+        tempSize = std::stoull(val.substr(0, val.size() - 3)) * pow(1024, 3);
       }
       else if (startswith(key, "BANK "))
       {
@@ -113,7 +113,7 @@ void RAMList::GetMac()
       }
       else if (key == "Speed")
       {
-        tempSpeed = std::stof(val.substr(0, val.size() - 4));
+        tempSpeed = std::stoull(val.substr(0, val.size() - 4)) * pow(1024, 3);
       }
       else if (key == "Manufacturer")
       {
@@ -164,7 +164,7 @@ void RAMList::GetWin()
   std::uint64_t tempSize = 0;
   std::string tempBank = "";
   std::string tempType = "";
-  float tempSpeed = 0;
+  std::uint64_t tempSpeed = 0;
   std::string tempFormFactor = "";
   std::string tempManufacturer = "";
   std::string tempPart = "";
@@ -179,7 +179,8 @@ void RAMList::GetWin()
     (*total) += tempSize;
     tempBank = !allChips[i]["BankLabel"].empty() ? allChips[i]["BankLabel"] : allChips[i]["DeviceLocator"];
     tempType = memoryTypes[std::stoi(allChips[i]["MemoryType"])];
-    tempSpeed = !allChips[i]["ConfiguredClockSpeed"].empty() ? std::stof(allChips[i]["ConfiguredClockSpeed"]) : !allChips[i]["Speed"].empty() ? std::stof(allChips[i]["Speed"]) : 0;
+    tempSpeed = !allChips[i]["ConfiguredClockSpeed"].empty() ? std::stoull(allChips[i]["ConfiguredClockSpeed"]) : !allChips[i]["Speed"].empty() ? std::stoull(allChips[i]["Speed"]) : 0;
+    tempSpeed *= pow(1024, 2);
     tempFormFactor = memoryForms[!allChips[i]["FormFactor"].empty() ? std::stoi(allChips[i]["FormFactor"]) : 0];
     tempManufacturer = allChips[i]["Manufacturer"];
     tempPart = allChips[i]["PartNumber"];

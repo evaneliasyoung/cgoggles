@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-16
-*  @date      2019-04-11
+*  @date      2019-04-22
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -29,8 +29,8 @@ Processor::Processor()
   stepping = std::make_unique<std::uint8_t>();
   cores = std::make_unique<std::uint8_t>();
   threads = std::make_unique<std::uint8_t>();
-  speed = std::make_unique<float>();
-  maxSpeed = std::make_unique<float>();
+  speed = std::make_unique<std::uint64_t>();
+  maxSpeed = std::make_unique<std::uint64_t>();
 }
 
 /**
@@ -49,8 +49,8 @@ Processor::Processor(std::uint8_t plt)
   stepping = std::make_unique<std::uint8_t>();
   cores = std::make_unique<std::uint8_t>();
   threads = std::make_unique<std::uint8_t>();
-  speed = std::make_unique<float>();
-  maxSpeed = std::make_unique<float>();
+  speed = std::make_unique<std::uint64_t>();
+  maxSpeed = std::make_unique<std::uint64_t>();
 
   switch (CGOGGLES_OS)
   {
@@ -212,8 +212,8 @@ void Processor::GetWin()
     (*stepping) = std::stoi(mt[3]);
   }
 
-  (*maxSpeed) = std::round(std::stof(dataMap["MaxClockSpeed"]) / 10) / 100;
-  (*speed) = std::round(std::stof(dataMap["MaxClockSpeed"]) / 10) / 100;
+  (*maxSpeed) = std::round(std::stof(dataMap["MaxClockSpeed"]) / 10) / 100 * pow(1024, 3);
+  (*speed) = std::round(std::stof(dataMap["MaxClockSpeed"]) / 10) / 100 * pow(1024, 3);
 
   delete[] architectureMap;
   delete[] socketTypeMap;
@@ -396,44 +396,20 @@ std::uint8_t Processor::Threads()
 /**
 * @brief Returns a copy of the current clock speed
 *
-* @return float The current clock speed
+* @return std::uint64_t The current clock speed
 */
-float Processor::Speed()
+std::uint64_t Processor::Speed()
 {
   return (*speed);
 }
 
 /**
-* @brief Returns a human-readable copy of the current clock speed
-*
-* @return std::string The human-readable current clock speed
-*/
-std::string Processor::PrettySpeed()
-{
-  std::stringstream buffer;
-  buffer << std::fixed << std::setprecision(2) << (*speed) << " GHz";
-  return buffer.str();
-}
-
-/**
 * @brief Returns a copy of the maximum clock speed
 *
-* @return float The maximum clock speed
+* @return std::uint64_t The maximum clock speed
 */
-float Processor::MaxSpeed()
+std::uint64_t Processor::MaxSpeed()
 {
   return (*maxSpeed);
-}
-
-/**
-* @brief Returns a human-readable copy of the maximum clock speed
-*
-* @return std::string The human-readable maximum clock speed
-*/
-std::string Processor::PrettyMaxSpeed()
-{
-  std::stringstream buffer;
-  buffer << std::fixed << std::setprecision(2) << (*maxSpeed) << " GHz";
-  return buffer.str();
 }
 #pragma endregion "Accessors"

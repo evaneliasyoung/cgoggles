@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-16
-*  @date      2019-03-25
+*  @date      2019-04-22
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -68,12 +68,12 @@ private:
   /**
   * @brief The current clock speed (in GHz)
   */
-  std::unique_ptr<float> speed;
+  std::unique_ptr<std::uint64_t> speed;
 
   /**
   * @brief The maximum clock speed (in GHz)
   */
-  std::unique_ptr<float> maxSpeed;
+  std::unique_ptr<std::uint64_t> maxSpeed;
 
   void GetMac();
   void GetWin();
@@ -93,10 +93,8 @@ public:
   std::uint8_t Stepping();
   std::uint8_t Cores();
   std::uint8_t Threads();
-  float Speed();
-  std::string PrettySpeed();
-  float MaxSpeed();
-  std::string PrettyMaxSpeed();
+  std::uint64_t Speed();
+  std::uint64_t MaxSpeed();
 };
 
 #endif // COGGLES_PROCESSOR_H_

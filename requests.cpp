@@ -344,12 +344,16 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
   if (cpuAll || contains(&requests, "CPU.SPEED"))
   {
     keys->push_back("cpu.Speed");
-    vals->push_back(compCPU.PrettySpeed());
+    vals->push_back(pretty
+                        ? siUnits(compCPU.Speed(), 2, "Hz")
+                        : std::to_string(compCPU.Speed()));
   }
   if (cpuAll || contains(&requests, "CPU.MAXSPEED"))
   {
     keys->push_back("cpu.MaxSpeed");
-    vals->push_back(compCPU.PrettyMaxSpeed());
+    vals->push_back(pretty
+                        ? siUnits(compCPU.MaxSpeed(), 2, "Hz")
+                        : std::to_string(compCPU.MaxSpeed()));
   }
 
   for (std::size_t i = 0; i < compGPU.Controllers().size(); i++)
@@ -387,7 +391,9 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
     if (ramAll || contains(&requests, "RAM.SIZE"))
     {
       keys->push_back("ram[" + std::to_string(i) + "].Size");
-      vals->push_back(std::to_string(compRAM.Chips()[i].Size()));
+      vals->push_back(pretty
+                          ? prettyOutputStorage(compRAM.Chips()[i].Size(), 0)
+                          : std::to_string(compRAM.Chips()[i].Size()));
     }
     if (ramAll || contains(&requests, "RAM.BANK"))
     {
@@ -402,7 +408,9 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
     if (ramAll || contains(&requests, "RAM.SPEED"))
     {
       keys->push_back("ram[" + std::to_string(i) + "].Speed");
-      vals->push_back(compRAM.Chips()[i].PrettySpeed());
+      vals->push_back(pretty
+                          ? siUnits(compRAM.Chips()[i].Speed(), 2, "Hz")
+                          : std::to_string(compRAM.Chips()[i].Speed()));
     }
     if (ramAll || contains(&requests, "RAM.FORMFACTOR"))
     {

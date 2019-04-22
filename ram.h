@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-04-04
-*  @date      2019-04-04
+*  @date      2019-04-22
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -22,7 +22,7 @@ private:
   std::unique_ptr<std::uint64_t> size;
   std::unique_ptr<std::string> bank;
   std::unique_ptr<std::string> type;
-  std::unique_ptr<float> speed;
+  std::unique_ptr<std::uint64_t> speed;
   std::unique_ptr<std::string> formFactor;
   std::unique_ptr<std::string> manufacturer;
   std::unique_ptr<std::string> part;
@@ -33,7 +33,7 @@ private:
 
 public:
   RAM();
-  RAM(std::uint64_t sz, std::string bk, std::string tp, float spd, std::string ff, std::string manuf, std::string prt, std::string srl, float vlt, float vltMin, float vltMax);
+  RAM(std::uint64_t sz, std::string bk, std::string tp, std::uint64_t spd, std::string ff, std::string manuf, std::string prt, std::string srl, float vlt, float vltMin, float vltMax);
   ~RAM();
   RAM(const RAM &s);
   void *operator new(std::size_t size);
@@ -42,8 +42,7 @@ public:
   std::uint64_t Size();
   std::string Bank();
   std::string Type();
-  float Speed();
-  std::string PrettySpeed();
+  std::uint64_t Speed();
   std::string FormFactor();
   std::string Manufacturer();
   std::string Part();

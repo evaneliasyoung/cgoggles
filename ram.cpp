@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-04-04
-*  @date      2019-04-04
+*  @date      2019-04-22
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -21,7 +21,7 @@ RAM::RAM()
   size = std::make_unique<std::uint64_t>();
   bank = std::make_unique<std::string>();
   type = std::make_unique<std::string>();
-  speed = std::make_unique<float>();
+  speed = std::make_unique<std::uint64_t>();
   formFactor = std::make_unique<std::string>();
   manufacturer = std::make_unique<std::string>();
   part = std::make_unique<std::string>();
@@ -34,12 +34,12 @@ RAM::RAM()
 /**
 * @brief Construct a new RAM object with values
 */
-RAM::RAM(std::uint64_t sz, std::string bk, std::string tp, float spd, std::string ff, std::string manuf, std::string prt, std::string srl, float vlt, float vltMin, float vltMax)
+RAM::RAM(std::uint64_t sz, std::string bk, std::string tp, std::uint64_t spd, std::string ff, std::string manuf, std::string prt, std::string srl, float vlt, float vltMin, float vltMax)
 {
   size = std::make_unique<std::uint64_t>(sz);
   bank = std::make_unique<std::string>(bk);
   type = std::make_unique<std::string>(tp);
-  speed = std::make_unique<float>(spd);
+  speed = std::make_unique<std::uint64_t>(spd);
   formFactor = std::make_unique<std::string>(ff);
   manufacturer = std::make_unique<std::string>(manuf);
   part = std::make_unique<std::string>(prt);
@@ -59,7 +59,7 @@ RAM::RAM(const RAM &s)
   size = std::make_unique<std::uint64_t>();
   bank = std::make_unique<std::string>();
   type = std::make_unique<std::string>();
-  speed = std::make_unique<float>();
+  speed = std::make_unique<std::uint64_t>();
   formFactor = std::make_unique<std::string>();
   manufacturer = std::make_unique<std::string>();
   part = std::make_unique<std::string>();
@@ -127,7 +127,7 @@ void RAM::operator=(const RAM &s)
   size = std::make_unique<std::uint64_t>();
   bank = std::make_unique<std::string>();
   type = std::make_unique<std::string>();
-  speed = std::make_unique<float>();
+  speed = std::make_unique<std::uint64_t>();
   formFactor = std::make_unique<std::string>();
   manufacturer = std::make_unique<std::string>();
   part = std::make_unique<std::string>();
@@ -159,7 +159,7 @@ void RAM::operator=(RAM *s)
   size = std::make_unique<std::uint64_t>();
   bank = std::make_unique<std::string>();
   type = std::make_unique<std::string>();
-  speed = std::make_unique<float>();
+  speed = std::make_unique<std::uint64_t>();
   formFactor = std::make_unique<std::string>();
   manufacturer = std::make_unique<std::string>();
   part = std::make_unique<std::string>();
@@ -216,23 +216,11 @@ std::string RAM::Type()
 /**
 * @brief Returns a copy of the speed
 *
-* @return std::string The speed
+* @return std::uint64_t The speed
 */
-float RAM::Speed()
+std::uint64_t RAM::Speed()
 {
   return (*speed);
-}
-
-/**
-* @brief Returns a human-readable copy of the clock speed
-*
-* @return std::string The human-readable clock speed
-*/
-std::string RAM::PrettySpeed()
-{
-  std::stringstream buffer;
-  buffer << std::fixed << std::setprecision(0) << (*speed) << " MHz";
-  return buffer.str();
 }
 
 /**
