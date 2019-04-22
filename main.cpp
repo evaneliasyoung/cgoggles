@@ -26,7 +26,7 @@
 
 std::vector<std::string> requests;
 OutputStyle style = OutputStyle::Default;
-bool pretty = false;
+bool pretty = true;
 
 OperatingSystem compOS;
 System compSys;
