@@ -129,7 +129,7 @@ void GraphicsList::GetWin()
   std::string tempVendor = "";
   std::string tempModel = "";
   std::string tempBus = "";
-  std::uint32_t tempVRAM = 0;
+  std::uint64_t tempVRAM = 0;
   bool tempDynamic = false;
 
   for (std::size_t i = 0; i < gpuList.size(); i++)
@@ -137,7 +137,7 @@ void GraphicsList::GetWin()
     tempVendor = gpuList[i]["AdapterCompatibility"];
     tempModel = gpuList[i]["Name"];
     tempBus = gpuList[i]["PNPDeviceID"].substr(0, 3) == "PCI" ? "PCIe" : "";
-    tempVRAM = gpuList[i]["AdapterRAM"] == "" ? 0 : std::stoull(gpuList[i]["AdapterRAM"]) / 1024 / 1024;
+    tempVRAM = gpuList[i]["AdapterRAM"] == "" ? 0 : std::stoull(gpuList[i]["AdapterRAM"]);
     tempDynamic = gpuList[i]["VideoMemoryType"] == "2";
 
     tempController = new Graphics(tempVendor, tempModel, tempBus, tempVRAM, tempDynamic);
