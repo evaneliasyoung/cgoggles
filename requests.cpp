@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-15
-*  @date      2019-04-19
+*  @date      2019-04-22
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -126,274 +126,228 @@ void parseRequests(std::string *request)
 }
 
 /**
+* @brief Turns a list of requests into a list of categories
+*/
+void gatherCategories(std::vector<std::string> *cats)
+{
+  std::string cur;
+  bool addAll = contains(&requests, "ALL");
+  bool addOS = false;
+  bool addSYS = false;
+  bool addCPU = false;
+  bool addGPU = false;
+  bool addRAM = false;
+  bool addSTORAGE = false;
+  bool addFS = false;
+
+  for (std::size_t i = 0; i < requests.size(); ++i)
+  {
+    cur = requests[i];
+
+    if (!addOS && (addAll || startswith(cur, "OS")))
+    {
+      cats->push_back("OS");
+      addOS = true;
+    }
+    if (!addSYS && (addAll || startswith(cur, "SYS")))
+    {
+      cats->push_back("SYS");
+      addSYS = true;
+    }
+    if (!addCPU && (addAll || startswith(cur, "CPU")))
+    {
+      cats->push_back("CPU");
+      addCPU = true;
+    }
+    if (!addGPU && (addAll || startswith(cur, "GPU")))
+    {
+      cats->push_back("GPU");
+      addGPU = true;
+    }
+    if (!addRAM && (addAll || startswith(cur, "RAM")))
+    {
+      cats->push_back("RAM");
+      addRAM = true;
+    }
+    if (!addSTORAGE && (addAll || startswith(cur, "STORAGE")))
+    {
+      cats->push_back("STORAGE");
+      addSTORAGE = true;
+    }
+    if (!addFS && (addAll || startswith(cur, "FS")))
+    {
+      cats->push_back("FS");
+      addFS = true;
+    }
+  }
+}
+
+/**
 * @brief Turns the list of requests into a list of data
 */
-void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *vals)
+void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *vals, std::vector<std::string> *cats)
 {
   bool osAll = contains(&requests, "ALL") || contains(&requests, "OS.ALL") || contains(&requests, "OS");
   bool sysAll = contains(&requests, "ALL") || contains(&requests, "SYS.ALL") || contains(&requests, "SYS");
   bool cpuAll = contains(&requests, "ALL") || contains(&requests, "CPU.ALL") || contains(&requests, "CPU");
+  bool gpuAll = contains(&requests, "ALL") || contains(&requests, "GPU.ALL") || contains(&requests, "GPU");
   bool ramAll = contains(&requests, "ALL") || contains(&requests, "RAM.ALL") || contains(&requests, "RAM");
   bool stoAll = contains(&requests, "ALL") || contains(&requests, "STORAGE.ALL") || contains(&requests, "STORAGE");
   bool fsAll = contains(&requests, "ALL") || contains(&requests, "FS.ALL") || contains(&requests, "FS");
-  bool gpuAll = contains(&requests, "ALL") || contains(&requests, "GPU.ALL") || contains(&requests, "GPU");
-  bool osGet = false;
-  bool sysGet = false;
-  bool cpuGet = false;
-  bool ramGet = false;
-  bool stoGet = false;
-  bool fsGet = false;
-  bool gpuGet = false;
+
+  if (contains(cats, "OS"))
+  {
+    compOS = new OperatingSystem(CGOGGLES_OS);
+  }
+  if (contains(cats, "SYS"))
+  {
+    compSys = new System(CGOGGLES_OS);
+  }
+  if (contains(cats, "CPU"))
+  {
+    compCPU = new Processor(CGOGGLES_OS);
+  }
+  if (contains(cats, "GPU"))
+  {
+    compGPU = new GraphicsList(CGOGGLES_OS);
+  }
+  if (contains(cats, "RAM"))
+  {
+    compRAM = new RAMList(CGOGGLES_OS);
+  }
+  if (contains(cats, "STORAGE"))
+  {
+    compStorage = new StorageList(CGOGGLES_OS);
+  }
+  if (contains(cats, "FS"))
+  {
+    compFS = new FileSystemList(CGOGGLES_OS);
+  }
 
   if (osAll || contains(&requests, "OS.PLATFORM"))
   {
-    if (!osGet)
-    {
-      compOS = new OperatingSystem(CGOGGLES_OS);
-      osGet = true;
-    }
     keys->push_back("os.Platform");
     vals->push_back(compOS.Platform());
   }
   if (osAll || contains(&requests, "OS.CAPTION"))
   {
-    if (!osGet)
-    {
-      compOS = new OperatingSystem(CGOGGLES_OS);
-      osGet = true;
-    }
     keys->push_back("os.Caption");
     vals->push_back(compOS.Caption());
   }
   if (osAll || contains(&requests, "OS.SERIAL"))
   {
-    if (!osGet)
-    {
-      compOS = new OperatingSystem(CGOGGLES_OS);
-      osGet = true;
-    }
     keys->push_back("os.Serial");
     vals->push_back(compOS.Serial());
   }
   if (osAll || contains(&requests, "OS.BIT"))
   {
-    if (!osGet)
-    {
-      compOS = new OperatingSystem(CGOGGLES_OS);
-      osGet = true;
-    }
     keys->push_back("os.Bit");
     vals->push_back(std::to_string(compOS.Bit()));
   }
   if (osAll || contains(&requests, "OS.INSTALLTIME"))
   {
-    if (!osGet)
-    {
-      compOS = new OperatingSystem(CGOGGLES_OS);
-      osGet = true;
-    }
     keys->push_back("os.InstallTime");
     vals->push_back(compOS.InstallTime("%Y-%m-%dT%H:%M:%S"));
   }
   if (osAll || contains(&requests, "OS.BOOTTIME"))
   {
-    if (!osGet)
-    {
-      compOS = new OperatingSystem(CGOGGLES_OS);
-      osGet = true;
-    }
     keys->push_back("os.BootTime");
     vals->push_back(compOS.BootTime("%Y-%m-%dT%H:%M:%S"));
   }
   if (osAll || contains(&requests, "OS.CURTIME"))
   {
-    if (!osGet)
-    {
-      compOS = new OperatingSystem(CGOGGLES_OS);
-      osGet = true;
-    }
     keys->push_back("os.CurTime");
     vals->push_back(compOS.CurTime("%Y-%m-%dT%H:%M:%S"));
   }
   if (osAll || contains(&requests, "OS.KERNEL"))
   {
-    if (!osGet)
-    {
-      compOS = new OperatingSystem(CGOGGLES_OS);
-      osGet = true;
-    }
     keys->push_back("os.Kernel");
     vals->push_back(compOS.Kernel().Pretty());
   }
   if (osAll || contains(&requests, "OS.VERSION"))
   {
-    if (!osGet)
-    {
-      compOS = new OperatingSystem(CGOGGLES_OS);
-      osGet = true;
-    }
     keys->push_back("os.Version");
     vals->push_back(compOS.Version().Pretty());
   }
 
   if (sysAll || contains(&requests, "SYS.MANUFACTURER"))
   {
-    if (!sysGet)
-    {
-      compSys = new System(CGOGGLES_OS);
-      sysGet = true;
-    }
     keys->push_back("sys.Manufacturer");
     vals->push_back(compSys.Manufacturer());
   }
   if (sysAll || contains(&requests, "SYS.MODEL"))
   {
-    if (!sysGet)
-    {
-      compSys = new System(CGOGGLES_OS);
-      sysGet = true;
-    }
     keys->push_back("sys.Model");
     vals->push_back(compSys.Model());
   }
   if (sysAll || contains(&requests, "SYS.VERSION"))
   {
-    if (!sysGet)
-    {
-      compSys = new System(CGOGGLES_OS);
-      sysGet = true;
-    }
     keys->push_back("sys.Version");
     vals->push_back(compSys.Version());
   }
   if (sysAll || contains(&requests, "SYS.SERIAL"))
   {
-    if (!sysGet)
-    {
-      compSys = new System(CGOGGLES_OS);
-      sysGet = true;
-    }
     keys->push_back("sys.Serial");
     vals->push_back(compSys.Serial());
   }
   if (sysAll || contains(&requests, "SYS.UUID"))
   {
-    if (!sysGet)
-    {
-      compSys = new System(CGOGGLES_OS);
-      sysGet = true;
-    }
     keys->push_back("sys.UUID");
     vals->push_back(compSys.UUID());
   }
 
   if (cpuAll || contains(&requests, "CPU.MANUFACTURER"))
   {
-    if (!cpuGet)
-    {
-      compCPU = new Processor(CGOGGLES_OS);
-      cpuGet = true;
-    }
     keys->push_back("cpu.Manufacturer");
     vals->push_back(compCPU.Manufacturer());
   }
   if (cpuAll || contains(&requests, "CPU.ARCHITECTURE"))
   {
-    if (!cpuGet)
-    {
-      compCPU = new Processor(CGOGGLES_OS);
-      cpuGet = true;
-    }
     keys->push_back("cpu.Architecture");
     vals->push_back(compCPU.Architecture());
   }
   if (cpuAll || contains(&requests, "CPU.SOCKETTYPE"))
   {
-    if (!cpuGet)
-    {
-      compCPU = new Processor(CGOGGLES_OS);
-      cpuGet = true;
-    }
     keys->push_back("cpu.SocketType");
     vals->push_back(compCPU.SocketType());
   }
   if (cpuAll || contains(&requests, "CPU.BRAND"))
   {
-    if (!cpuGet)
-    {
-      compCPU = new Processor(CGOGGLES_OS);
-      cpuGet = true;
-    }
     keys->push_back("cpu.Brand");
     vals->push_back(compCPU.Brand());
   }
   if (cpuAll || contains(&requests, "CPU.FAMILY"))
   {
-    if (!cpuGet)
-    {
-      compCPU = new Processor(CGOGGLES_OS);
-      cpuGet = true;
-    }
     keys->push_back("cpu.Family");
     vals->push_back(std::to_string(compCPU.Family()));
   }
   if (cpuAll || contains(&requests, "CPU.MODEL"))
   {
-    if (!cpuGet)
-    {
-      compCPU = new Processor(CGOGGLES_OS);
-      cpuGet = true;
-    }
     keys->push_back("cpu.Model");
     vals->push_back(std::to_string(compCPU.Model()));
   }
   if (cpuAll || contains(&requests, "CPU.STEPPING"))
   {
-    if (!cpuGet)
-    {
-      compCPU = new Processor(CGOGGLES_OS);
-      cpuGet = true;
-    }
     keys->push_back("cpu.Stepping");
     vals->push_back(std::to_string(compCPU.Stepping()));
   }
   if (cpuAll || contains(&requests, "CPU.CORES"))
   {
-    if (!cpuGet)
-    {
-      compCPU = new Processor(CGOGGLES_OS);
-      cpuGet = true;
-    }
     keys->push_back("cpu.Cores");
     vals->push_back(std::to_string(compCPU.Cores()));
   }
   if (cpuAll || contains(&requests, "CPU.THREADS"))
   {
-    if (!cpuGet)
-    {
-      compCPU = new Processor(CGOGGLES_OS);
-      cpuGet = true;
-    }
     keys->push_back("cpu.Threads");
     vals->push_back(std::to_string(compCPU.Threads()));
   }
   if (cpuAll || contains(&requests, "CPU.SPEED"))
   {
-    if (!cpuGet)
-    {
-      compCPU = new Processor(CGOGGLES_OS);
-      cpuGet = true;
-    }
     keys->push_back("cpu.Speed");
     vals->push_back(compCPU.PrettySpeed());
   }
   if (cpuAll || contains(&requests, "CPU.MAXSPEED"))
   {
-    if (!cpuGet)
-    {
-      compCPU = new Processor(CGOGGLES_OS);
-      cpuGet = true;
-    }
     keys->push_back("cpu.MaxSpeed");
     vals->push_back(compCPU.PrettyMaxSpeed());
   }
@@ -402,51 +356,26 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
   {
     if (gpuAll || contains(&requests, "GPU.VENDOR"))
     {
-      if (!gpuGet)
-      {
-        compGPU = new GraphicsList(CGOGGLES_OS);
-        gpuGet = true;
-      }
       keys->push_back("gpu[" + std::to_string(i) + "].Vendor");
       vals->push_back(compGPU.Controllers()[i].Vendor());
     }
     if (gpuAll || contains(&requests, "GPU.MODEL"))
     {
-      if (!gpuGet)
-      {
-        compGPU = new GraphicsList(CGOGGLES_OS);
-        gpuGet = true;
-      }
       keys->push_back("gpu[" + std::to_string(i) + "].Model");
       vals->push_back(compGPU.Controllers()[i].Model());
     }
     if (gpuAll || contains(&requests, "GPU.BUS"))
     {
-      if (!gpuGet)
-      {
-        compGPU = new GraphicsList(CGOGGLES_OS);
-        gpuGet = true;
-      }
       keys->push_back("gpu[" + std::to_string(i) + "].Bus");
       vals->push_back(compGPU.Controllers()[i].Bus());
     }
     if (gpuAll || contains(&requests, "GPU.VRAM"))
     {
-      if (!gpuGet)
-      {
-        compGPU = new GraphicsList(CGOGGLES_OS);
-        gpuGet = true;
-      }
       keys->push_back("gpu[" + std::to_string(i) + "].VRAM");
       vals->push_back(std::to_string(compGPU.Controllers()[i].VRAM()));
     }
     if (gpuAll || contains(&requests, "GPU.DYNAMIC"))
     {
-      if (!gpuGet)
-      {
-        compGPU = new GraphicsList(CGOGGLES_OS);
-        gpuGet = true;
-      }
       keys->push_back("gpu[" + std::to_string(i) + "].Dynamic");
       vals->push_back(compGPU.Controllers()[i].Dynamic() ? "Yes" : "No");
     }
@@ -456,111 +385,56 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
   {
     if (ramAll || contains(&requests, "RAM.SIZE"))
     {
-      if (!ramGet)
-      {
-        compRAM = new RAMList(CGOGGLES_OS);
-        ramGet = true;
-      }
       keys->push_back("ram[" + std::to_string(i) + "].Size");
       vals->push_back(std::to_string(compRAM.Chips()[i].Size()));
     }
     if (ramAll || contains(&requests, "RAM.BANK"))
     {
-      if (!ramGet)
-      {
-        compRAM = new RAMList(CGOGGLES_OS);
-        ramGet = true;
-      }
       keys->push_back("ram[" + std::to_string(i) + "].Bank");
       vals->push_back(compRAM.Chips()[i].Bank());
     }
     if (ramAll || contains(&requests, "RAM.TYPE"))
     {
-      if (!ramGet)
-      {
-        compRAM = new RAMList(CGOGGLES_OS);
-        ramGet = true;
-      }
       keys->push_back("ram[" + std::to_string(i) + "].Type");
       vals->push_back(compRAM.Chips()[i].Type());
     }
     if (ramAll || contains(&requests, "RAM.SPEED"))
     {
-      if (!ramGet)
-      {
-        compRAM = new RAMList(CGOGGLES_OS);
-        ramGet = true;
-      }
       keys->push_back("ram[" + std::to_string(i) + "].Speed");
       vals->push_back(compRAM.Chips()[i].PrettySpeed());
     }
     if (ramAll || contains(&requests, "RAM.FORMFACTOR"))
     {
-      if (!ramGet)
-      {
-        compRAM = new RAMList(CGOGGLES_OS);
-        ramGet = true;
-      }
       keys->push_back("ram[" + std::to_string(i) + "].FormFactor");
       vals->push_back(compRAM.Chips()[i].FormFactor());
     }
     if (ramAll || contains(&requests, "RAM.MANUFACTURER"))
     {
-      if (!ramGet)
-      {
-        compRAM = new RAMList(CGOGGLES_OS);
-        ramGet = true;
-      }
       keys->push_back("ram[" + std::to_string(i) + "].Manufacturer");
       vals->push_back(compRAM.Chips()[i].Manufacturer());
     }
     if (ramAll || contains(&requests, "RAM.PART"))
     {
-      if (!ramGet)
-      {
-        compRAM = new RAMList(CGOGGLES_OS);
-        ramGet = true;
-      }
       keys->push_back("ram[" + std::to_string(i) + "].Part");
       vals->push_back(compRAM.Chips()[i].Part());
     }
     if (ramAll || contains(&requests, "RAM.SERIAL"))
     {
-      if (!ramGet)
-      {
-        compRAM = new RAMList(CGOGGLES_OS);
-        ramGet = true;
-      }
       keys->push_back("ram[" + std::to_string(i) + "].Serial");
       vals->push_back(compRAM.Chips()[i].Serial());
     }
     if (ramAll || contains(&requests, "RAM.VOLTAGECONFIGURED"))
     {
-      if (!ramGet)
-      {
-        compRAM = new RAMList(CGOGGLES_OS);
-        ramGet = true;
-      }
       keys->push_back("ram[" + std::to_string(i) + "].VoltageConfigured");
       vals->push_back(compRAM.Chips()[i].PrettyVoltageConfigured());
     }
     if (ramAll || contains(&requests, "RAM.VOLTAGEMIN"))
     {
-      if (!ramGet)
-      {
-        compRAM = new RAMList(CGOGGLES_OS);
-        ramGet = true;
-      }
       keys->push_back("ram[" + std::to_string(i) + "].VoltageMin");
       vals->push_back(compRAM.Chips()[i].PrettyVoltageMin());
     }
     if (ramAll || contains(&requests, "RAM.VOLTAGEMAX"))
     {
-      if (!ramGet)
-      {
-        compRAM = new RAMList(CGOGGLES_OS);
-        ramGet = true;
-      }
       keys->push_back("ram[" + std::to_string(i) + "].VoltageMax");
       vals->push_back(compRAM.Chips()[i].PrettyVoltageMax());
     }
@@ -570,132 +444,67 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
   {
     if (stoAll || contains(&requests, "STORAGE.NAME"))
     {
-      if (!stoGet)
-      {
-        compStorage = new StorageList(CGOGGLES_OS);
-        stoGet = true;
-      }
       keys->push_back("storage[" + std::to_string(i) + "].Name");
       vals->push_back(compStorage.Drives()[i].Name());
     }
     if (stoAll || contains(&requests, "STORAGE.IDENTIFIER"))
     {
-      if (!stoGet)
-      {
-        compStorage = new StorageList(CGOGGLES_OS);
-        stoGet = true;
-      }
       keys->push_back("storage[" + std::to_string(i) + "].Identifier");
       vals->push_back(compStorage.Drives()[i].Identifier());
     }
     if (stoAll || contains(&requests, "STORAGE.TYPE"))
     {
-      if (!stoGet)
-      {
-        compStorage = new StorageList(CGOGGLES_OS);
-        stoGet = true;
-      }
       keys->push_back("storage[" + std::to_string(i) + "].Type");
       vals->push_back(compStorage.Drives()[i].Type());
     }
     if (stoAll || contains(&requests, "STORAGE.FILESYSTEM"))
     {
-      if (!stoGet)
-      {
-        compStorage = new StorageList(CGOGGLES_OS);
-        stoGet = true;
-      }
       keys->push_back("storage[" + std::to_string(i) + "].FileSystem");
       vals->push_back(compStorage.Drives()[i].FileSystem());
     }
     if (stoAll || contains(&requests, "STORAGE.MOUNT"))
     {
-      if (!stoGet)
-      {
-        compStorage = new StorageList(CGOGGLES_OS);
-        stoGet = true;
-      }
       keys->push_back("storage[" + std::to_string(i) + "].Mount");
       vals->push_back(compStorage.Drives()[i].Mount());
     }
     if (stoAll || contains(&requests, "STORAGE.TOTAL"))
     {
-      if (!stoGet)
-      {
-        compStorage = new StorageList(CGOGGLES_OS);
-        stoGet = true;
-      }
       keys->push_back("storage[" + std::to_string(i) + "].Total");
       vals->push_back(pretty ? prettyOutputStorage(compStorage.Drives()[i].Total())
                              : std::to_string(compStorage.Drives()[i].Total()));
     }
     if (stoAll || contains(&requests, "STORAGE.PHYSICAL"))
     {
-      if (!stoGet)
-      {
-        compStorage = new StorageList(CGOGGLES_OS);
-        stoGet = true;
-      }
       keys->push_back("storage[" + std::to_string(i) + "].Physical");
       vals->push_back(compStorage.Drives()[i].Physical());
     }
     if (stoAll || contains(&requests, "STORAGE.UUID"))
     {
-      if (!stoGet)
-      {
-        compStorage = new StorageList(CGOGGLES_OS);
-        stoGet = true;
-      }
       keys->push_back("storage[" + std::to_string(i) + "].UUID");
       vals->push_back(compStorage.Drives()[i].UUID());
     }
     if (stoAll || contains(&requests, "STORAGE.LABEL"))
     {
-      if (!stoGet)
-      {
-        compStorage = new StorageList(CGOGGLES_OS);
-        stoGet = true;
-      }
       keys->push_back("storage[" + std::to_string(i) + "].Label");
       vals->push_back(compStorage.Drives()[i].Label());
     }
     if (stoAll || contains(&requests, "STORAGE.MODEL"))
     {
-      if (!stoGet)
-      {
-        compStorage = new StorageList(CGOGGLES_OS);
-        stoGet = true;
-      }
       keys->push_back("storage[" + std::to_string(i) + "].Model");
       vals->push_back(compStorage.Drives()[i].Model());
     }
     if (stoAll || contains(&requests, "STORAGE.SERIAL"))
     {
-      if (!stoGet)
-      {
-        compStorage = new StorageList(CGOGGLES_OS);
-        stoGet = true;
-      }
       keys->push_back("storage[" + std::to_string(i) + "].Serial");
       vals->push_back(compStorage.Drives()[i].Serial());
     }
     if (stoAll || contains(&requests, "STORAGE.REMOVABLE"))
     {
-      if (!stoGet)
-      {
-        compStorage = new StorageList(CGOGGLES_OS);
-        stoGet = true;
-      }
       keys->push_back("storage[" + std::to_string(i) + "].Removable");
       vals->push_back(compStorage.Drives()[i].Removable() ? "Yes" : "No");
     }
     if (stoAll || contains(&requests, "STORAGE.PROTOCOL"))
     {
-      if (!stoGet)
-      {
-        compStorage = new StorageList(CGOGGLES_OS);
-        stoGet = true;
-      }
       keys->push_back("storage[" + std::to_string(i) + "].Protocol");
       vals->push_back(compStorage.Drives()[i].Protocol());
     }
@@ -705,53 +514,28 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
   {
     if (fsAll || contains(&requests, "FS.FS"))
     {
-      if (!fsGet)
-      {
-        compFS = new FileSystemList(CGOGGLES_OS);
-        fsGet = true;
-      }
       keys->push_back("fs[" + std::to_string(i) + "].FS");
       vals->push_back(compFS.FileSystems()[i].FS());
     }
     if (fsAll || contains(&requests, "FS.TYPE"))
     {
-      if (!fsGet)
-      {
-        compFS = new FileSystemList(CGOGGLES_OS);
-        fsGet = true;
-      }
       keys->push_back("fs[" + std::to_string(i) + "].Type");
       vals->push_back(compFS.FileSystems()[i].Type());
     }
     if (fsAll || contains(&requests, "FS.SIZE"))
     {
-      if (!fsGet)
-      {
-        compFS = new FileSystemList(CGOGGLES_OS);
-        fsGet = true;
-      }
       keys->push_back("fs[" + std::to_string(i) + "].Size");
       vals->push_back(pretty ? prettyOutputStorage(compFS.FileSystems()[i].Size())
                              : std::to_string(compFS.FileSystems()[i].Size()));
     }
     if (fsAll || contains(&requests, "FS.USED"))
     {
-      if (!fsGet)
-      {
-        compFS = new FileSystemList(CGOGGLES_OS);
-        fsGet = true;
-      }
       keys->push_back("fs[" + std::to_string(i) + "].Used");
       vals->push_back(pretty ? prettyOutputStorage(compFS.FileSystems()[i].Used())
                              : std::to_string(compFS.FileSystems()[i].Used()));
     }
     if (fsAll || contains(&requests, "FS.MOUNT"))
     {
-      if (!fsGet)
-      {
-        compFS = new FileSystemList(CGOGGLES_OS);
-        fsGet = true;
-      }
       keys->push_back("fs[" + std::to_string(i) + "].Mount");
       vals->push_back(compFS.FileSystems()[i].Mount());
     }
@@ -807,23 +591,25 @@ void outputJson(std::ostream &stream, std::vector<std::string> *keys, std::vecto
 */
 void outputRequests(std::ostream &stream)
 {
-  std::unique_ptr<std::vector<std::string>> keys = std::make_unique<std::vector<std::string>>();
-  std::unique_ptr<std::vector<std::string>> vals = std::make_unique<std::vector<std::string>>();
-  gatherRequests(keys.get(), vals.get());
+  std::vector<std::string> *keys = new std::vector<std::string>;
+  std::vector<std::string> *vals = new std::vector<std::string>;
+  std::vector<std::string> *cats = new std::vector<std::string>;
+  gatherCategories(cats);
+  gatherRequests(keys, vals, cats);
 
   switch (style)
   {
   case OutputStyle::Default:
-    outputSimple(stream, keys.get(), vals.get());
+    outputSimple(stream, keys, vals);
     break;
   case OutputStyle::List:
-    outputSimple(stream, keys.get(), vals.get(), '=');
+    outputSimple(stream, keys, vals, '=');
     break;
   case OutputStyle::JSON:
-    outputJson(stream, keys.get(), vals.get());
+    outputJson(stream, keys, vals);
     break;
   case OutputStyle::MinJSON:
-    outputJson(stream, keys.get(), vals.get(), true);
+    outputJson(stream, keys, vals, true);
     break;
   }
 }
