@@ -175,12 +175,12 @@ void RAMList::GetWin()
 
   for (std::size_t i = 0; i < allChips.size(); i++)
   {
-    tempSize = !allChips[i]["Capacity"].empty() ? std::stoull(allChips[i]["Capacity"]) : 0;
+    tempSize = !allChips[i]["Capacity"].empty() ? std::stoull(allChips[i]["Capacity"]) / pow(1024, 3) * pow(1000, 3) : 0;
     (*total) += tempSize;
     tempBank = !allChips[i]["BankLabel"].empty() ? allChips[i]["BankLabel"] : allChips[i]["DeviceLocator"];
     tempType = memoryTypes[std::stoi(allChips[i]["MemoryType"])];
     tempSpeed = !allChips[i]["ConfiguredClockSpeed"].empty() ? std::stoull(allChips[i]["ConfiguredClockSpeed"]) : !allChips[i]["Speed"].empty() ? std::stoull(allChips[i]["Speed"]) : 0;
-    tempSpeed *= pow(1024, 2);
+    tempSpeed *= pow(10, 6);
     tempFormFactor = memoryForms[!allChips[i]["FormFactor"].empty() ? std::stoi(allChips[i]["FormFactor"]) : 0];
     tempManufacturer = allChips[i]["Manufacturer"];
     tempPart = allChips[i]["PartNumber"];
