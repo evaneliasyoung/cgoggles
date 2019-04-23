@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-12
-*  @date      2019-04-22
+*  @date      2019-04-23
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -72,12 +72,9 @@ bool tryGetValue(const std::map<T, R> &m, const T &k, R *v)
   return false;
 }
 bool readFile(const std::string &p, std::string *o);
-std::string siUnits(const std::uint64_t &num, const std::uint8_t &plc = 2, const std::string &suff = "");
-std::string siUnits(const std::uint32_t &num, const std::uint8_t &plc = 2, const std::string &suff = "");
-std::string siUnits(const float &num, const std::uint8_t &plc = 2, const std::string &suff = "");
-std::string prettyOutputStorage(const std::uint64_t &num, const std::uint8_t &plc = 2);
-std::string prettyOutputStorage(const std::uint32_t &num, const std::uint8_t &plc = 2);
-std::string prettyOutputStorage(const float &num, const std::uint8_t &plc = 2);
+std::string siUnits(const std::uint64_t &num, const std::string &suff = "", const std::uint8_t &plc = 2);
+std::string siUnits(const std::uint32_t &num, const std::string &suff = "", const std::uint8_t &plc = 2);
+std::string siUnits(const float &num, const std::string &suff = "", const std::uint8_t &plc = 2);
 void outputVersion();
 void outputList(const std::string &cat = "");
 void outputHelp();

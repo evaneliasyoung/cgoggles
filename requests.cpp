@@ -345,14 +345,14 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
   {
     keys->push_back("cpu.Speed");
     vals->push_back(pretty
-                        ? siUnits(compCPU.Speed(), 2, "Hz")
+                        ? siUnits(compCPU.Speed(), "Hz")
                         : std::to_string(compCPU.Speed()));
   }
   if (cpuAll || contains(&requests, "CPU.MAXSPEED"))
   {
     keys->push_back("cpu.MaxSpeed");
     vals->push_back(pretty
-                        ? siUnits(compCPU.MaxSpeed(), 2, "Hz")
+                        ? siUnits(compCPU.MaxSpeed(), "Hz")
                         : std::to_string(compCPU.MaxSpeed()));
   }
 
@@ -376,7 +376,7 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
     if (gpuAll || contains(&requests, "GPU.VRAM"))
     {
       keys->push_back("gpu[" + std::to_string(i) + "].VRAM");
-      vals->push_back(pretty ? prettyOutputStorage(compGPU.Controllers()[i].VRAM())
+      vals->push_back(pretty ? siUnits(compGPU.Controllers()[i].VRAM(), "B")
                              : std::to_string(compGPU.Controllers()[i].VRAM()));
     }
     if (gpuAll || contains(&requests, "GPU.DYNAMIC"))
@@ -392,7 +392,7 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
     {
       keys->push_back("ram[" + std::to_string(i) + "].Size");
       vals->push_back(pretty
-                          ? prettyOutputStorage(compRAM.Chips()[i].Size(), 0)
+                          ? siUnits(compRAM.Chips()[i].Size(), "B", 0)
                           : std::to_string(compRAM.Chips()[i].Size()));
     }
     if (ramAll || contains(&requests, "RAM.BANK"))
@@ -409,7 +409,7 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
     {
       keys->push_back("ram[" + std::to_string(i) + "].Speed");
       vals->push_back(pretty
-                          ? siUnits(compRAM.Chips()[i].Speed(), 2, "Hz")
+                          ? siUnits(compRAM.Chips()[i].Speed(), "Hz")
                           : std::to_string(compRAM.Chips()[i].Speed()));
     }
     if (ramAll || contains(&requests, "RAM.FORMFACTOR"))
@@ -479,7 +479,7 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
     if (stoAll || contains(&requests, "STORAGE.TOTAL"))
     {
       keys->push_back("storage[" + std::to_string(i) + "].Total");
-      vals->push_back(pretty ? prettyOutputStorage(compStorage.Drives()[i].Total())
+      vals->push_back(pretty ? siUnits(compStorage.Drives()[i].Total(), "B")
                              : std::to_string(compStorage.Drives()[i].Total()));
     }
     if (stoAll || contains(&requests, "STORAGE.PHYSICAL"))
@@ -534,13 +534,13 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
     if (fsAll || contains(&requests, "FS.SIZE"))
     {
       keys->push_back("fs[" + std::to_string(i) + "].Size");
-      vals->push_back(pretty ? prettyOutputStorage(compFS.FileSystems()[i].Size())
+      vals->push_back(pretty ? siUnits(compFS.FileSystems()[i].Size(), "B")
                              : std::to_string(compFS.FileSystems()[i].Size()));
     }
     if (fsAll || contains(&requests, "FS.USED"))
     {
       keys->push_back("fs[" + std::to_string(i) + "].Used");
-      vals->push_back(pretty ? prettyOutputStorage(compFS.FileSystems()[i].Used())
+      vals->push_back(pretty ? siUnits(compFS.FileSystems()[i].Used(), "B")
                              : std::to_string(compFS.FileSystems()[i].Used()));
     }
     if (fsAll || contains(&requests, "FS.MOUNT"))

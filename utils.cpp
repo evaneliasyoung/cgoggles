@@ -244,7 +244,7 @@ bool readFile(const std::string &p, std::string *o)
   return true;
 }
 
-std::string siUnits(const std::uint64_t &num, const std::uint8_t &plc, const std::string &suff)
+std::string siUnits(const std::uint64_t &num, const std::string &suff, const std::uint8_t &plc)
 {
   std::stringstream ss;
   char suf[9] = {'\0', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'};
@@ -261,7 +261,7 @@ std::string siUnits(const std::uint64_t &num, const std::uint8_t &plc, const std
   return ss.str();
 }
 
-std::string siUnits(const std::uint32_t &num, const std::uint8_t &plc, const std::string &suff)
+std::string siUnits(const std::uint32_t &num, const std::string &suff, const std::uint8_t &plc)
 {
   std::stringstream ss;
   char suf[9] = {'\0', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'};
@@ -278,7 +278,7 @@ std::string siUnits(const std::uint32_t &num, const std::uint8_t &plc, const std
   return ss.str();
 }
 
-std::string siUnits(const float &num, const std::uint8_t &plc, const std::string &suff)
+std::string siUnits(const float &num, const std::string &suff, const std::uint8_t &plc)
 {
   std::stringstream ss;
   char suf[9] = {'\0', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'};
@@ -293,21 +293,6 @@ std::string siUnits(const float &num, const std::uint8_t &plc, const std::string
   }
   ss << std::fixed << std::setprecision(plc) << num << ' ' << suff;
   return ss.str();
-}
-
-std::string prettyOutputStorage(const std::uint64_t &num, const std::uint8_t &plc)
-{
-  return siUnits(num, plc, "B");
-}
-
-std::string prettyOutputStorage(const std::uint32_t &num, const std::uint8_t &plc)
-{
-  return siUnits(num, plc, "B");
-}
-
-std::string prettyOutputStorage(const float &num, const std::uint8_t &plc)
-{
-  return siUnits(num, plc, "B");
 }
 
 void outputVersion()
