@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-16
-*  @date      2019-04-22
+*  @date      2019-04-23
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -113,8 +113,8 @@ void Processor::GetMac()
   (*model) = std::stoi(runCommand("sysctl -n machdep.cpu.model"));
   (*stepping) = std::stoi(runCommand("sysctl -n machdep.cpu.stepping"));
 
-  (*maxSpeed) = std::round(std::stof(runCommand("sysctl -n hw.cpufrequency_max").substr(0, 4)) / 10) / 100;
-  (*speed) = std::round(std::stof(runCommand("sysctl -n hw.cpufrequency_max").substr(0, 4)) / 10) / 100;
+  (*maxSpeed) = std::round(std::stof(runCommand("sysctl -n hw.cpufrequency_max").substr(0, 4)) / 10) * pow(10, 7);
+  (*speed) = std::round(std::stof(runCommand("sysctl -n hw.cpufrequency_max").substr(0, 4)) / 10) * pow(10, 7);
 }
 
 /**
@@ -212,8 +212,8 @@ void Processor::GetWin()
     (*stepping) = std::stoi(mt[3]);
   }
 
-  (*maxSpeed) = std::round(std::stof(dataMap["MaxClockSpeed"]) / 10) / 100 * pow(1024, 3);
-  (*speed) = std::round(std::stof(dataMap["MaxClockSpeed"]) / 10) / 100 * pow(1024, 3);
+  (*maxSpeed) = std::round(std::stof(dataMap["MaxClockSpeed"]) / 10) * pow(10, 7);
+  (*speed) = std::round(std::stof(dataMap["MaxClockSpeed"]) / 10) * pow(10, 7);
 
   delete[] architectureMap;
   delete[] socketTypeMap;

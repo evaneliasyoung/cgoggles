@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-04-04
-*  @date      2019-04-18
+*  @date      2019-04-23
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -101,7 +101,7 @@ void RAMList::GetMac()
     {
       if (key == "Size")
       {
-        tempSize = std::stoull(val.substr(0, val.size() - 3)) * pow(1024, 3);
+        tempSize = std::stoull(val.substr(0, val.size() - 3)) * pow(10, 9);
       }
       else if (startswith(key, "BANK "))
       {
@@ -113,7 +113,7 @@ void RAMList::GetMac()
       }
       else if (key == "Speed")
       {
-        tempSpeed = std::stoull(val.substr(0, val.size() - 4)) * pow(1024, 3);
+        tempSpeed = std::stof(val.substr(0, val.size() - 4)) * pow(10, 6);
       }
       else if (key == "Manufacturer")
       {
@@ -207,7 +207,7 @@ void RAMList::GetLux()
   std::uint64_t tempSize = 0;
   std::string tempBank = "";
   std::string tempType = "";
-  float tempSpeed = 0;
+  std::uint64_t tempSpeed = 0;
   std::string tempFormFactor = "";
   std::string tempManufacturer = "";
   std::string tempPart = "";
@@ -243,8 +243,8 @@ void RAMList::GetLux()
 
       if (key == "Size")
       {
-        tempSize = std::stoi(val.substr(0, val.size() - 3));
-        tempSize *= endswith(val, "MB") ? 1024 * 1024 : 1024 * 1024 * 1024;
+        tempSize = std::stoull(val.substr(0, val.size() - 3));
+        tempSize *= pow(1024, endswith(val, "MB") ? 2 : 3);
         (*total) += tempSize;
       }
       if (key == "Locator")
@@ -257,7 +257,7 @@ void RAMList::GetLux()
       }
       if (key == "Speed")
       {
-        tempSpeed = std::stoi(val.substr(0, val.size() - 4));
+        tempSpeed = std::stoull(val.substr(0, val.size() - 4)) * pow(1024, 2);
       }
       if (key == "Form Factor")
       {

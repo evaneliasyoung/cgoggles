@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-12
-*  @date      2019-04-22
+*  @date      2019-04-23
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -251,12 +251,14 @@ std::string siUnits(const std::uint64_t &num, const std::uint8_t &plc, const std
 
   for (std::size_t i = 5; i > 0; --i)
   {
-    if (num >= pow(1024, i))
+    if (num >= pow(1000, i))
     {
-      ss << std::fixed << std::setprecision(plc) << num / pow(1024, i) << ' ' << suf[i] << suff;
+      ss << std::fixed << std::setprecision(plc) << num / pow(1000, i) << ' ' << suf[i] << suff;
       return ss.str();
     }
   }
+  ss << std::fixed << std::setprecision(plc) << num << ' ' << suff;
+  return ss.str();
 }
 
 std::string siUnits(const std::uint32_t &num, const std::uint8_t &plc, const std::string &suff)
@@ -266,12 +268,14 @@ std::string siUnits(const std::uint32_t &num, const std::uint8_t &plc, const std
 
   for (std::size_t i = 5; i > 0; --i)
   {
-    if (num >= pow(1024, i))
+    if (num >= pow(1000, i))
     {
-      ss << std::fixed << std::setprecision(plc) << num / pow(1024, i) << ' ' << suf[i] << suff;
+      ss << std::fixed << std::setprecision(plc) << num / pow(1000, i) << ' ' << suf[i] << suff;
       return ss.str();
     }
   }
+  ss << std::fixed << std::setprecision(plc) << num << ' ' << suff;
+  return ss.str();
 }
 
 std::string siUnits(const float &num, const std::uint8_t &plc, const std::string &suff)
@@ -281,12 +285,14 @@ std::string siUnits(const float &num, const std::uint8_t &plc, const std::string
 
   for (std::size_t i = 5; i > 0; --i)
   {
-    if (num >= pow(1024, i))
+    if (num >= pow(1000, i))
     {
-      ss << std::fixed << std::setprecision(plc) << num / pow(1024, i) << ' ' << suf[i] << suff;
+      ss << std::fixed << std::setprecision(plc) << num / pow(1000, i) << ' ' << suf[i] << suff;
       return ss.str();
     }
   }
+  ss << std::fixed << std::setprecision(plc) << num << ' ' << suff;
+  return ss.str();
 }
 
 std::string prettyOutputStorage(const std::uint64_t &num, const std::uint8_t &plc)

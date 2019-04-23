@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-30
-*  @date      2019-04-22
+*  @date      2019-04-23
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -106,7 +106,7 @@ void GraphicsList::GetMac()
       else if (key.substr(0, 4) == "VRAM")
       {
         tempVRAM = std::stoi(val.substr(0, val.length() - 3));
-        tempVRAM *= val.substr(val.length() - 2) == "GB" ? 1024 : 1;
+        tempVRAM *= pow(10, endswith(val, "GB") ? 9 : 6);
         if (key.substr(6, 7) == "DYNAMIC")
         {
           tempDynamic = true;
