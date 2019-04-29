@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-15
-*  @date      2019-04-22
+*  @date      2019-04-28
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -28,85 +28,19 @@
 */
 void filterRequests()
 {
-  std::unique_ptr<std::vector<std::string>> valids = std::make_unique<std::vector<std::string>>();
-  valids->push_back("ALL");
-  valids->push_back("OS");
-  valids->push_back("OS.ALL");
-  valids->push_back("SYS");
-  valids->push_back("SYS.ALL");
-  valids->push_back("CPU");
-  valids->push_back("CPU.ALL");
-  valids->push_back("GPU");
-  valids->push_back("GPU.ALL");
-  valids->push_back("STORAGE");
-  valids->push_back("STORAGE.ALL");
-  valids->push_back("RAM");
-  valids->push_back("RAM.ALL");
-  valids->push_back("FS");
-  valids->push_back("FS.ALL");
-  valids->push_back("OS.PLATFORM");
-  valids->push_back("OS.CAPTION");
-  valids->push_back("OS.SERIAL");
-  valids->push_back("OS.BIT");
-  valids->push_back("OS.INSTALLTIME");
-  valids->push_back("OS.BOOTTIME");
-  valids->push_back("OS.CURTIME");
-  valids->push_back("OS.KERNEL");
-  valids->push_back("OS.VERSION");
-  valids->push_back("SYS.MANUFACTURER");
-  valids->push_back("SYS.MODEL");
-  valids->push_back("SYS.VERSION");
-  valids->push_back("SYS.SERIAL");
-  valids->push_back("SYS.UUID");
-  valids->push_back("CPU.MANUFACTURER");
-  valids->push_back("CPU.ARCHITECTURE");
-  valids->push_back("CPU.SOCKETTYPE");
-  valids->push_back("CPU.BRAND");
-  valids->push_back("CPU.FAMILY");
-  valids->push_back("CPU.MODEL");
-  valids->push_back("CPU.STEPPING");
-  valids->push_back("CPU.CORES");
-  valids->push_back("CPU.THREADS");
-  valids->push_back("CPU.SPEED");
-  valids->push_back("CPU.MAXSPEED");
-  valids->push_back("GPU.VENDOR");
-  valids->push_back("GPU.MODEL");
-  valids->push_back("GPU.BUS");
-  valids->push_back("GPU.VRAM");
-  valids->push_back("GPU.DYNAMIC");
-  valids->push_back("RAM.SIZE");
-  valids->push_back("RAM.BANK");
-  valids->push_back("RAM.TYPE");
-  valids->push_back("RAM.SPEED");
-  valids->push_back("RAM.FORMFACTOR");
-  valids->push_back("RAM.MANUFACTURER");
-  valids->push_back("RAM.PART");
-  valids->push_back("RAM.SERIAL");
-  valids->push_back("RAM.VOLTAGECONFIGURED");
-  valids->push_back("RAM.VOLTAGEMIN");
-  valids->push_back("RAM.VOLTAGEMAX");
-  valids->push_back("STORAGE.NAME");
-  valids->push_back("STORAGE.IDENTIFIER");
-  valids->push_back("STORAGE.TYPE");
-  valids->push_back("STORAGE.FILESYSTEM");
-  valids->push_back("STORAGE.MOUNT");
-  valids->push_back("STORAGE.TOTAL");
-  valids->push_back("STORAGE.PHYSICAL");
-  valids->push_back("STORAGE.UUID");
-  valids->push_back("STORAGE.LABEL");
-  valids->push_back("STORAGE.MODEL");
-  valids->push_back("STORAGE.SERIAL");
-  valids->push_back("STORAGE.REMOVABLE");
-  valids->push_back("STORAGE.PROTOCOL");
-  valids->push_back("FS.FS");
-  valids->push_back("FS.TYPE");
-  valids->push_back("FS.SIZE");
-  valids->push_back("FS.USED");
-  valids->push_back("FS.MOUNT");
+  std::vector<std::string> valids = {
+      "ALL", "OS", "OS.ALL", "SYS", "SYS.ALL", "CPU", "CPU.ALL", "GPU", "GPU.ALL", "STORAGE", "STORAGE.ALL", "RAM", "RAM.ALL", "FS", "FS.ALL",
+      "OS.PLATFORM", "OS.CAPTION", "OS.SERIAL", "OS.BIT", "OS.INSTALLTIME", "OS.BOOTTIME", "OS.CURTIME", "OS.KERNEL", "OS.VERSION",
+      "SYS.MANUFACTURER", "SYS.MODEL", "SYS.VERSION", "SYS.SERIAL", "SYS.UUID",
+      "CPU.MANUFACTURER", "CPU.ARCHITECTURE", "CPU.SOCKETTYPE", "CPU.BRAND", "CPU.FAMILY", "CPU.MODEL", "CPU.STEPPING", "CPU.CORES", "CPU.THREADS", "CPU.SPEED", "CPU.MAXSPEED",
+      "GPU.VENDOR", "GPU.MODEL", "GPU.BUS", "GPU.VRAM", "GPU.DYNAMIC",
+      "RAM.SIZE", "RAM.BANK", "RAM.TYPE", "RAM.SPEED", "RAM.FORMFACTOR", "RAM.MANUFACTURER", "RAM.PART", "RAM.SERIAL", "RAM.VOLTAGECONFIGURED", "RAM.VOLTAGEMIN", "RAM.VOLTAGEMAX",
+      "STORAGE.NAME", "STORAGE.IDENTIFIER", "STORAGE.TYPE", "STORAGE.FILESYSTEM", "STORAGE.MOUNT", "STORAGE.TOTAL", "STORAGE.PHYSICAL", "STORAGE.UUID", "STORAGE.LABEL", "STORAGE.MODEL", "STORAGE.SERIAL", "STORAGE.REMOVABLE", "STORAGE.PROTOCOL",
+      "FS.FS", "FS.TYPE", "FS.SIZE", "FS.USED", "FS.MOUNT"};
 
   for (int i = requests.size() - 1; i >= 0; i--)
   {
-    if (!contains(valids.get(), requests[i]))
+    if (!contains(&valids, requests[i]))
     {
       requests.erase(requests.begin() + i);
     }
