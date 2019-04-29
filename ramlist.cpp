@@ -189,7 +189,7 @@ void RAMList::GetWin()
   float tempVoltageMin = 0;
   float tempVoltageMax = 0;
 
-  for (std::size_t i = 0; i < allChips.size(); i++)
+  for (std::size_t i = 0; i < allChips.size(); ++i)
   {
     tempSize = !allChips[i]["Capacity"].empty() ? std::stoull(allChips[i]["Capacity"]) / pow(1024, 3) * pow(1000, 3) : 0;
     (*total) += tempSize;
@@ -238,7 +238,7 @@ void RAMList::GetLux()
     return;
   }
 
-  for (std::size_t i = 3; i < lines.size(); i++)
+  for (std::size_t i = 3; i < lines.size(); ++i)
   {
     // While in range and NOT starting a new RAM chip
     while (i < lines.size() && !startswith(lines[i], "Handle 0x"))

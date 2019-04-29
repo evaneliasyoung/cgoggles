@@ -87,7 +87,7 @@ void GraphicsList::GetMac()
 
   splitStringVector(runCommand("system_profiler SPDisplaysDataType | grep -A 5 'Chipset Model:'"), "--", &allControllers);
 
-  for (std::size_t i = 0; i < allControllers.size(); i++)
+  for (std::size_t i = 0; i < allControllers.size(); ++i)
   {
     splitStringVector(allControllers[i], "\n", &eachController);
     tempVendor = "";
@@ -96,7 +96,7 @@ void GraphicsList::GetMac()
     tempVRAM = 0;
     tempDynamic = false;
 
-    for (std::size_t j = 0; j < eachController.size(); j++)
+    for (std::size_t j = 0; j < eachController.size(); ++j)
     {
       if (eachController[j] == "")
       {
@@ -148,7 +148,7 @@ void GraphicsList::GetWin()
   std::uint64_t tempVRAM = 0;
   bool tempDynamic = false;
 
-  for (std::size_t i = 0; i < gpuList.size(); i++)
+  for (std::size_t i = 0; i < gpuList.size(); ++i)
   {
     tempVendor = gpuList[i]["AdapterCompatibility"];
     tempModel = gpuList[i]["Name"];

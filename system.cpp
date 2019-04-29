@@ -78,7 +78,7 @@ void System::GetMac()
   std::string val;
   splitStringVector(runCommand("ioreg -c IOPlatformExpertDevice -d 2"), "\n", &lines);
 
-  for (std::size_t i = 0; i < lines.size(); i++)
+  for (std::size_t i = 0; i < lines.size(); ++i)
   {
     if (!(startswith(trim(lines[i]), "\"") && lines[i].find(" = ") != std::string::npos))
     {

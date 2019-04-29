@@ -94,7 +94,7 @@ void StorageList::GetMac()
 
   splitStringVector(runCommand("diskutil info -all"), "**********", &allDrives);
 
-  for (std::size_t i = 0; i < allDrives.size(); i++)
+  for (std::size_t i = 0; i < allDrives.size(); ++i)
   {
     tempName = "";
     tempIdentifier = "";
@@ -111,7 +111,7 @@ void StorageList::GetMac()
     tempProtocol = "";
     splitStringVector(allDrives[i], "\n", &eachDrive);
 
-    for (std::size_t j = 0; j < eachDrive.size(); j++)
+    for (std::size_t j = 0; j < eachDrive.size(); ++j)
     {
       splitKeyValuePair(eachDrive[j], &key, &val);
       std::transform(key.begin(), key.end(), key.begin(), toupper);
@@ -205,7 +205,7 @@ void StorageList::GetWin()
   bool tempRemovable = false;
   std::string tempProtocol = "";
 
-  for (std::size_t i = 0; i < allDrives.size(); i++)
+  for (std::size_t i = 0; i < allDrives.size(); ++i)
   {
     if ((allDrives[i]["DriveType"] == ""))
     {
@@ -255,7 +255,7 @@ void StorageList::GetLux()
   std::string tempProtocol = "";
 
   splitStringVector(runCommand("lsblk -bPo NAME,TYPE,SIZE,FSTYPE,MOUNTPOINT,UUID,ROTA,RO,RM,TRAN,SERIAL,LABEL,MODEL,OWNER"), "\n", &allDrives);
-  for (std::size_t i = 0; i < allDrives.size(); i++)
+  for (std::size_t i = 0; i < allDrives.size(); ++i)
   {
     dataMap.clear();                // Reset the data collection
     if (trim(allDrives[i]).empty()) // If the line is empty, skip
@@ -264,7 +264,7 @@ void StorageList::GetLux()
     }
 
     splitStringVector(allDrives[i], R"(" )", &eachDrive);
-    for (std::size_t j = 0; j < eachDrive.size(); j++)
+    for (std::size_t j = 0; j < eachDrive.size(); ++j)
     {
       splitKeyValuePair(std::regex_replace(eachDrive[j], std::regex(R"(")"), ""), &key, &val, true, '=');
       dataMap[key] = val;

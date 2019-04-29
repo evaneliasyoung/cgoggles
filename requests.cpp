@@ -38,7 +38,7 @@ void filterRequests()
       "STORAGE.NAME", "STORAGE.IDENTIFIER", "STORAGE.TYPE", "STORAGE.FILESYSTEM", "STORAGE.MOUNT", "STORAGE.TOTAL", "STORAGE.PHYSICAL", "STORAGE.UUID", "STORAGE.LABEL", "STORAGE.MODEL", "STORAGE.SERIAL", "STORAGE.REMOVABLE", "STORAGE.PROTOCOL",
       "FS.FS", "FS.TYPE", "FS.SIZE", "FS.USED", "FS.MOUNT"};
 
-  for (int i = requests.size() - 1; i >= 0; i--)
+  for (int i = requests.size() - 1; i > 0; --i)
   {
     if (!contains(&valids, requests[i]))
     {
@@ -290,7 +290,7 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
                         : std::to_string(compCPU.MaxSpeed()));
   }
 
-  for (std::size_t i = 0; i < compGPU.Controllers().size(); i++)
+  for (std::size_t i = 0; i < compGPU.Controllers().size(); ++i)
   {
     if (gpuAll || contains(&requests, "GPU.VENDOR"))
     {
@@ -320,7 +320,7 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
     }
   }
 
-  for (std::size_t i = 0; i < compRAM.Chips().size(); i++)
+  for (std::size_t i = 0; i < compRAM.Chips().size(); ++i)
   {
     if (ramAll || contains(&requests, "RAM.SIZE"))
     {
@@ -383,7 +383,7 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
     }
   }
 
-  for (std::size_t i = 0; i < compStorage.Drives().size(); i++)
+  for (std::size_t i = 0; i < compStorage.Drives().size(); ++i)
   {
     if (stoAll || contains(&requests, "STORAGE.NAME"))
     {
@@ -453,7 +453,7 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
     }
   }
 
-  for (std::size_t i = 0; i < compFS.FileSystems().size(); i++)
+  for (std::size_t i = 0; i < compFS.FileSystems().size(); ++i)
   {
     if (fsAll || contains(&requests, "FS.FS"))
     {
@@ -495,7 +495,7 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
 */
 void outputSimple(std::ostream &stream, std::vector<std::string> *keys, std::vector<std::string> *vals, const char &del)
 {
-  for (std::size_t i = 0; i < keys->size(); i++)
+  for (std::size_t i = 0; i < keys->size(); ++i)
   {
     stream << (*keys)[i] << del << (*vals)[i] << '\n';
   }
@@ -509,7 +509,7 @@ void outputSimple(std::ostream &stream, std::vector<std::string> *keys, std::vec
 */
 void outputValue(std::ostream &stream, std::vector<std::string> *vals)
 {
-  for (std::size_t i = 0; i < vals->size(); i++)
+  for (std::size_t i = 0; i < vals->size(); ++i)
   {
     stream << (*vals)[i] << '\n';
   }
@@ -532,7 +532,7 @@ void outputJson(std::ostream &stream, std::vector<std::string> *keys, std::vecto
   std::string cv;
 
   stream << "{" << nl;
-  for (std::size_t i = 0; i < keys->size(); i++)
+  for (std::size_t i = 0; i < keys->size(); ++i)
   {
     ck = (*keys)[i];
     cv = (*vals)[i];

@@ -83,7 +83,7 @@ void FileSystemList::GetMac()
 
   splitStringVector(runCommand("df -lkP | grep ^/"), "\n", &allFS);
 
-  for (std::size_t i = 0; i < allFS.size(); i++)
+  for (std::size_t i = 0; i < allFS.size(); ++i)
   {
     if (allFS[i] == "")
     {
@@ -115,7 +115,7 @@ void FileSystemList::GetWin()
   std::uint64_t tempUsed = 0;
   std::string tempMount = "";
 
-  for (std::size_t i = 0; i < allFS.size(); i++)
+  for (std::size_t i = 0; i < allFS.size(); ++i)
   {
     tempFS = allFS[i]["Caption"];
     tempType = allFS[i]["FileSystem"];
@@ -144,7 +144,7 @@ void FileSystemList::GetLux()
 
   splitStringVector(runCommand("df -lkP | grep ^/"), "\n", &allFS);
 
-  for (std::size_t i = 0; i < allFS.size(); i++)
+  for (std::size_t i = 0; i < allFS.size(); ++i)
   {
     if (allFS[i] == "")
     {

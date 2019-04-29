@@ -486,7 +486,7 @@ std::string runWmic(const std::string &query, std::string *path)
   std::string temp = runCommand((*path) + " " + query + " /format:list");
   std::stringstream buffer;
 
-  for (size_t i = 0; i < temp.length(); i++)
+  for (size_t i = 0; i < temp.length(); ++i)
   {
     if (int(temp[i]) < 1 || int(temp[i]) > 0xFF)
     {
@@ -516,7 +516,7 @@ std::map<std::string, std::string> runMultiWmic(const std::string &query, std::s
   std::stringstream buffer;
   std::vector<std::string> lines;
 
-  for (size_t i = 0; i < temp.length(); i++)
+  for (size_t i = 0; i < temp.length(); ++i)
   {
     if (int(temp[i]) < 1 || int(temp[i]) > 0xFF)
     {
@@ -530,7 +530,7 @@ std::map<std::string, std::string> runMultiWmic(const std::string &query, std::s
   temp.erase(temp.length() - 5);
   splitStringVector(temp, "\r\n", &lines);
 
-  for (size_t i = 0; i < lines.size(); i++)
+  for (size_t i = 0; i < lines.size(); ++i)
   {
     ret[lines[i].substr(0, lines[i].find_first_of('='))] = lines[i].substr(lines[i].find_first_of('=') + 1);
   }
@@ -553,7 +553,7 @@ std::vector<std::map<std::string, std::string>> runListMultiWmic(const std::stri
   std::stringstream buffer;
   std::vector<std::string> lines;
 
-  for (size_t i = 0; i < temp.length(); i++)
+  for (size_t i = 0; i < temp.length(); ++i)
   {
     if (int(temp[i]) < 1 || int(temp[i]) > 0xFF)
     {
@@ -567,13 +567,13 @@ std::vector<std::map<std::string, std::string>> runListMultiWmic(const std::stri
   temp.erase(temp.length() - 4);
   splitStringVector(temp, "\r\n", &lines);
 
-  for (size_t i = 0; i < lines.size(); i++)
+  for (size_t i = 0; i < lines.size(); ++i)
   {
     if (i < lines.size() && lines[i] == "")
     {
       ret.push_back(acc);
       acc.clear();
-      i++;
+      ++i;
       continue;
     }
     acc[lines[i].substr(0, lines[i].find_first_of('='))] = lines[i].substr(lines[i].find_first_of('=') + 1);

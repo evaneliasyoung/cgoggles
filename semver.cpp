@@ -298,7 +298,7 @@ std::uint32_t SemVer::Revision()
 */
 int SemVer::compare(SemVer &o)
 {
-  for (std::size_t i = 0; i < 5; i++)
+  for (std::size_t i = 0; i < 5; ++i)
   {
     if (ver[i] == o.ver[i])
     {

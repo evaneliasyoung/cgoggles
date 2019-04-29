@@ -48,7 +48,7 @@ void removeDuplicates(std::vector<std::string> *v)
     return;
   }
 
-  for (int i = (*v).size() - 1; i >= 0; i--)
+  for (int i = (*v).size() - 1; i > 0; --i)
   {
     if (i != std::distance((*v).begin(), std::find((*v).begin(), (*v).end(), (*v)[i])))
     {

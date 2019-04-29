@@ -235,7 +235,7 @@ void Processor::GetLux()
 
   temp = runCommand("export LC_ALL=C; lscpu; unset LC_ALL");
   splitStringVector(temp, "\n", &tempLines);
-  for (std::size_t i = 0; i < tempLines.size(); i++)
+  for (std::size_t i = 0; i < tempLines.size(); ++i)
   {
     line = trim(tempLines[i]);
     splitKeyValuePair(line, &key, &val);
