@@ -14,12 +14,13 @@ This is made as first a passion-project and next a final-project for my programm
 
 ## News and Changes
 
-### Version 0.3.2 - 2019-04-22
+### Version 0.3.3 - 2019-04-29
 
 ### Latest Activity
 
 (last 7 major and minor version releases)
 
+- Version 0.3.3: Doxygen documentation, performance improvements, value-only output
 - Version 0.3.2: Performance improvements, RAM information for Mac
 - Version 0.3.1: Pretty-print option for storage
 - Version 0.3.0: System information and most Linux support
