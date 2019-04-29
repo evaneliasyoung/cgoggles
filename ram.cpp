@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-04-04
-*  @date      2019-04-22
+*  @date      2019-04-29
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -33,6 +33,18 @@ RAM::RAM()
 
 /**
 * @brief Construct a new RAM object with values
+*
+* @param sz     The amount
+* @param bk     The bank
+* @param tp     The type
+* @param spd    The speed
+* @param ff     The formfactor
+* @param manuf  The manufacture
+* @param prt    The part number
+* @param srl    The serial number
+* @param vlt    The current voltage
+* @param vltMin The minimum voltage
+* @param vltMax The maximum voltage
 */
 RAM::RAM(std::uint64_t sz, std::string bk, std::string tp, std::uint64_t spd, std::string ff, std::string manuf, std::string prt, std::string srl, float vlt, float vltMin, float vltMax)
 {

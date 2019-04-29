@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-30
-*  @date      2019-04-23
+*  @date      2019-04-29
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -14,11 +14,19 @@
 #include "utils.h"
 
 #pragma region "Contructors"
+/**
+* @brief Construct a new FileSystemList object
+*/
 FileSystemList::FileSystemList()
 {
   fsList = std::make_unique<std::vector<FileSystem>>();
 }
 
+/**
+* @brief Construct a new FileSystemList object with help from the assistants
+*
+* @param plt The platform of the system
+*/
 FileSystemList::FileSystemList(std::uint8_t plt)
 {
   fsList = std::make_unique<std::vector<FileSystem>>();
@@ -37,6 +45,11 @@ FileSystemList::FileSystemList(std::uint8_t plt)
   }
 }
 
+/**
+* @brief Construct a new FileSystemList object from another FileSystemList object
+*
+* @param s The FileSystemList object to copy from
+*/
 FileSystemList::FileSystemList(const FileSystemList &s)
 {
   fsList = std::make_unique<std::vector<FileSystem>>();
@@ -44,6 +57,9 @@ FileSystemList::FileSystemList(const FileSystemList &s)
   (*fsList) = (*s.fsList);
 }
 
+/**
+* @brief Destroy the FileSystemList object
+*/
 FileSystemList::~FileSystemList()
 {
   fsList.reset();

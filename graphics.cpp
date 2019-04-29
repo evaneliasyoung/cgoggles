@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-30
-*  @date      2019-04-22
+*  @date      2019-04-29
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -13,6 +13,9 @@
 #include "utils.h"
 
 #pragma region "Contructors"
+/**
+* @brief Construct a new Graphics object
+*/
 Graphics::Graphics()
 {
   vendor = std::make_unique<std::string>();
@@ -22,6 +25,15 @@ Graphics::Graphics()
   dynamic = std::make_unique<bool>();
 }
 
+/**
+* @brief Construct a new Graphics object from the data
+*
+* @param vnd The vendor
+* @param mdl The model number
+* @param b   The bus space
+* @param ram The amount of VRAM
+* @param dyn Whether or not the RAM is dynamic
+*/
 Graphics::Graphics(std::string vnd, std::string mdl, std::string b, std::uint64_t ram, bool dyn)
 {
   vendor = std::make_unique<std::string>(vnd);
@@ -31,6 +43,11 @@ Graphics::Graphics(std::string vnd, std::string mdl, std::string b, std::uint64_
   dynamic = std::make_unique<bool>(dyn);
 }
 
+/**
+* @brief Construct a new Graphics object from another Graphics object
+*
+* @param s The Graphics object to copy from
+*/
 Graphics::Graphics(const Graphics &s)
 {
   vendor = std::make_unique<std::string>();
@@ -46,6 +63,9 @@ Graphics::Graphics(const Graphics &s)
   (*dynamic) = (*s.dynamic);
 }
 
+/**
+* @brief Destroy the Processor object
+*/
 Graphics::~Graphics()
 {
   vendor.reset();
@@ -115,26 +135,51 @@ void Graphics::operator=(Graphics *s)
 #pragma endregion "Operators"
 
 #pragma region "Accessors"
+/**
+* @brief Returns a copy of the vendor
+*
+* @return std::string A copy of the vendor
+*/
 std::string Graphics::Vendor()
 {
   return (*vendor);
 }
 
+/**
+* @brief Returns a copy of the model
+*
+* @return std::string A copy of the model
+*/
 std::string Graphics::Model()
 {
   return (*model);
 }
 
+/**
+* @brief Returns a copy of the bus location
+*
+* @return std::string A copy of the bus location
+*/
 std::string Graphics::Bus()
 {
   return (*bus);
 }
 
+/**
+* @brief Returns a copy of the amount ofVRAM
+*
+* @return std::uint64_t A copy of the amount ofVRAM
+*/
 std::uint64_t Graphics::VRAM()
 {
   return (*vram);
 }
 
+/**
+* @brief Returns a copy of whether or not the VRAM is dynamic
+*
+* @return bool A copy of whether or not the VRAM is dynamic
+*/
 bool Graphics::Dynamic()
 {
   return (*dynamic);

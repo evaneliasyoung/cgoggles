@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-04-04
-*  @date      2019-04-23
+*  @date      2019-04-29
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -15,12 +15,20 @@
 #include "utils.h"
 
 #pragma region "Contructors"
+/**
+* @brief Construct a new FileSystemList object
+*/
 RAMList::RAMList()
 {
   chips = std::make_unique<std::vector<RAM>>();
   total = std::make_unique<std::uint64_t>(0);
 }
 
+/**
+* @brief Construct a new FileSystemList object with help from the assistants
+*
+* @param plt The platform of the system
+*/
 RAMList::RAMList(std::uint8_t plt)
 {
   chips = std::make_unique<std::vector<RAM>>();
@@ -40,6 +48,11 @@ RAMList::RAMList(std::uint8_t plt)
   }
 }
 
+/**
+* @brief Construct a new FileSystemList object from another FileSystemList object
+*
+* @param s The FileSystemList object to copy from
+*/
 RAMList::RAMList(const RAMList &s)
 {
   chips = std::make_unique<std::vector<RAM>>();
@@ -49,6 +62,9 @@ RAMList::RAMList(const RAMList &s)
   (*total) = (*s.total);
 }
 
+/**
+* @brief Destroy the FileSystemList object
+*/
 RAMList::~RAMList()
 {
   chips.reset();
@@ -58,7 +74,7 @@ RAMList::~RAMList()
 
 #pragma region "Constructors' Assistants"
 /**
-* @brief Fills in the storage list information for Darwin systems
+* @brief Fills in the RAMList information for Darwin systems
 */
 void RAMList::GetMac()
 {
@@ -138,7 +154,7 @@ void RAMList::GetMac()
 }
 
 /**
-* @brief Fills in the storage list information for Windows systems
+* @brief Fills in the RAMList information for Windows systems
 */
 void RAMList::GetWin()
 {
@@ -195,7 +211,7 @@ void RAMList::GetWin()
 }
 
 /**
-* @brief Fills in the storage list information for Linux systems
+* @brief Fills in the RAMList information for Linux systems
 */
 void RAMList::GetLux()
 {

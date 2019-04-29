@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-25
-*  @date      2019-03-28
+*  @date      2019-04-29
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -14,6 +14,9 @@
 #include "utils.h"
 
 #pragma region "Contructors"
+/**
+* @brief Construct a new Graphics object
+*/
 Storage::Storage()
 {
   name = std::make_unique<std::string>();
@@ -31,6 +34,23 @@ Storage::Storage()
   protocol = std::make_unique<std::string>();
 }
 
+/**
+* @brief Construct a new Graphics object
+*
+* @param nm  The name
+* @param id  The ID
+* @param tp  The type
+* @param fs  The filesystem
+* @param mnt The mount point
+* @param ttl The total storage
+* @param psy The physical location
+* @param uid The UUID
+* @param lbl The drive label
+* @param mdl The model number
+* @param srl The serial number
+* @param rmv Whether or not it's removable
+* @param prt The drive protocol
+*/
 Storage::Storage(std::string nm, std::string id, std::string tp, std::string fs, std::string mnt, std::uint64_t ttl, std::string psy, std::string uid, std::string lbl, std::string mdl, std::string srl, bool rmv, std::string prt)
 {
   name = std::make_unique<std::string>(nm);
@@ -48,6 +68,11 @@ Storage::Storage(std::string nm, std::string id, std::string tp, std::string fs,
   protocol = std::make_unique<std::string>(prt);
 }
 
+/**
+* @brief Construct a new Storage object from another Storage object
+*
+* @param s The Storage object to copy from
+*/
 Storage::Storage(const Storage &s)
 {
   name = std::make_unique<std::string>();
@@ -79,6 +104,9 @@ Storage::Storage(const Storage &s)
   (*protocol) = (*s.protocol);
 }
 
+/**
+* @brief Destroy the FileSystemList object
+*/
 Storage::~Storage()
 {
   name.reset();
@@ -188,55 +216,133 @@ void Storage::operator=(Storage *s)
 #pragma endregion "Operators"
 
 #pragma region "Accessors"
-std::string Storage::Name() {
+/**
+* @brief Returns a copy of the drive name
+*
+* @return std::string The drive name
+*/
+std::string Storage::Name()
+{
   return (*name);
 }
 
-std::string Storage::Identifier() {
+/**
+* @brief Returns a copy of the drive identifier
+*
+* @return std::string The drive identifier
+*/
+std::string Storage::Identifier()
+{
   return (*identifier);
 }
 
-std::string Storage::Type() {
+/**
+* @brief Returns a copy of the drive type
+*
+* @return std::string The drive type
+*/
+std::string Storage::Type()
+{
   return (*type);
 }
 
-std::string Storage::FileSystem() {
+/**
+* @brief Returns a copy of the associated file system
+*
+* @return std::string The associated file system
+*/
+std::string Storage::FileSystem()
+{
   return (*filesystem);
 }
 
-std::string Storage::Mount() {
+/**
+* @brief Returns a copy of the mount point
+*
+* @return std::string The mount point
+*/
+std::string Storage::Mount()
+{
   return (*mount);
 }
 
-std::uint64_t Storage::Total() {
+/**
+* @brief Returns a copy of the total storage
+*
+* @return std::uint64_t The total storage
+*/
+std::uint64_t Storage::Total()
+{
   return (*total);
 }
 
-std::string Storage::Physical() {
+/**
+* @brief Returns a copy of the physical drive
+*
+* @return std::string The physical drive
+*/
+std::string Storage::Physical()
+{
   return (*physical);
 }
 
-std::string Storage::UUID() {
+/**
+* @brief Returns a copy of the drive's UUID
+*
+* @return std::string The drive's UUID
+*/
+std::string Storage::UUID()
+{
   return (*uuid);
 }
 
-std::string Storage::Label() {
+/**
+* @brief Returns a copy of the drive's friendly display-name
+*
+* @return std::string The drive's friendly display-name
+*/
+std::string Storage::Label()
+{
   return (*label);
 }
 
-std::string Storage::Model() {
+/**
+* @brief Returns a copy of the model number
+*
+* @return std::string The model number
+*/
+std::string Storage::Model()
+{
   return (*model);
 }
 
-std::string Storage::Serial() {
+/**
+* @brief Returns a copy of the serial number
+*
+* @return std::string The serial number
+*/
+std::string Storage::Serial()
+{
   return (*serial);
 }
 
-bool Storage::Removable() {
+/**
+* @brief Returns a copy of whether or not the drive is removable
+*
+* @return bool Whether or not the drive is removable
+*/
+bool Storage::Removable()
+{
   return (*removable);
 }
 
-std::string Storage::Protocol() {
+/**
+* @brief Returns a copy of the drive protocol
+*
+* @return std::string The drive protocol
+*/
+std::string Storage::Protocol()
+{
   return (*protocol);
 }
 #pragma endregion "Accessors"

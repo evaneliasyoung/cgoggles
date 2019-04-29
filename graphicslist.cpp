@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-30
-*  @date      2019-04-23
+*  @date      2019-04-29
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -15,11 +15,19 @@
 #include "utils.h"
 
 #pragma region "Contructors"
+/**
+* @brief Construct a new GraphicsList object
+*/
 GraphicsList::GraphicsList()
 {
   controllers = std::make_unique<std::vector<Graphics>>();
 }
 
+/**
+* @brief Construct a new GraphicsList object with help from the assistants
+*
+* @param plt The platform of the system
+*/
 GraphicsList::GraphicsList(std::uint8_t plt)
 {
   controllers = std::make_unique<std::vector<Graphics>>();
@@ -38,6 +46,11 @@ GraphicsList::GraphicsList(std::uint8_t plt)
   }
 }
 
+/**
+* @brief Construct a new GraphicsList object from another GraphicsList object
+*
+* @param s The GraphicsList object to copy from
+*/
 GraphicsList::GraphicsList(const GraphicsList &s)
 {
   controllers = std::make_unique<std::vector<Graphics>>();
@@ -45,6 +58,9 @@ GraphicsList::GraphicsList(const GraphicsList &s)
   (*controllers) = (*s.controllers);
 }
 
+/**
+* @brief Destroy the Processor object
+*/
 GraphicsList::~GraphicsList()
 {
   controllers.reset();
@@ -53,7 +69,7 @@ GraphicsList::~GraphicsList()
 
 #pragma region "Constructors' Assistants"
 /**
-* @brief Fills in the storage list information for Darwin systems
+* @brief Fills in the GraphcsList information for Darwin systems
 */
 void GraphicsList::GetMac()
 {
@@ -119,7 +135,7 @@ void GraphicsList::GetMac()
 }
 
 /**
-* @brief Fills in the storage list information for Windows systems
+* @brief Fills in the GraphcsList information for Windows systems
 */
 void GraphicsList::GetWin()
 {
@@ -146,7 +162,7 @@ void GraphicsList::GetWin()
 }
 
 /**
-* @brief Fills in the storage list information for Linux systems
+* @brief Fills in the GraphcsList information for Linux systems
 */
 void GraphicsList::GetLux()
 {

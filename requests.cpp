@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-15
-*  @date      2019-04-28
+*  @date      2019-04-29
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -485,6 +485,14 @@ void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *va
   }
 }
 
+/**
+* @brief Processes simple output, like a list or default view
+*
+* @param stream The output stream
+* @param keys   The keys to output
+* @param vals   The values to output
+* @param del    The delimiter character
+*/
 void outputSimple(std::ostream &stream, std::vector<std::string> *keys, std::vector<std::string> *vals, const char &del)
 {
   for (std::size_t i = 0; i < keys->size(); i++)
@@ -493,6 +501,14 @@ void outputSimple(std::ostream &stream, std::vector<std::string> *keys, std::vec
   }
 }
 
+/**
+* @brief Outputs the data in the JSON format
+*
+* @param stream The output stream
+* @param keys   The keys to output
+* @param vals   The values to output
+* @param min    Whether or not to minify the JSON
+*/
 void outputJson(std::ostream &stream, std::vector<std::string> *keys, std::vector<std::string> *vals, const bool &min)
 {
   std::string curBeg;

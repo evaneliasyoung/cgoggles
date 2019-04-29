@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-30
-*  @date      2019-04-11
+*  @date      2019-04-29
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -15,11 +15,19 @@
 #include "utils.h"
 
 #pragma region "Contructors"
+/**
+* @brief Construct a new StorageList object
+*/
 StorageList::StorageList()
 {
   drives = std::make_unique<std::vector<Storage>>();
 }
 
+/**
+* @brief Construct a new StorageList object with help from the assistants
+*
+* @param plt The platform of the system
+*/
 StorageList::StorageList(std::uint8_t plt)
 {
   drives = std::make_unique<std::vector<Storage>>();
@@ -38,6 +46,11 @@ StorageList::StorageList(std::uint8_t plt)
   }
 }
 
+/**
+* @brief Construct a new StorageList object from another StorageList object
+*
+* @param s The StorageList object to copy from
+*/
 StorageList::StorageList(const StorageList &s)
 {
   drives = std::make_unique<std::vector<Storage>>();
@@ -45,6 +58,9 @@ StorageList::StorageList(const StorageList &s)
   (*drives) = (*s.drives);
 }
 
+/**
+* @brief Destroy the StorageList object
+*/
 StorageList::~StorageList()
 {
   drives.reset();
@@ -53,7 +69,7 @@ StorageList::~StorageList()
 
 #pragma region "Constructors' Assistants"
 /**
-* @brief Fills in the storage list information for Darwin systems
+* @brief Fills in the StorageList information for Darwin systems
 */
 void StorageList::GetMac()
 {
@@ -166,7 +182,7 @@ void StorageList::GetMac()
 }
 
 /**
-* @brief Fills in the storage list information for Windows systems
+* @brief Fills in the StorageList information for Windows systems
 */
 void StorageList::GetWin()
 {
@@ -213,7 +229,7 @@ void StorageList::GetWin()
 }
 
 /**
-* @brief Fills in the storage list information for Linux systems
+* @brief Fills in the StorageList information for Linux systems
 */
 void StorageList::GetLux()
 {
@@ -331,9 +347,9 @@ void StorageList::operator=(StorageList *s)
 
 #pragma region "Accessors"
 /**
-* @brief Returns the a copy of the drive list
+* @brief Returns the a copy of the storage list
 *
-* @return std::vector<Storage> The drive list
+* @return std::vector<Storage> The storage list
 */
 std::vector<Storage> StorageList::Drives()
 {
