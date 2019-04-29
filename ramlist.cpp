@@ -1,6 +1,6 @@
 /**
 *  @file      ramlist.cpp
-*  @brief     The implementation for the ramlist class.
+*  @brief     The implementation for the RAMList class.
 *
 *  @author    Evan Elias Young
 *  @date      2019-04-04
@@ -16,7 +16,7 @@
 
 #pragma region "Contructors"
 /**
-* @brief Construct a new FileSystemList object
+* @brief Construct a new RAMList object
 */
 RAMList::RAMList()
 {
@@ -25,7 +25,7 @@ RAMList::RAMList()
 }
 
 /**
-* @brief Construct a new FileSystemList object with help from the assistants
+* @brief Construct a new RAMList object with help from the assistants
 *
 * @param plt The platform of the system
 */
@@ -49,21 +49,21 @@ RAMList::RAMList(std::uint8_t plt)
 }
 
 /**
-* @brief Construct a new FileSystemList object from another FileSystemList object
+* @brief Construct a new RAMList object from another RAMList object
 *
-* @param s The FileSystemList object to copy from
+* @param o The RAMList object to copy from
 */
-RAMList::RAMList(const RAMList &s)
+RAMList::RAMList(const RAMList &o)
 {
   chips = std::make_unique<std::vector<RAM>>();
   total = std::make_unique<std::uint64_t>(0);
 
-  (*chips) = (*s.chips);
-  (*total) = (*s.total);
+  (*chips) = (*o.chips);
+  (*total) = (*o.total);
 }
 
 /**
-* @brief Destroy the FileSystemList object
+* @brief Destroy the RAMList object
 */
 RAMList::~RAMList()
 {
@@ -305,7 +305,7 @@ void RAMList::GetLux()
 
 #pragma region "Operators"
 /**
-* @brief Reserves memory for a new RAM System object
+* @brief Reserves memory for a new RAM object
 *
 * @param  size  The amount of memory to allocate
 * @return void* A pointer to the allocated memory
@@ -317,35 +317,35 @@ void *RAMList::operator new(std::size_t size)
 }
 
 /**
-* @brief Sets equal two RAM System objects
+* @brief Sets equal two RAM objects
 *
-* @param v The RAM System object to copy from
+* @param o The RAM object to copy from
 */
-void RAMList::operator=(const RAMList &s)
+void RAMList::operator=(const RAMList &o)
 {
-  if (&s == this)
+  if (&o == this)
   {
     return;
   }
   chips = std::make_unique<std::vector<RAM>>();
   total = std::make_unique<std::uint64_t>(0);
 
-  (*chips) = (*s.chips);
-  (*total) = (*s.total);
+  (*chips) = (*o.chips);
+  (*total) = (*o.total);
 }
 
 /**
-* @brief Sets equal two RAM System objects
+* @brief Sets equal two RAM objects
 *
-* @param v The RAM System object to copy from
+* @param o The RAM object to copy from
 */
-void RAMList::operator=(RAMList *s)
+void RAMList::operator=(RAMList *o)
 {
   chips = std::make_unique<std::vector<RAM>>();
   total = std::make_unique<std::uint64_t>(0);
 
-  (*chips) = (*s->chips);
-  (*total) = (*s->total);
+  (*chips) = (*o->chips);
+  (*total) = (*o->total);
 }
 #pragma endregion "Operators"
 

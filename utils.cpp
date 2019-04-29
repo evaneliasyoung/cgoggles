@@ -244,6 +244,14 @@ bool readFile(const std::string &p, std::string *o)
   return true;
 }
 
+/**
+* @brief Prefixes a number with the SI units
+*
+* @param num          The number to prefix
+* @param suff         The appendage
+* @param plc          The number of decimal places
+* @return std::string The formatted number
+*/
 std::string siUnits(const std::uint64_t &num, const std::string &suff, const std::uint8_t &plc)
 {
   std::stringstream ss;
@@ -261,6 +269,14 @@ std::string siUnits(const std::uint64_t &num, const std::string &suff, const std
   return ss.str();
 }
 
+/**
+* @brief Prefixes a number with the SI units
+*
+* @param num          The number to prefix
+* @param suff         The appendage
+* @param plc          The number of decimal places
+* @return std::string The formatted number
+*/
 std::string siUnits(const std::uint32_t &num, const std::string &suff, const std::uint8_t &plc)
 {
   std::stringstream ss;
@@ -278,6 +294,14 @@ std::string siUnits(const std::uint32_t &num, const std::string &suff, const std
   return ss.str();
 }
 
+/**
+* @brief Prefixes a number with the SI units
+*
+* @param num          The number to prefix
+* @param suff         The appendage
+* @param plc          The number of decimal places
+* @return std::string The formatted number
+*/
 std::string siUnits(const float &num, const std::string &suff, const std::uint8_t &plc)
 {
   std::stringstream ss;
@@ -295,14 +319,21 @@ std::string siUnits(const float &num, const std::string &suff, const std::uint8_
   return ss.str();
 }
 
+/**
+* @brief Outputs the version of CGoggles
+*/
 void outputVersion()
 {
-  std::cout << ((CGOGGLES_VERSION_ & 0xFF0000) >> (4 * 4)) << '.'
-            << ((CGOGGLES_VERSION_ & 0x00FF00) >> (2 * 4)) << '.'
-            << ((CGOGGLES_VERSION_ & 0x0000FF) >> (0 * 4)) << ' '
-            << 'x' << CGOGGLES_ENVIRONMENT_ << std::endl;
+  std::cout << ((CGOGGLES_VERSION & 0xFF0000) >> (4 * 4)) << '.'
+            << ((CGOGGLES_VERSION & 0x00FF00) >> (2 * 4)) << '.'
+            << ((CGOGGLES_VERSION & 0x0000FF) >> (0 * 4)) << ' '
+            << 'x' << CGOGGLES_ENVIRONMENT << std::endl;
 }
 
+/**
+* @brief Outputs the help for CGoggles
+*
+*/
 void outputHelp()
 {
   // NOTE: JSON output disabled until further notice
@@ -314,6 +345,11 @@ void outputHelp()
             << "example: cgoggles get cpu.Brand, cpu.Cores, os.Version" << std::endl;
 }
 
+/**
+* @brief Outputs the list of accessible data (or from a category)
+*
+* @param cat The category to output
+*/
 void outputList(const std::string &cat)
 {
   std::vector<std::string> osList = {
@@ -414,6 +450,14 @@ void outputList(const std::string &cat)
   }
 }
 
+/**
+* @brief Handles the input arguments
+*
+* @param argc    The count of arguments
+* @param argv    The value of arguments
+* @param request The request string
+* @return int    The exit code
+*/
 int handleArgs(int argc, const char *argv[], std::string *request)
 {
   argh::parser cmdl(argv);

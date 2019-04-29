@@ -1,10 +1,10 @@
 /**
 *  @file      system.h
-*  @brief     The interface for the system class.
+*  @brief     The interface for the System class.
 *
 *  @author    Evan Elias Young
 *  @date      2019-04-03
-*  @date      2019-04-03
+*  @date      2019-04-29
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -33,7 +33,7 @@ public:
   System();
   System(std::uint8_t plt);
   ~System();
-  void operator=(System *s);
+  void operator=(System *o);
   std::string Manufacturer();
   std::string Model();
   std::string Version();

@@ -1,10 +1,10 @@
 /**
 *  @file      processor.cpp
-*  @brief     The implementation for the processor class.
+*  @brief     The implementation for the Processor class.
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-16
-*  @date      2019-04-23
+*  @date      2019-04-29
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -286,19 +286,19 @@ void Processor::GetLux()
 *
 * @param o The Processor to copy from
 */
-void Processor::operator=(Processor *p)
+void Processor::operator=(Processor *o)
 {
-  (*manufacturer) = (*p->manufacturer);
-  (*architecture) = (*p->architecture);
-  (*socketType) = (*p->socketType);
-  (*brand) = (*p->brand);
-  (*family) = (*p->family);
-  (*model) = (*p->model);
-  (*stepping) = (*p->stepping);
-  (*cores) = (*p->cores);
-  (*threads) = (*p->threads);
-  (*speed) = (*p->speed);
-  (*maxSpeed) = (*p->maxSpeed);
+  (*manufacturer) = (*o->manufacturer);
+  (*architecture) = (*o->architecture);
+  (*socketType) = (*o->socketType);
+  (*brand) = (*o->brand);
+  (*family) = (*o->family);
+  (*model) = (*o->model);
+  (*stepping) = (*o->stepping);
+  (*cores) = (*o->cores);
+  (*threads) = (*o->threads);
+  (*speed) = (*o->speed);
+  (*maxSpeed) = (*o->maxSpeed);
 }
 #pragma endregion "Operators"
 

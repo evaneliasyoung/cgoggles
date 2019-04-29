@@ -1,10 +1,10 @@
 /**
 *  @file      graphicslist.h
-*  @brief     The interface for the graphicslist class.
+*  @brief     The interface for the GraphicsList class.
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-30
-*  @date      2019-03-30
+*  @date      2019-04-29
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -14,6 +14,9 @@
 #include "pch.h"
 #include "graphics.h"
 
+/**
+* @brief Represents a computer's collection of Graphics objects
+*/
 class GraphicsList
 {
 private:
@@ -25,11 +28,11 @@ private:
 public:
   GraphicsList();
   GraphicsList(std::uint8_t plt);
-  GraphicsList(const GraphicsList &s);
+  GraphicsList(const GraphicsList &o);
   ~GraphicsList();
   void *operator new(std::size_t size);
-  void operator=(const GraphicsList &s);
-  void operator=(GraphicsList *s);
+  void operator=(const GraphicsList &o);
+  void operator=(GraphicsList *o);
   std::vector<Graphics> Controllers();
 };
 

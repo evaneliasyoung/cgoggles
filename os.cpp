@@ -1,10 +1,10 @@
 /**
 *  @file      os.cpp
-*  @brief     The implementation for the operating system handling methods.
+*  @brief     The implementation for the OperatingSystem Class.
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-15
-*  @date      2019-04-11
+*  @date      2019-04-29
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -502,6 +502,13 @@ std::string runWmic(const std::string &query, std::string *path)
   return temp;
 }
 
+/**
+* @brief Runs a WMIC multi-key-query and retrieves the result
+*
+* @param  query                              The query to run
+* @param  path                               The WMIC execution path
+* @return std::map<std::string, std::string> The query's result
+*/
 std::map<std::string, std::string> runMultiWmic(const std::string &query, std::string *path)
 {
   std::map<std::string, std::string> ret;
@@ -531,6 +538,13 @@ std::map<std::string, std::string> runMultiWmic(const std::string &query, std::s
   return ret;
 }
 
+/**
+* @brief Runs a WMIC multi-key-multi-object-query and retrieves the result
+*
+* @param query                                            The query to run
+* @param path                                             The WMIC execution path
+* @return std::vector<std::map<std::string, std::string>> The query's result
+*/
 std::vector<std::map<std::string, std::string>> runListMultiWmic(const std::string &query, std::string *path)
 {
   std::vector<std::map<std::string, std::string>> ret;
@@ -569,9 +583,9 @@ std::vector<std::map<std::string, std::string>> runListMultiWmic(const std::stri
 }
 
 /**
-* @brief Get the wmic path for Windows
+* @brief Get the WMIC path for Windows
 *
-* @return std::string The wmic path
+* @return std::string The WMIC path
 */
 std::string getWmicPath()
 {

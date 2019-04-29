@@ -1,6 +1,6 @@
 /**
 *  @file      temperature.cpp
-*  @brief     The implementation for the temperature class.
+*  @brief     The implementation for the Temperature class.
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-16

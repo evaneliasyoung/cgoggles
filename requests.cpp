@@ -547,6 +547,8 @@ void outputJson(std::ostream &stream, std::vector<std::string> *keys, std::vecto
 
 /**
 * @brief Outputs all of the requests
+*
+* @param stream The output stream
 */
 void outputRequests(std::ostream &stream)
 {

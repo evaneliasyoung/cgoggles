@@ -1,6 +1,6 @@
 /**
-*  @file      temperature.cpp
-*  @brief     The implementation for the temperature class.
+*  @file      temperature.h
+*  @brief     The interface for the Temperature class.
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-16

@@ -1,10 +1,10 @@
 /**
 *  @file      graphics.h
-*  @brief     The interface for the graphics class.
+*  @brief     The interface for the Graphics class.
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-30
-*  @date      2019-03-30
+*  @date      2019-04-29
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -13,6 +13,9 @@
 
 #include "pch.h"
 
+/**
+* @brief Represents a computer's graphics processing unit
+*/
 class Graphics
 {
 private:
@@ -25,11 +28,11 @@ private:
 public:
   Graphics();
   Graphics(std::string vnd, std::string mdl, std::string b, std::uint64_t ram, bool dyn);
-  Graphics(const Graphics &s);
+  Graphics(const Graphics &o);
   ~Graphics();
   void *operator new(std::size_t size);
-  void operator=(const Graphics &s);
-  void operator=(Graphics *s);
+  void operator=(const Graphics &o);
+  void operator=(Graphics *o);
   std::string Vendor();
   std::string Model();
   std::string Bus();

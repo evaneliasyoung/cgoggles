@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-17
-*  @date      2019-03-25
+*  @date      2019-04-29
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -24,14 +24,14 @@ SemVer::SemVer()
 /**
 * @brief Construct a new SemVer object from another SemVer object
 *
-* @param v The SemVer object to copy
+* @param o The SemVer object to copy
 */
-SemVer::SemVer(const SemVer &v)
+SemVer::SemVer(const SemVer &o)
 {
   ver = new std::uint32_t[5]{0, 0, 0, 0, 0};
   for (std::size_t i = 0; i < 5; ++i)
   {
-    ver[i] = v.ver[i];
+    ver[i] = o.ver[i];
   }
 }
 
@@ -125,113 +125,113 @@ void *SemVer::operator new(std::size_t size)
 /**
 * @brief Sets equal two SemVer objects
 *
-* @param v The SemVer object to copy from
+* @param o The SemVer object to copy from
 */
-void SemVer::operator=(const SemVer &v)
+void SemVer::operator=(const SemVer &o)
 {
-  if (&v == this)
+  if (&o == this)
   {
     return;
   }
   ver = new std::uint32_t[5]{0, 0, 0, 0, 0};
 
-  ver[0] = v.ver[0];
-  ver[1] = v.ver[1];
-  ver[2] = v.ver[2];
-  ver[3] = v.ver[3];
-  ver[4] = v.ver[4];
+  ver[0] = o.ver[0];
+  ver[1] = o.ver[1];
+  ver[2] = o.ver[2];
+  ver[3] = o.ver[3];
+  ver[4] = o.ver[4];
 }
 
 /**
 * @brief Sets equal two SemVer objects
 *
-* @param v The SemVer object to copy from
+* @param o The SemVer object to copy from
 */
-void SemVer::operator=(SemVer *v)
+void SemVer::operator=(SemVer *o)
 {
-  if ((*v) == (*this))
+  if ((*o) == (*this))
   {
     return;
   }
   ver = new std::uint32_t[5]{0, 0, 0, 0, 0};
 
-  ver[0] = (*v).ver[0];
-  ver[1] = (*v).ver[1];
-  ver[2] = (*v).ver[2];
-  ver[3] = (*v).ver[3];
-  ver[4] = (*v).ver[4];
+  ver[0] = o->ver[0];
+  ver[1] = o->ver[1];
+  ver[2] = o->ver[2];
+  ver[3] = o->ver[3];
+  ver[4] = o->ver[4];
 }
 
 /**
 * @brief Compares the equality two SemVer objects
 *
-* @param  t     The SemVer object to compare against
+* @param  o     The SemVer object to compare against
 * @return true  The two SemVer objects are equal
 * @return false The two SemVer objects are NOT equal
 */
-bool SemVer::operator==(SemVer &v)
+bool SemVer::operator==(SemVer &o)
 {
-  return this->compare(v) == 0;
+  return this->compare(o) == 0;
 }
 
 /**
 * @brief Compares the inequality two SemVer objects
 *
-* @param  t     The SemVer object to compare against
+* @param  o     The SemVer object to compare against
 * @return true  The two SemVer objects are NOT equal
 * @return false The two SemVer objects are equal
 */
-bool SemVer::operator!=(SemVer &v)
+bool SemVer::operator!=(SemVer &o)
 {
-  return this->compare(v) != 0;
+  return this->compare(o) != 0;
 }
 
 /**
 * @brief Compares the value of two SemVer objects
 *
-* @param  t     The SemVer object to compare against
+* @param  o     The SemVer object to compare against
 * @return true  The primary SemVer object is less than t
 * @return false The primary SemVer object is NOT less than t
 */
-bool SemVer::operator<(SemVer &v)
+bool SemVer::operator<(SemVer &o)
 {
-  return this->compare(v) < 0;
+  return this->compare(o) < 0;
 }
 
 /**
 * @brief Compares the value of two SemVer objects
 *
-* @param  t     The SemVer object to compare against
+* @param  o     The SemVer object to compare against
 * @return true  The primary SemVer object is greater than t
 * @return false The primary SemVer object is NOT greater than t
 */
-bool SemVer::operator>(SemVer &v)
+bool SemVer::operator>(SemVer &o)
 {
-  return this->compare(v) > 0;
+  return this->compare(o) > 0;
 }
 
 /**
 * @brief Compares the value of two SemVer objects
 *
-* @param  t     The SemVer object to compare against
+* @param  o     The SemVer object to compare against
 * @return true  The primary SemVer object is less than or equal to t
 * @return false The primary SemVer object is NOT less than or equal to t
 */
-bool SemVer::operator<=(SemVer &v)
+bool SemVer::operator<=(SemVer &o)
 {
-  return this->compare(v) <= 0;
+  return this->compare(o) <= 0;
 }
 
 /**
 * @brief Compares the value of two SemVer objects
 *
-* @param  t     The SemVer object to compare against
+* @param  o     The SemVer object to compare against
 * @return true  The primary SemVer object is greater than or equal to t
 * @return false The primary SemVer object is NOT greater than or equal to t
 */
-bool SemVer::operator>=(SemVer &v)
+bool SemVer::operator>=(SemVer &o)
 {
-  return this->compare(v) >= 0;
+  return this->compare(o) >= 0;
 }
 #pragma endregion "Operators"
 
@@ -291,27 +291,20 @@ std::uint32_t SemVer::Revision()
 /**
 * @brief Compares the value of two SemVer objects
 *
-* @param  v     The SemVer object to compare against
+* @param  o     The SemVer object to compare against
 * @return -1    The primary SemVer object is less than v
 * @return 0     The primary SemVer object is equal to v
 * @return 1     The primary SemVer object is greater than v
 */
-int SemVer::compare(SemVer &v)
+int SemVer::compare(SemVer &o)
 {
   for (std::size_t i = 0; i < 5; i++)
   {
-    if (ver[i] == v.ver[i])
+    if (ver[i] == o.ver[i])
     {
       continue;
     }
-    if (ver[i] > v.ver[i])
-    {
-      return 1;
-    }
-    if (ver[i] < v.ver[i])
-    {
-      return -1;
-    }
+    return ver[i] > o.ver[i] ? 1 : -1;
   }
 
   return 0;
@@ -349,14 +342,14 @@ std::string SemVer::Pretty(std::string fmt)
 /**
 * @brief Compares the value of two SemVer objects
 *
-* @param  v     The primary SemVer object to compare against
+* @param  o     The primary SemVer object to compare against
 * @param  c     The SemVer object to compare against
 * @return -1    The SemVer object v is less than c
 * @return 0     The SemVer object v is equal to c
 * @return 1     The SemVer object v is greater than c
 */
-int compare(SemVer &v, SemVer &c)
+int compare(SemVer &o, SemVer &c)
 {
-  return v.compare(c);
+  return o.compare(c);
 }
 #pragma endregion "Static Methods"

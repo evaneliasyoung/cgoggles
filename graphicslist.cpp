@@ -1,6 +1,6 @@
 /**
 *  @file      graphicslist.cpp
-*  @brief     The implementation for the graphicslist class.
+*  @brief     The implementation for the GraphicsList class.
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-30
@@ -49,13 +49,13 @@ GraphicsList::GraphicsList(std::uint8_t plt)
 /**
 * @brief Construct a new GraphicsList object from another GraphicsList object
 *
-* @param s The GraphicsList object to copy from
+* @param o The GraphicsList object to copy from
 */
-GraphicsList::GraphicsList(const GraphicsList &s)
+GraphicsList::GraphicsList(const GraphicsList &o)
 {
   controllers = std::make_unique<std::vector<Graphics>>();
 
-  (*controllers) = (*s.controllers);
+  (*controllers) = (*o.controllers);
 }
 
 /**
@@ -185,25 +185,25 @@ void *GraphicsList::operator new(std::size_t size)
 /**
 * @brief Sets equal two Graphics List objects
 *
-* @param v The Graphics List object to copy from
+* @param o The Graphics List object to copy from
 */
-void GraphicsList::operator=(const GraphicsList &s)
+void GraphicsList::operator=(const GraphicsList &o)
 {
-  if (&s == this)
+  if (&o == this)
   {
     return;
   }
   controllers = std::make_unique<std::vector<Graphics>>();
 
-  (*controllers) = (*s.controllers);
+  (*controllers) = (*o.controllers);
 }
 
 /**
 * @brief Sets equal two Graphics List objects
 *
-* @param v The Graphics List object to copy from
+* @param o The Graphics List object to copy from
 */
-void GraphicsList::operator=(GraphicsList *s)
+void GraphicsList::operator=(GraphicsList *o)
 {
   controllers = std::make_unique<std::vector<Graphics>>();
 

@@ -1,10 +1,10 @@
 /**
 *  @file      os.h
-*  @brief     The interface for the operating system handling methods.
+*  @brief     The interface for the OperatingSystem class.
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-15
-*  @date      2019-04-08
+*  @date      2019-04-29
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -15,42 +15,84 @@
 #include "semver.h"
 
 #ifndef OS_DOS
+/**
+* @brief The internal number for the DOS operating system
+*/
 #define OS_DOS 1
 #endif // OS_DOS
 
 #ifndef OS_WIN
+/**
+* @brief The internal number for the Windows operating system
+*/
 #define OS_WIN 2
 #endif // OS_WIN
 
 #ifndef OS_LUX
+/**
+* @brief The internal number for the Linux operating system
+*/
 #define OS_LUX 3
 #endif // OS_LUX
 
 #ifndef OS_MAC
+/**
+* @brief The internal number for the Mac operating system
+*/
 #define OS_MAC 4
 #endif // OS_MAC
 
 #ifndef OS_ERR
+/**
+* @brief The internal number for the unknown ERR
+*/
 #define OS_ERR 0
 #endif // OS_ERR
 
 #if defined(MSDOS) || defined(__MSDOS__) || defined(_MSDOS) || defined(__DOS__)
+/**
+* @brief The operating system on the current system
+*/
 #define CGOGGLES_OS OS_DOS
 #elif defined(_WIN16) || defined(__TOS_WIN__) || defined(_WIN32) || defined(__WIN32__) || defined(__WINDOWS__) || defined(_WIN64)
+/**
+* @brief The operating system on the current system
+*/
 #define CGOGGLES_OS OS_WIN
 #elif defined(__linux__)
+/**
+* @brief The operating system on the current system
+*/
 #define CGOGGLES_OS OS_LUX
 #elif defined(macintosh) || defined(Macintosh) || defined(__APPLE__)
+/**
+* @brief The operating system on the current system
+*/
 #define CGOGGLES_OS OS_MAC
 #else
+/**
+* @brief The operating system on the current system
+*/
 #define CGOGGLES_OS OS_ERR
 #endif
 
 #if CGOGGLES_OS == OS_WIN || CGOGGLES_OS == OS_DOS
+/**
+* @brief The portable popen
+*/
 #define P_POPEN _popen
+/**
+* @brief The portable pclose
+*/
 #define P_PCLOSE _pclose
 #else
+/**
+* @brief The portable popen
+*/
 #define P_POPEN popen
+/**
+* @brief The portable pclose
+*/
 #define P_PCLOSE pclose
 #endif
 
@@ -60,8 +102,7 @@
 const char dirSep = CGOGGLES_OS <= OS_WIN ? '\\' : '/';
 
 /**
-* @brief Represents an computer's Operating System
-*
+* @brief Represents a computer's Operating System
 */
 class OperatingSystem
 {

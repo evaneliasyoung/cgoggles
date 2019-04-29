@@ -1,10 +1,10 @@
 /**
 *  @file      storage.h
-*  @brief     The interface for the storage class.
+*  @brief     The interface for the Storage class.
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-25
-*  @date      2019-03-28
+*  @date      2019-04-29
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -13,6 +13,9 @@
 
 #include "pch.h"
 
+/**
+* @brief Represents a computer's storage drive
+*/
 class Storage
 {
 private:
@@ -33,11 +36,11 @@ private:
 public:
   Storage();
   Storage(std::string nm, std::string id, std::string tp, std::string fs, std::string mnt, std::uint64_t ttl, std::string psy, std::string uid, std::string lbl, std::string mdl, std::string srl, bool rmv, std::string prt);
-  Storage(const Storage &s);
+  Storage(const Storage &o);
   ~Storage();
   void *operator new(std::size_t size);
-  void operator=(const Storage &s);
-  void operator=(Storage *s);
+  void operator=(const Storage &o);
+  void operator=(Storage *o);
   std::string Name();
   std::string Identifier();
   std::string Type();

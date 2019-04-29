@@ -1,10 +1,10 @@
 /**
 *  @file      system.cpp
-*  @brief     The implementation for the system class.
+*  @brief     The implementation for the System class.
 *
 *  @author    Evan Elias Young
 *  @date      2019-04-03
-*  @date      2019-04-11
+*  @date      2019-04-29
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -149,13 +149,13 @@ void System::GetLux()
 *
 * @param o The System to copy from
 */
-void System::operator=(System *s)
+void System::operator=(System *o)
 {
-  (*manufacturer) = (*s->manufacturer);
-  (*model) = (*s->model);
-  (*version) = (*s->version);
-  (*serial) = (*s->serial);
-  (*uuid) = (*s->uuid);
+  (*manufacturer) = (*o->manufacturer);
+  (*model) = (*o->model);
+  (*version) = (*o->version);
+  (*serial) = (*o->serial);
+  (*uuid) = (*o->uuid);
 }
 #pragma endregion "Operators"
 

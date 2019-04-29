@@ -1,6 +1,6 @@
 /**
 *  @file      storage.cpp
-*  @brief     The implementation for the storage class.
+*  @brief     The implementation for the Storage class.
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-25
@@ -71,9 +71,9 @@ Storage::Storage(std::string nm, std::string id, std::string tp, std::string fs,
 /**
 * @brief Construct a new Storage object from another Storage object
 *
-* @param s The Storage object to copy from
+* @param o The Storage object to copy from
 */
-Storage::Storage(const Storage &s)
+Storage::Storage(const Storage &o)
 {
   name = std::make_unique<std::string>();
   identifier = std::make_unique<std::string>();
@@ -89,19 +89,19 @@ Storage::Storage(const Storage &s)
   removable = std::make_unique<bool>();
   protocol = std::make_unique<std::string>();
 
-  (*name) = (*s.name);
-  (*identifier) = (*s.identifier);
-  (*type) = (*s.type);
-  (*filesystem) = (*s.filesystem);
-  (*mount) = (*s.mount);
-  (*total) = (*s.total);
-  (*physical) = (*s.physical);
-  (*uuid) = (*s.uuid);
-  (*label) = (*s.label);
-  (*model) = (*s.model);
-  (*serial) = (*s.serial);
-  (*removable) = (*s.removable);
-  (*protocol) = (*s.protocol);
+  (*name) = (*o.name);
+  (*identifier) = (*o.identifier);
+  (*type) = (*o.type);
+  (*filesystem) = (*o.filesystem);
+  (*mount) = (*o.mount);
+  (*total) = (*o.total);
+  (*physical) = (*o.physical);
+  (*uuid) = (*o.uuid);
+  (*label) = (*o.label);
+  (*model) = (*o.model);
+  (*serial) = (*o.serial);
+  (*removable) = (*o.removable);
+  (*protocol) = (*o.protocol);
 }
 
 /**
@@ -141,11 +141,11 @@ void *Storage::operator new(std::size_t size)
 /**
 * @brief Sets equal two Storage objects
 *
-* @param v The Storage object to copy from
+* @param o The Storage object to copy from
 */
-void Storage::operator=(const Storage &s)
+void Storage::operator=(const Storage &o)
 {
-  if (&s == this)
+  if (&o == this)
   {
     return;
   }
@@ -163,27 +163,27 @@ void Storage::operator=(const Storage &s)
   removable = std::make_unique<bool>();
   protocol = std::make_unique<std::string>();
 
-  (*name) = (*s.name);
-  (*identifier) = (*s.identifier);
-  (*type) = (*s.type);
-  (*filesystem) = (*s.filesystem);
-  (*mount) = (*s.mount);
-  (*total) = (*s.total);
-  (*physical) = (*s.physical);
-  (*uuid) = (*s.uuid);
-  (*label) = (*s.label);
-  (*model) = (*s.model);
-  (*serial) = (*s.serial);
-  (*removable) = (*s.removable);
-  (*protocol) = (*s.protocol);
+  (*name) = (*o.name);
+  (*identifier) = (*o.identifier);
+  (*type) = (*o.type);
+  (*filesystem) = (*o.filesystem);
+  (*mount) = (*o.mount);
+  (*total) = (*o.total);
+  (*physical) = (*o.physical);
+  (*uuid) = (*o.uuid);
+  (*label) = (*o.label);
+  (*model) = (*o.model);
+  (*serial) = (*o.serial);
+  (*removable) = (*o.removable);
+  (*protocol) = (*o.protocol);
 }
 
 /**
 * @brief Sets equal two Storage objects
 *
-* @param v The Storage object to copy from
+* @param o The Storage object to copy from
 */
-void Storage::operator=(Storage *s)
+void Storage::operator=(Storage *o)
 {
   name = std::make_unique<std::string>();
   identifier = std::make_unique<std::string>();
@@ -199,19 +199,19 @@ void Storage::operator=(Storage *s)
   removable = std::make_unique<bool>();
   protocol = std::make_unique<std::string>();
 
-  (*name) = (*s->name);
-  (*identifier) = (*s->identifier);
-  (*type) = (*s->type);
-  (*filesystem) = (*s->filesystem);
-  (*mount) = (*s->mount);
-  (*total) = (*s->total);
-  (*physical) = (*s->physical);
-  (*uuid) = (*s->uuid);
-  (*label) = (*s->label);
-  (*model) = (*s->model);
-  (*serial) = (*s->serial);
-  (*removable) = (*s->removable);
-  (*protocol) = (*s->protocol);
+  (*name) = (*o->name);
+  (*identifier) = (*o->identifier);
+  (*type) = (*o->type);
+  (*filesystem) = (*o->filesystem);
+  (*mount) = (*o->mount);
+  (*total) = (*o->total);
+  (*physical) = (*o->physical);
+  (*uuid) = (*o->uuid);
+  (*label) = (*o->label);
+  (*model) = (*o->model);
+  (*serial) = (*o->serial);
+  (*removable) = (*o->removable);
+  (*protocol) = (*o->protocol);
 }
 #pragma endregion "Operators"
 

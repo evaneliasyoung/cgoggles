@@ -1,10 +1,10 @@
 /**
 *  @file      fs.h
-*  @brief     The interface for the fs class.
+*  @brief     The interface for the FileSystem class.
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-30
-*  @date      2019-03-30
+*  @date      2019-04-29
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -13,6 +13,9 @@
 
 #include "pch.h"
 
+/**
+* @brief Represents a computer's file system
+*/
 class FileSystem
 {
 private:
@@ -25,11 +28,11 @@ private:
 public:
   FileSystem();
   FileSystem(std::string f, std::string tp, std::uint64_t sz, std::uint64_t us, std::string mnt);
-  FileSystem(const FileSystem &s);
+  FileSystem(const FileSystem &o);
   ~FileSystem();
   void *operator new(std::size_t size);
-  void operator=(const FileSystem &s);
-  void operator=(FileSystem *s);
+  void operator=(const FileSystem &o);
+  void operator=(FileSystem *o);
   std::string FS();
   std::string Type();
   std::uint64_t Size();

@@ -1,6 +1,6 @@
 /**
 *  @file      ram.cpp
-*  @brief     The implementation for the ram class.
+*  @brief     The implementation for the RAM class.
 *
 *  @author    Evan Elias Young
 *  @date      2019-04-04
@@ -64,9 +64,9 @@ RAM::RAM(std::uint64_t sz, std::string bk, std::string tp, std::uint64_t spd, st
 /**
 * @brief Construct a new RAM object with values from another RAM object
 *
-* @param s The other RAM object to copy from
+* @param o The other RAM object to copy from
 */
-RAM::RAM(const RAM &s)
+RAM::RAM(const RAM &o)
 {
   size = std::make_unique<std::uint64_t>();
   bank = std::make_unique<std::string>();
@@ -80,17 +80,17 @@ RAM::RAM(const RAM &s)
   voltageMin = std::make_unique<float>();
   voltageMax = std::make_unique<float>();
 
-  (*size) = (*s.size);
-  (*bank) = (*s.bank);
-  (*type) = (*s.type);
-  (*speed) = (*s.speed);
-  (*formFactor) = (*s.formFactor);
-  (*manufacturer) = (*s.manufacturer);
-  (*part) = (*s.part);
-  (*serial) = (*s.serial);
-  (*voltageConfigured) = (*s.voltageConfigured);
-  (*voltageMin) = (*s.voltageMin);
-  (*voltageMax) = (*s.voltageMax);
+  (*size) = (*o.size);
+  (*bank) = (*o.bank);
+  (*type) = (*o.type);
+  (*speed) = (*o.speed);
+  (*formFactor) = (*o.formFactor);
+  (*manufacturer) = (*o.manufacturer);
+  (*part) = (*o.part);
+  (*serial) = (*o.serial);
+  (*voltageConfigured) = (*o.voltageConfigured);
+  (*voltageMin) = (*o.voltageMin);
+  (*voltageMax) = (*o.voltageMax);
 }
 
 /**
@@ -128,11 +128,11 @@ void *RAM::operator new(std::size_t size)
 /**
 * @brief Sets equal two RAM objects
 *
-* @param v The RAM object to copy from
+* @param o The RAM object to copy from
 */
-void RAM::operator=(const RAM &s)
+void RAM::operator=(const RAM &o)
 {
-  if (&s == this)
+  if (&o == this)
   {
     return;
   }
@@ -148,25 +148,25 @@ void RAM::operator=(const RAM &s)
   voltageMin = std::make_unique<float>();
   voltageMax = std::make_unique<float>();
 
-  (*size) = (*s.size);
-  (*bank) = (*s.bank);
-  (*type) = (*s.type);
-  (*speed) = (*s.speed);
-  (*formFactor) = (*s.formFactor);
-  (*manufacturer) = (*s.manufacturer);
-  (*part) = (*s.part);
-  (*serial) = (*s.serial);
-  (*voltageConfigured) = (*s.voltageConfigured);
-  (*voltageMin) = (*s.voltageMin);
-  (*voltageMax) = (*s.voltageMax);
+  (*size) = (*o.size);
+  (*bank) = (*o.bank);
+  (*type) = (*o.type);
+  (*speed) = (*o.speed);
+  (*formFactor) = (*o.formFactor);
+  (*manufacturer) = (*o.manufacturer);
+  (*part) = (*o.part);
+  (*serial) = (*o.serial);
+  (*voltageConfigured) = (*o.voltageConfigured);
+  (*voltageMin) = (*o.voltageMin);
+  (*voltageMax) = (*o.voltageMax);
 }
 
 /**
 * @brief Sets equal two RAM objects
 *
-* @param v The RAM object to copy from
+* @param o The RAM object to copy from
 */
-void RAM::operator=(RAM *s)
+void RAM::operator=(RAM *o)
 {
   size = std::make_unique<std::uint64_t>();
   bank = std::make_unique<std::string>();
@@ -180,17 +180,17 @@ void RAM::operator=(RAM *s)
   voltageMin = std::make_unique<float>();
   voltageMax = std::make_unique<float>();
 
-  (*size) = (*s->size);
-  (*bank) = (*s->bank);
-  (*type) = (*s->type);
-  (*speed) = (*s->speed);
-  (*formFactor) = (*s->formFactor);
-  (*manufacturer) = (*s->manufacturer);
-  (*part) = (*s->part);
-  (*serial) = (*s->serial);
-  (*voltageConfigured) = (*s->voltageConfigured);
-  (*voltageMin) = (*s->voltageMin);
-  (*voltageMax) = (*s->voltageMax);
+  (*size) = (*o->size);
+  (*bank) = (*o->bank);
+  (*type) = (*o->type);
+  (*speed) = (*o->speed);
+  (*formFactor) = (*o->formFactor);
+  (*manufacturer) = (*o->manufacturer);
+  (*part) = (*o->part);
+  (*serial) = (*o->serial);
+  (*voltageConfigured) = (*o->voltageConfigured);
+  (*voltageMin) = (*o->voltageMin);
+  (*voltageMax) = (*o->voltageMax);
 }
 #pragma endregion "Operators"
 

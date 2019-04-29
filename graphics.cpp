@@ -1,6 +1,6 @@
 /**
 *  @file      graphics.cpp
-*  @brief     The implementation for the graphics class.
+*  @brief     The implementation for the Graphics class.
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-30
@@ -46,9 +46,9 @@ Graphics::Graphics(std::string vnd, std::string mdl, std::string b, std::uint64_
 /**
 * @brief Construct a new Graphics object from another Graphics object
 *
-* @param s The Graphics object to copy from
+* @param o The Graphics object to copy from
 */
-Graphics::Graphics(const Graphics &s)
+Graphics::Graphics(const Graphics &o)
 {
   vendor = std::make_unique<std::string>();
   model = std::make_unique<std::string>();
@@ -56,11 +56,11 @@ Graphics::Graphics(const Graphics &s)
   vram = std::make_unique<std::uint64_t>();
   dynamic = std::make_unique<bool>();
 
-  (*vendor) = (*s.vendor);
-  (*model) = (*s.model);
-  (*bus) = (*s.bus);
-  (*vram) = (*s.vram);
-  (*dynamic) = (*s.dynamic);
+  (*vendor) = (*o.vendor);
+  (*model) = (*o.model);
+  (*bus) = (*o.bus);
+  (*vram) = (*o.vram);
+  (*dynamic) = (*o.dynamic);
 }
 
 /**
@@ -92,11 +92,11 @@ void *Graphics::operator new(std::size_t size)
 /**
 * @brief Sets equal two fs objects
 *
-* @param v The fs object to copy from
+* @param o The fs object to copy from
 */
-void Graphics::operator=(const Graphics &s)
+void Graphics::operator=(const Graphics &o)
 {
-  if (&s == this)
+  if (&o == this)
   {
     return;
   }
@@ -106,19 +106,19 @@ void Graphics::operator=(const Graphics &s)
   vram = std::make_unique<std::uint64_t>();
   dynamic = std::make_unique<bool>();
 
-  (*vendor) = (*s.vendor);
-  (*model) = (*s.model);
-  (*bus) = (*s.bus);
-  (*vram) = (*s.vram);
-  (*dynamic) = (*s.dynamic);
+  (*vendor) = (*o.vendor);
+  (*model) = (*o.model);
+  (*bus) = (*o.bus);
+  (*vram) = (*o.vram);
+  (*dynamic) = (*o.dynamic);
 }
 
 /**
 * @brief Sets equal two fs objects
 *
-* @param v The fs object to copy from
+* @param o The fs object to copy from
 */
-void Graphics::operator=(Graphics *s)
+void Graphics::operator=(Graphics *o)
 {
   vendor = std::make_unique<std::string>();
   model = std::make_unique<std::string>();

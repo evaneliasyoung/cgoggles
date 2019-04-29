@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-12
-*  @date      2019-04-23
+*  @date      2019-04-29
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -13,29 +13,47 @@
 
 #include "pch.h"
 
-#define CGOGGLES_VERSION_ 0x000302
+/**
+* @brief The current CGoggles Version
+*/
+#define CGOGGLES_VERSION 0x000302
 #if _WIN32 || _WIN64
 #if _WIN64
-#define CGOGGLES_ENVIRONMENT_ 64
+/**
+* @brief The current CGoggles build-bit
+*/
+#define CGOGGLES_ENVIRONMENT 64
 #else
-#define CGOGGLES_ENVIRONMENT_ 32
+/**
+* @brief The current CGoggles build-bit
+*/
+#define CGOGGLES_ENVIRONMENT 32
 #endif
 #elif __GNUC__
 #if __x86_64__ || __ppc64__
-#define CGOGGLES_ENVIRONMENT_ 64
+/**
+* @brief The current CGoggles build-bit
+*/
+#define CGOGGLES_ENVIRONMENT 64
 #else
-#define CGOGGLES_ENVIRONMENT_ 32
+/**
+* @brief The current CGoggles build-bit
+*/
+#define CGOGGLES_ENVIRONMENT 32
 #endif
 #endif
 
-#if CGOGGLES_ENVIRONMENT_ == 64
+#if CGOGGLES_ENVIRONMENT == 64
 static_assert(sizeof(void *) == 8, "Void pointer should be 8 bytes long.");
-#elif CGOGGLES_ENVIRONMENT_ == 32
+#elif CGOGGLES_ENVIRONMENT == 32
 static_assert(sizeof(void *) == 4, "Void pointer should be 4 bytes long.");
 #else
-#error "Must define CGOGGLES_ENVIRONMENT_"
+#error "Must define CGOGGLES_ENVIRONMENT"
 #endif
 
+/**
+* @brief The method to use for outputting the dataf
+*/
 enum class OutputStyle : std::uint8_t
 {
   Default,
@@ -60,6 +78,17 @@ std::string trim(std::string s, const char *t = " \t\n\r\f\v");
 bool startswith(const std::string &s, const std::string &r);
 bool endswith(const std::string &s, const std::string &r);
 bool splitKeyValuePair(const std::string &base, std::string *k, std::string *v, const bool &doTrim = true, const char &spl = ':');
+/**
+* @brief Tries to get a value from a map
+*
+* @tparam T     The first type
+* @tparam R     The second type
+* @param  m     The map
+* @param  k     The key to get
+* @param  v     The retrieved value
+* @return true  The key was found and accessed
+* @return false The key was not found
+*/
 template <class T, class R>
 bool tryGetValue(const std::map<T, R> &m, const T &k, R *v)
 {

@@ -1,10 +1,10 @@
 /**
 *  @file      ram.h
-*  @brief     The interface for the ram class.
+*  @brief     The interface for the RAM class.
 *
 *  @author    Evan Elias Young
 *  @date      2019-04-04
-*  @date      2019-04-22
+*  @date      2019-04-29
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -35,10 +35,10 @@ public:
   RAM();
   RAM(std::uint64_t sz, std::string bk, std::string tp, std::uint64_t spd, std::string ff, std::string manuf, std::string prt, std::string srl, float vlt, float vltMin, float vltMax);
   ~RAM();
-  RAM(const RAM &s);
+  RAM(const RAM &o);
   void *operator new(std::size_t size);
-  void operator=(const RAM &s);
-  void operator=(RAM *s);
+  void operator=(const RAM &o);
+  void operator=(RAM *o);
   std::uint64_t Size();
   std::string Bank();
   std::string Type();

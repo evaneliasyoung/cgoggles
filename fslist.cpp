@@ -1,6 +1,6 @@
 /**
 *  @file      fslist.cpp
-*  @brief     The implementation for the fslist class.
+*  @brief     The implementation for the FileSystemList class.
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-30
@@ -48,13 +48,13 @@ FileSystemList::FileSystemList(std::uint8_t plt)
 /**
 * @brief Construct a new FileSystemList object from another FileSystemList object
 *
-* @param s The FileSystemList object to copy from
+* @param o The FileSystemList object to copy from
 */
-FileSystemList::FileSystemList(const FileSystemList &s)
+FileSystemList::FileSystemList(const FileSystemList &o)
 {
   fsList = std::make_unique<std::vector<FileSystem>>();
 
-  (*fsList) = (*s.fsList);
+  (*fsList) = (*o.fsList);
 }
 
 /**
@@ -179,25 +179,25 @@ void *FileSystemList::operator new(std::size_t size)
 /**
 * @brief Sets equal two File System objects
 *
-* @param v The File System object to copy from
+* @param o The File System object to copy from
 */
-void FileSystemList::operator=(const FileSystemList &s)
+void FileSystemList::operator=(const FileSystemList &o)
 {
-  if (&s == this)
+  if (&o == this)
   {
     return;
   }
   fsList = std::make_unique<std::vector<FileSystem>>();
 
-  (*fsList) = (*s.fsList);
+  (*fsList) = (*o.fsList);
 }
 
 /**
 * @brief Sets equal two File System objects
 *
-* @param v The File System object to copy from
+* @param o The File System object to copy from
 */
-void FileSystemList::operator=(FileSystemList *s)
+void FileSystemList::operator=(FileSystemList *o)
 {
   fsList = std::make_unique<std::vector<FileSystem>>();
 

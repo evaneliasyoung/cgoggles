@@ -1,10 +1,10 @@
 /**
 *  @file      processor.h
-*  @brief     The interface for the processor class.
+*  @brief     The interface for the Processor class.
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-16
-*  @date      2019-04-22
+*  @date      2019-04-29
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -83,7 +83,7 @@ public:
   Processor();
   Processor(std::uint8_t plt);
   ~Processor();
-  void operator=(Processor *p);
+  void operator=(Processor *o);
   std::string Manufacturer();
   std::string Architecture();
   std::string SocketType();

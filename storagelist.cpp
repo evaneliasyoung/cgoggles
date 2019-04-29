@@ -1,6 +1,6 @@
 /**
 *  @file      storagelist.cpp
-*  @brief     The implementation for the storagelist class.
+*  @brief     The implementation for the StorageList class.
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-30
@@ -49,13 +49,13 @@ StorageList::StorageList(std::uint8_t plt)
 /**
 * @brief Construct a new StorageList object from another StorageList object
 *
-* @param s The StorageList object to copy from
+* @param o The StorageList object to copy from
 */
-StorageList::StorageList(const StorageList &s)
+StorageList::StorageList(const StorageList &o)
 {
   drives = std::make_unique<std::vector<Storage>>();
 
-  (*drives) = (*s.drives);
+  (*drives) = (*o.drives);
 }
 
 /**
@@ -319,29 +319,29 @@ void *StorageList::operator new(std::size_t size)
 /**
 * @brief Sets equal two Storage System objects
 *
-* @param v The Storage System object to copy from
+* @param o The Storage System object to copy from
 */
-void StorageList::operator=(const StorageList &s)
+void StorageList::operator=(const StorageList &o)
 {
-  if (&s == this)
+  if (&o == this)
   {
     return;
   }
   drives = std::make_unique<std::vector<Storage>>();
 
-  (*drives) = (*s.drives);
+  (*drives) = (*o.drives);
 }
 
 /**
 * @brief Sets equal two Storage System objects
 *
-* @param v The Storage System object to copy from
+* @param o The Storage System object to copy from
 */
-void StorageList::operator=(StorageList *s)
+void StorageList::operator=(StorageList *o)
 {
   drives = std::make_unique<std::vector<Storage>>();
 
-  (*drives) = (*s->drives);
+  (*drives) = (*o->drives);
 }
 #pragma endregion "Operators"
 
