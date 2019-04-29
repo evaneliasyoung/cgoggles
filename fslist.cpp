@@ -201,7 +201,7 @@ void FileSystemList::operator=(FileSystemList *o)
 {
   fsList = std::make_unique<std::vector<FileSystem>>();
 
-  (*fsList) = (*s->fsList);
+  (*fsList) = (*o->fsList);
 }
 #pragma endregion "Operators"
 

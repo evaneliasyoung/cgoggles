@@ -207,7 +207,7 @@ void GraphicsList::operator=(GraphicsList *o)
 {
   controllers = std::make_unique<std::vector<Graphics>>();
 
-  (*controllers) = (*s->controllers);
+  (*controllers) = (*o->controllers);
 }
 #pragma endregion "Operators"
 

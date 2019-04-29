@@ -126,11 +126,11 @@ void Graphics::operator=(Graphics *o)
   vram = std::make_unique<std::uint64_t>();
   dynamic = std::make_unique<bool>();
 
-  (*vendor) = (*s->vendor);
-  (*model) = (*s->model);
-  (*bus) = (*s->bus);
-  (*vram) = (*s->vram);
-  (*dynamic) = (*s->dynamic);
+  (*vendor) = (*o->vendor);
+  (*model) = (*o->model);
+  (*bus) = (*o->bus);
+  (*vram) = (*o->vram);
+  (*dynamic) = (*o->dynamic);
 }
 #pragma endregion "Operators"
 
