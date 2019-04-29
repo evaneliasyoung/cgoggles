@@ -12,6 +12,10 @@
 #define CGOGGLES_FS_H_
 
 #include "pch.h"
+#include "utils.h"
+
+extern OutputStyle style;
+extern bool pretty;
 
 /**
 * @brief Represents a computer's file system
@@ -30,6 +34,7 @@ public:
   FileSystem(std::string f, std::string tp, std::uint64_t sz, std::uint64_t us, std::string mnt);
   FileSystem(const FileSystem &o);
   ~FileSystem();
+  std::string JSON();
   void *operator new(std::size_t size);
   void operator=(const FileSystem &o);
   void operator=(FileSystem *o);
