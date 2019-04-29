@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-15
-*  @date      2019-04-22
+*  @date      2019-04-29
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -42,6 +42,7 @@ void parseRequests(std::string *request);
 void gatherCategories(std::vector<std::string> *cats);
 void gatherRequests(std::vector<std::string> *keys, std::vector<std::string> *vals, std::vector<std::string> *cats);
 void outputSimple(std::ostream &stream, std::vector<std::string> *keys, std::vector<std::string> *vals, const char &del = '\n');
+void outputValue(std::ostream &stream, std::vector<std::string> *vals);
 void outputJson(std::ostream &stream, std::vector<std::string> *keys, std::vector<std::string> *vals, const bool &min = false);
 void outputRequests(std::ostream &stream = std::cout);
 

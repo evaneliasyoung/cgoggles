@@ -337,8 +337,7 @@ void outputVersion()
 void outputHelp()
 {
   // NOTE: JSON output disabled until further notice
-  // std::cout << "usage: cgoggles [-v|--ver|--version] [-h|--help] [-l|--list|-j|--json|-m|--minjson] -get=[<args>]" << std::endl;
-  std::cout << "usage: cgoggles [-v|--ver|--version] [-h|--help] [-l|--list] [-r|--raw] <command> [<args>]" << std::endl
+  std::cout << "usage: cgoggles [-v|--ver|--version] [-h|--help] [-l|--list|--value] [-r|--raw] <command> [<args>]" << std::endl
             << "  get   Makes a query to the computer's internals" << std::endl
             << "  list  List the values that you can query to CGoggles" << std::endl
             << std::endl
@@ -506,6 +505,10 @@ int handleArgs(int argc, const char *argv[], std::string *request)
   if (cmdl[{"l", "list"}])
   {
     style = OutputStyle::List;
+  }
+
+  if (cmdl[{"value"}]) {
+    style = OutputStyle::Value;
   }
 
   if (cmdl[{"r", "raw"}])

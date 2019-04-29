@@ -497,7 +497,21 @@ void outputSimple(std::ostream &stream, std::vector<std::string> *keys, std::vec
 {
   for (std::size_t i = 0; i < keys->size(); i++)
   {
-    stream << (*keys)[i] << del << (*vals)[i] << std::endl;
+    stream << (*keys)[i] << del << (*vals)[i] << '\n';
+  }
+}
+
+/**
+* @brief Processes value output, just the values for the key(s)
+*
+* @param stream The output stream
+* @param vals   The values to output
+*/
+void outputValue(std::ostream &stream, std::vector<std::string> *vals)
+{
+  for (std::size_t i = 0; i < vals->size(); i++)
+  {
+    stream << (*vals)[i] << '\n';
   }
 }
 
@@ -561,16 +575,14 @@ void outputRequests(std::ostream &stream)
   switch (style)
   {
   case OutputStyle::Default:
-    outputSimple(stream, keys, vals);
-    break;
+    return outputSimple(stream, keys, vals);
   case OutputStyle::List:
-    outputSimple(stream, keys, vals, '=');
-    break;
+    return outputSimple(stream, keys, vals, '=');
+  case OutputStyle::Value:
+    return outputValue(stream, vals);
   case OutputStyle::JSON:
-    outputJson(stream, keys, vals);
-    break;
+    return outputJson(stream, keys, vals);
   case OutputStyle::MinJSON:
-    outputJson(stream, keys, vals, true);
-    break;
+    return outputJson(stream, keys, vals, true);
   }
 }

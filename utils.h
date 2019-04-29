@@ -52,12 +52,13 @@ static_assert(sizeof(void *) == 4, "Void pointer should be 4 bytes long.");
 #endif
 
 /**
-* @brief The method to use for outputting the dataf
+* @brief The method to use for outputting the data
 */
 enum class OutputStyle : std::uint8_t
 {
   Default,
   List,
+  Value,
   JSON,
   MinJSON
 };
