@@ -126,11 +126,11 @@ void FileSystem::operator=(FileSystem *o)
   used = std::make_unique<std::uint64_t>();
   mount = std::make_unique<std::string>();
 
-  (*fs) = (*s->fs);
-  (*type) = (*s->type);
-  (*size) = (*s->size);
-  (*used) = (*s->used);
-  (*mount) = (*s->mount);
+  (*fs) = (*o->fs);
+  (*type) = (*o->type);
+  (*size) = (*o->size);
+  (*used) = (*o->used);
+  (*mount) = (*o->mount);
 }
 #pragma endregion "Operators"
 
