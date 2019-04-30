@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-30
-*  @date      2019-04-29
+*  @date      2019-04-30
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -166,6 +166,51 @@ void GraphicsList::GetWin()
 */
 void GraphicsList::GetLux()
 {
+  std::string temp;
+  std::vector<std::string> lines;
+  Graphics tempController;
+  std::string tempVendor = "";
+  std::string tempModel = "";
+  std::string tempBus = "";
+  std::uint64_t tempVRAM = 0;
+  bool tempDynamic = false;
+
+  temp = runCommand("");
+  splitStringVector(temp, "\n", &lines);
+
+  bool found = false;
+
+  std::smatch m;
+  for (std::size_t i = 0; i < lines.size(); ++i)
+  {
+    if (lines[i].find(" VGA ") != std::string::npos)
+    {
+      if (std::regex_search(lines[i], m, std::regex(R"(\[(.*?)\])", std::regex_constants::ECMAScript)))
+      {
+        tempVendor = m[1];
+      }
+      lines[i] = m.suffix();
+      if (std::regex_search(lines[i], m, std::regex(R"(\[(.*?)\])", std::regex_constants::ECMAScript)))
+      {
+        tempModel = m[1];
+      }
+      found = true;
+    }
+    if (found)
+    {
+      if (std::regex_search(lines[i], m, std::regex(R"(\[size=(\d+)M\])", std::regex_constants::ECMAScript)))
+      {
+        tempVRAM = std::stoull(m[1]) * pow(1000, 3);
+      }
+      if (lines[++i][0] != '\t')
+      {
+        tempController = Graphics(tempVendor, tempModel, tempBus, tempVRAM, tempDynamic);
+        controllers->push_back(tempController);
+        found = false;
+        continue;
+      }
+    }
+  }
 }
 #pragma endregion
 
