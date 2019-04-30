@@ -332,11 +332,9 @@ void outputVersion()
 
 /**
 * @brief Outputs the help for CGoggles
-*
 */
 void outputHelp()
 {
-  // NOTE: JSON output disabled until further notice
   std::cout << "usage: cgoggles [-v|--ver|--version] [-h|--help] [-l|--list|--value] [-r|--raw] <command> [<args>]" << std::endl
             << "  get   Makes a query to the computer's internals" << std::endl
             << "  list  List the values that you can query to CGoggles" << std::endl
@@ -479,28 +477,6 @@ int handleArgs(int argc, const char *argv[], std::string *request)
     outputHelp();
     std::exit(EXIT_SUCCESS);
   }
-
-  // NOTE: JSON output disabled until further notice
-  //       It's really quite a mess without a JSON library
-  // if (cmdl[{"m", "minjson"}])
-  // {
-  //   if (cmdl[{"j", "json", "l", "list"}]) {
-  //     outputHelp();
-  //     return EXIT_FAILURE;
-  //   }
-
-  //   style = OutputStyle::MinJSON;
-  // }
-
-  // if (cmdl[{"j", "json"}])
-  // {
-  //   if (cmdl[{"m", "minjson", "l", "list"}]) {
-  //     outputHelp();
-  //     return EXIT_FAILURE;
-  //   }
-
-  //   style = OutputStyle::JSON;
-  // }
 
   if (cmdl[{"l", "list"}])
   {

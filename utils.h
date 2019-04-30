@@ -58,9 +58,7 @@ enum class OutputStyle : std::uint8_t
 {
   Default,
   List,
-  Value,
-  JSON,
-  MinJSON
+  Value
 };
 
 extern std::vector<std::string> requests;

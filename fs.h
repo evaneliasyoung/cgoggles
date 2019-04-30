@@ -34,7 +34,6 @@ public:
   FileSystem(std::string f, std::string tp, std::uint64_t sz, std::uint64_t us, std::string mnt);
   FileSystem(const FileSystem &o);
   ~FileSystem();
-  std::string JSON();
   void *operator new(std::size_t size);
   void operator=(const FileSystem &o);
   void operator=(FileSystem *o);

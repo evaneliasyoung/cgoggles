@@ -516,50 +516,6 @@ void outputValue(std::ostream &stream, std::vector<std::string> *vals)
 }
 
 /**
-* @brief Outputs the data in the JSON format
-*
-* @param stream The output stream
-* @param keys   The keys to output
-* @param vals   The values to output
-* @param min    Whether or not to minify the JSON
-*/
-void outputJson(std::ostream &stream, std::vector<std::string> *keys, std::vector<std::string> *vals, const bool &min)
-{
-  std::string curBeg;
-  std::string nl = min ? "" : "\n";
-  std::string sp = min ? "" : " ";
-  std::string ck;
-  std::string cv;
-
-  stream << "{" << nl;
-  for (std::size_t i = 0; i < keys->size(); ++i)
-  {
-    ck = (*keys)[i];
-    cv = (*vals)[i];
-
-    // New beginning
-    if (curBeg != ck.substr(0, ck.find('.')))
-    {
-      // If not empty, end the last section
-      if (curBeg != "")
-      {
-        stream << sp << sp << "}," << nl;
-      }
-
-      // Set up the new beginning
-      curBeg = ck.substr(0, ck.find('.'));
-      stream << sp << sp << '"' << curBeg << R"(":)" << sp << '{' << nl;
-    }
-
-    stream << sp << sp << sp << sp;
-    stream << ck.substr(ck.find('.') + 1) << R"(":)" << sp << cv << '"';
-    stream << (i < keys->size() - 1 && curBeg == (*keys)[i + 1].substr(0, (*keys)[i + 1].find('.')) ? "," : "") << nl;
-  }
-
-  stream << sp << sp << '}' << nl << '}' << nl;
-}
-
-/**
 * @brief Outputs all of the requests
 *
 * @param stream The output stream
@@ -580,9 +536,5 @@ void outputRequests(std::ostream &stream)
     return outputSimple(stream, keys, vals, '=');
   case OutputStyle::Value:
     return outputValue(stream, vals);
-  case OutputStyle::JSON:
-    return outputJson(stream, keys, vals);
-  case OutputStyle::MinJSON:
-    return outputJson(stream, keys, vals, true);
   }
 }

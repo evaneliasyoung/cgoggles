@@ -4,7 +4,7 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-30
-*  @date      2019-04-29
+*  @date      2019-04-30
 *  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
 */
 
@@ -73,28 +73,6 @@ FileSystem::~FileSystem()
   size.reset();
   used.reset();
   mount.reset();
-}
-
-/**
-* @brief JSON serializes the FileSystem object
-*
-* @return std::string The JSON object
-*/
-std::string FileSystem::JSON()
-{
-  std::stringstream ss;
-  char end = style == OutputStyle::MinJSON ? '\0' : '\n';
-  std::string ind = style == OutputStyle::MinJSON ? "" : "  ";
-  ss << '{' << end;
-
-  ss << ind << R"("fs": ")" << fs << R"(",)" << end;
-  ss << ind << R"("type": ")" << type << R"(",)" << end;
-  ss << ind << R"("size": ")" << (pretty ? siUnits((*size), "B") : std::to_string((*size))) << R"(",)" << end;
-  ss << ind << R"("used": ")" << (pretty ? siUnits((*used), "B") : std::to_string((*used))) << R"(",)" << end;
-  ss << ind << R"("mount": ")" << mount << R"(")" << end;
-
-  ss << '}';
-  return ss.str();
 }
 #pragma endregion "Contructors"
 
