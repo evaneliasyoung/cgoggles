@@ -16,7 +16,7 @@
 /**
 * @brief The current CGoggles Version
 */
-#define CGOGGLES_VERSION 0x000303
+#define CGOGGLES_VERSION 0x000400
 #if _WIN32 || _WIN64
 #if _WIN64
 /**

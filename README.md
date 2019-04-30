@@ -14,18 +14,15 @@ This is made as first a passion-project and next a final-project for my programm
 
 ## News and Changes
 
-### Version 0.3.3 - 2019-04-29
+### Version 0.4.0 - 2019-04-30
 
 ### Latest Activity
 
 (last 7 major and minor version releases)
 
-- Version 0.3.3: Doxygen documentation, performance improvements, value-only output
-- Version 0.3.2: Performance improvements, RAM information for Mac
-- Version 0.3.1: Pretty-print option for storage
+- Version 0.4.0: Full Linux support
 - Version 0.3.0: System information and most Linux support
 - Version 0.2.0: GPU, Storage, and FileSystem information
-- Version 0.1.1: Mac compatability
 - Version 0.1.0: Initial release
 
 You can find all changes here: [detailed changelog](CHANGELOG.md)

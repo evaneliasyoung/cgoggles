@@ -4,6 +4,7 @@
 
 | Version | Date       | Comment                                                            |
 | ------- | ---------- | ------------------------------------------------------------------ |
+| 0.4.0   | 2019-04-30 | Full Linux support                                                 |
 | 0.3.3   | 2019-04-29 | Doxygen documentation, performance improvements, value-only output |
 | 0.3.2   | 2019-04-22 | Performance improvements, RAM information for Mac                  |
 | 0.3.1   | 2019-04-17 | Pretty-print option for storage                                    |
