@@ -14,6 +14,9 @@ default: cgoggles.exe
 cgoggles.exe: $(OBJECTS)
 	$(CC) $(FLAGS) $(OBJECTS) -o $@
 
+cgoggles.distrib.exe: $(OBJECTS)
+	$(CC) $(FLAGS) -static-libgcc -static-libstdc++ $(OBJECTS) -o $@
+
 clean:
 	-rm -f $(OBJECTS)
 	-rm -f cgoggles.exe
