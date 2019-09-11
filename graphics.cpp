@@ -64,7 +64,7 @@ Graphics::Graphics(const Graphics &o)
 }
 
 /**
-* @brief Destroy the Processor object
+* @brief Destroy the Graphics object
 */
 Graphics::~Graphics()
 {
@@ -78,7 +78,7 @@ Graphics::~Graphics()
 
 #pragma region "Operators"
 /**
-* @brief Reserves memory for a new fs object
+* @brief Reserves memory for a new Graphics object
 *
 * @param  size  The amount of memory to allocate
 * @return void* A pointer to the allocated memory
@@ -90,9 +90,9 @@ void *Graphics::operator new(std::size_t size)
 }
 
 /**
-* @brief Sets equal two fs objects
+* @brief Sets equal two Graphics objects
 *
-* @param o The fs object to copy from
+* @param o The Graphics object to copy from
 */
 void Graphics::operator=(const Graphics &o)
 {
@@ -114,9 +114,9 @@ void Graphics::operator=(const Graphics &o)
 }
 
 /**
-* @brief Sets equal two fs objects
+* @brief Sets equal two Graphics objects
 *
-* @param o The fs object to copy from
+* @param o The Graphics object to copy from
 */
 void Graphics::operator=(Graphics *o)
 {
