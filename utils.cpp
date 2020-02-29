@@ -4,8 +4,8 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-12
-*  @date      2019-04-29
-*  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
+*  @date      2020-02-29
+*  @copyright Copyright 2019-2020 Evan Elias Young. All rights reserved.
 */
 
 #include "pch.h"
@@ -335,10 +335,10 @@ void outputVersion()
 */
 void outputHelp()
 {
-  std::cout << "usage: cgoggles [-v|--ver|--version] [-h|--help] [-l|--list|--value] [-r|--raw] <command> [<args>]" << std::endl
-            << "  get   Makes a query to the computer's internals" << std::endl
-            << "  list  List the values that you can query to CGoggles" << std::endl
-            << std::endl
+  std::cout << "usage: cgoggles [-v|--ver|--version] [-h|--help] [-l|--list|--value] [-r|--raw] <command> [<args>]" << '\n'
+            << "  get   Makes a query to the computer's internals" << '\n'
+            << "  list  List the values that you can query to CGoggles" << '\n'
+            << '\n'
             << "example: cgoggles get cpu.Brand, cpu.Cores, os.Version" << std::endl;
 }
 
@@ -355,15 +355,15 @@ void outputList(const std::string &cat)
       "os.InstallTime", "os.BootTime", "os.CurTime",
       "os.Kernel", "os.Version"};
   std::vector<std::string> sysList = {
-      "sys",
-      "sys.All"
-      "sys.Manufacturer",
-      "sys.Model",
-      "sys.Version",
-      "sys.Serial",
+      "sys", "sys.All", "sys.Manufacturer",
+      "sys.Model", "sys.Version", "sys.Serial",
       "sys.UUID"};
-  std::vector<std::string>
-      cpuList = {"cpu", "cpu.All", "cpu.Manufacturer", "cpu.Architecture", "cpu.SocketType", "cpu.Brand", "cpu.Family", "cpu.Model", "cpu.Stepping", "cpu.Cores", "cpu.Threads", "cpu.Speed", "cpu.MaxSpeed"};
+  std::vector<std::string> cpuList = {
+    "cpu", "cpu.All", "cpu.Manufacturer",
+    "cpu.Architecture", "cpu.SocketType", "cpu.Brand",
+    "cpu.Family", "cpu.Model", "cpu.Stepping",
+    "cpu.Cores", "cpu.Threads", "cpu.Speed",
+    "cpu.MaxSpeed"};
   std::vector<std::string> gpuList = {
       "gpu", "gpu.All", "gpu.Vendor",
       "gpu.Model", "gpu.Bus", "gpu.VRAM",
@@ -390,14 +390,10 @@ void outputList(const std::string &cat)
 
   if (cat == "" || cat == "all" || cat == "All")
   {
-    std::cout << "All available queries for CGoggles." << '\n';
+    std::cout << "All available categories for CGoggles." << '\n';
     for (std::size_t i = 0; i < liList.size(); ++i)
     {
-      std::cout << liList[i][0] << std::endl;
-      for (std::size_t j = 0; j < liList[i].size(); ++j)
-      {
-        std::cout << liList[i][j] << std::endl;
-      }
+      std::cout << liList[i][0] << '\n';
     }
     return;
   }
@@ -407,42 +403,42 @@ void outputList(const std::string &cat)
   {
     for (std::size_t i = 0; i < osList.size(); ++i)
     {
-      std::cout << osList[i] << std::endl;
+      std::cout << osList[i] << '\n';
     }
   }
   if (cat == "cpu")
   {
     for (std::size_t i = 0; i < cpuList.size(); ++i)
     {
-      std::cout << cpuList[i] << std::endl;
+      std::cout << cpuList[i] << '\n';
     }
   }
   if (cat == "gpu")
   {
     for (std::size_t i = 0; i < gpuList.size(); ++i)
     {
-      std::cout << gpuList[i] << std::endl;
+      std::cout << gpuList[i] << '\n';
     }
   }
   if (cat == "ram")
   {
     for (std::size_t i = 0; i < ramList.size(); ++i)
     {
-      std::cout << ramList[i] << std::endl;
+      std::cout << ramList[i] << '\n';
     }
   }
   if (cat == "storage")
   {
     for (std::size_t i = 0; i < storageList.size(); ++i)
     {
-      std::cout << storageList[i] << std::endl;
+      std::cout << storageList[i] << '\n';
     }
   }
   if (cat == "fs")
   {
     for (std::size_t i = 0; i < fsList.size(); ++i)
     {
-      std::cout << fsList[i] << std::endl;
+      std::cout << fsList[i] << '\n';
     }
   }
 }
@@ -483,7 +479,8 @@ int handleArgs(int argc, const char *argv[], std::string *request)
     style = OutputStyle::List;
   }
 
-  if (cmdl[{"value"}]) {
+  if (cmdl[{"value"}])
+  {
     style = OutputStyle::Value;
   }
 

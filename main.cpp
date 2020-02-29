@@ -4,8 +4,8 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-11
-*  @date      2019-04-29
-*  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
+*  @date      2020-02-08
+*  @copyright Copyright 2019-2020 Evan Elias Young. All rights reserved.
 */
 
 #include "pch.h"
@@ -13,6 +13,7 @@
 #include "temperature.h"
 #include "os.h"
 #include "processor.h"
+#include "chassis.h"
 #include "requests.h"
 #include "ram.h"
 #include "ramlist.h"
@@ -36,7 +37,6 @@ OutputStyle style = OutputStyle::Default;
 
 /**
 * @brief Whether or not to pretty-print the data
-*
 */
 bool pretty = true;
 
@@ -49,22 +49,32 @@ OperatingSystem compOS;
 * @brief The computer's system info
 */
 System compSys;
+
 /**
 * @brief The computer's processor
 */
 Processor compCPU;
+
+/**
+* @brief The computer's file system(s)
+*/
+Chassis compChassis;
+
 /**
 * @brief The computer's memory chip(s)
 */
 RAMList compRAM;
+
 /**
 * @brief The computer's graphics processor(s)
 */
 GraphicsList compGPU;
+
 /**
 * @brief The computer's storage drive(s)
 */
 StorageList compStorage;
+
 /**
 * @brief The computer's file system(s)
 */

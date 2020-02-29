@@ -4,8 +4,8 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-30
-*  @date      2019-04-30
-*  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
+*  @date      2020-02-29
+*  @copyright Copyright 2019-2020 Evan Elias Young. All rights reserved.
 */
 
 #include "pch.h"
@@ -20,7 +20,7 @@
 */
 GraphicsList::GraphicsList()
 {
-  controllers = std::make_unique<std::vector<Graphics>>();
+  controllers = std::vector<Graphics>();
 }
 
 /**
@@ -30,7 +30,7 @@ GraphicsList::GraphicsList()
 */
 GraphicsList::GraphicsList(std::uint8_t plt)
 {
-  controllers = std::make_unique<std::vector<Graphics>>();
+  controllers = std::vector<Graphics>();
 
   switch (plt)
   {
@@ -53,17 +53,7 @@ GraphicsList::GraphicsList(std::uint8_t plt)
 */
 GraphicsList::GraphicsList(const GraphicsList &o)
 {
-  controllers = std::make_unique<std::vector<Graphics>>();
-
-  (*controllers) = (*o.controllers);
-}
-
-/**
-* @brief Destroy the Processor object
-*/
-GraphicsList::~GraphicsList()
-{
-  controllers.reset();
+  controllers = o.controllers;
 }
 #pragma endregion "Contructors"
 
@@ -130,7 +120,7 @@ void GraphicsList::GetMac()
       }
     }
     tempController = new Graphics(tempVendor, tempModel, tempBus, tempVRAM, tempDynamic);
-    controllers->push_back(tempController);
+    controllers.push_back(tempController);
   }
 }
 
@@ -157,7 +147,7 @@ void GraphicsList::GetWin()
     tempDynamic = gpuList[i]["VideoMemoryType"] == "2";
 
     tempController = new Graphics(tempVendor, tempModel, tempBus, tempVRAM, tempDynamic);
-    controllers->push_back(tempController);
+    controllers.push_back(tempController);
   }
 }
 
@@ -205,7 +195,7 @@ void GraphicsList::GetLux()
       if (lines[++i][0] != '\t')
       {
         tempController = Graphics(tempVendor, tempModel, tempBus, tempVRAM, tempDynamic);
-        controllers->push_back(tempController);
+        controllers.push_back(tempController);
         found = false;
         continue;
       }
@@ -216,7 +206,7 @@ void GraphicsList::GetLux()
 
 #pragma region "Operators"
 /**
-* @brief Reserves memory for a new Graphics List object
+* @brief Reserves memory for a new GraphicsList object
 *
 * @param  size  The amount of memory to allocate
 * @return void* A pointer to the allocated memory
@@ -228,9 +218,9 @@ void *GraphicsList::operator new(std::size_t size)
 }
 
 /**
-* @brief Sets equal two Graphics List objects
+* @brief Sets equal two GraphicsList objects
 *
-* @param o The Graphics List object to copy from
+* @param o The GraphicsList object to copy from
 */
 void GraphicsList::operator=(const GraphicsList &o)
 {
@@ -238,32 +228,16 @@ void GraphicsList::operator=(const GraphicsList &o)
   {
     return;
   }
-  controllers = std::make_unique<std::vector<Graphics>>();
-
-  (*controllers) = (*o.controllers);
+  controllers = o.controllers;
 }
 
 /**
-* @brief Sets equal two Graphics List objects
+* @brief Sets equal two GraphicsList objects
 *
-* @param o The Graphics List object to copy from
+* @param o The GraphicsList object to copy from
 */
 void GraphicsList::operator=(GraphicsList *o)
 {
-  controllers = std::make_unique<std::vector<Graphics>>();
-
-  (*controllers) = (*o->controllers);
+  controllers = o->controllers;
 }
 #pragma endregion "Operators"
-
-#pragma region "Accessors"
-/**
-* @brief Returns the a copy of the drive list
-*
-* @return std::vector<Graphics> The drive list
-*/
-std::vector<Graphics> GraphicsList::Controllers()
-{
-  return (*controllers);
-}
-#pragma endregion "Accessors"

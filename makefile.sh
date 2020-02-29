@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FLAGS="--std=c++14 -g -Wall -Wno-unknown-pragmas"
+FLAGS="-std=c++14 -g -Wall -Wno-unknown-pragmas"
 HEADERS=(pch.h.gch argh.h.gch)
 OBJECTS=(main.o fs.o fslist.o graphics.o graphicslist.o os.o processor.o ram.o ramlist.o requests.o semver.o storage.o storagelist.o system.o temperature.o utils.o)
 

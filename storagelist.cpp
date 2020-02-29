@@ -4,8 +4,8 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-30
-*  @date      2019-04-29
-*  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
+*  @date      2020-02-29
+*  @copyright Copyright 2019-2020 Evan Elias Young. All rights reserved.
 */
 
 #include "pch.h"
@@ -20,7 +20,7 @@
 */
 StorageList::StorageList()
 {
-  drives = std::make_unique<std::vector<Storage>>();
+  drives = std::vector<Storage>();
 }
 
 /**
@@ -30,7 +30,7 @@ StorageList::StorageList()
 */
 StorageList::StorageList(std::uint8_t plt)
 {
-  drives = std::make_unique<std::vector<Storage>>();
+  drives = std::vector<Storage>();
 
   switch (plt)
   {
@@ -53,17 +53,7 @@ StorageList::StorageList(std::uint8_t plt)
 */
 StorageList::StorageList(const StorageList &o)
 {
-  drives = std::make_unique<std::vector<Storage>>();
-
-  (*drives) = (*o.drives);
-}
-
-/**
-* @brief Destroy the StorageList object
-*/
-StorageList::~StorageList()
-{
-  drives.reset();
+  drives = o.drives;
 }
 #pragma endregion "Contructors"
 
@@ -177,7 +167,7 @@ void StorageList::GetMac()
       }
     }
     tempDrive = (new Storage(tempName, tempIdentifier, tempType, tempFilesystem, tempMount, tempTotal, tempPhysical, tempUuid, tempLabel, tempModel, tempSerial, tempRemovable, tempProtocol));
-    drives->push_back(tempDrive);
+    drives.push_back(tempDrive);
   }
 }
 
@@ -224,7 +214,7 @@ void StorageList::GetWin()
     tempRemovable = allDrives[i]["DriveType"] == "2";
 
     tempDrive = (new Storage(tempName, tempIdentifier, tempType, tempFilesystem, tempMount, tempTotal, tempPhysical, tempUuid, tempLabel, tempModel, tempSerial, tempRemovable, tempProtocol));
-    drives->push_back(tempDrive);
+    drives.push_back(tempDrive);
   }
 }
 
@@ -298,7 +288,7 @@ void StorageList::GetLux()
     }
 
     tempDrive = (new Storage(tempName, tempIdentifier, tempType, tempFilesystem, tempMount, tempTotal, tempPhysical, tempUuid, tempLabel, tempModel, tempSerial, tempRemovable, tempProtocol));
-    drives->push_back(tempDrive);
+    drives.push_back(tempDrive);
   }
 }
 #pragma endregion
@@ -327,9 +317,7 @@ void StorageList::operator=(const StorageList &o)
   {
     return;
   }
-  drives = std::make_unique<std::vector<Storage>>();
-
-  (*drives) = (*o.drives);
+  drives = o.drives;
 }
 
 /**
@@ -339,20 +327,6 @@ void StorageList::operator=(const StorageList &o)
 */
 void StorageList::operator=(StorageList *o)
 {
-  drives = std::make_unique<std::vector<Storage>>();
-
-  (*drives) = (*o->drives);
+  drives = o->drives;
 }
 #pragma endregion "Operators"
-
-#pragma region "Accessors"
-/**
-* @brief Returns the a copy of the storage list
-*
-* @return std::vector<Storage> The storage list
-*/
-std::vector<Storage> StorageList::Drives()
-{
-  return (*drives);
-}
-#pragma endregion "Accessors"

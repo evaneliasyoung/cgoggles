@@ -4,8 +4,8 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-15
-*  @date      2019-04-29
-*  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
+*  @date      2020-02-29
+*  @copyright Copyright 2019-2020 Evan Elias Young. All rights reserved.
 */
 
 #include "pch.h"
@@ -15,37 +15,37 @@
 
 #pragma region "Constructors"
 /**
-* @brief Construct a new Operating System object
+* @brief Construct a new OperatingSystem object
 */
 OperatingSystem::OperatingSystem()
 {
-  platform = std::make_unique<std::string>();
-  caption = std::make_unique<std::string>();
-  serial = std::make_unique<std::string>();
-  bit = std::make_unique<std::uint8_t>();
-  installTime = std::make_unique<std::tm>();
-  bootTime = std::make_unique<std::tm>();
-  curTime = std::make_unique<std::tm>();
-  kernel = std::make_unique<SemVer>();
-  version = std::make_unique<SemVer>();
+  platform = "";
+  caption = "";
+  serial = "";
+  bit = 0;
+  installTime = std::tm();
+  bootTime = std::tm();
+  curTime = std::tm();
+  kernel = SemVer();
+  version = SemVer();
 }
 
 /**
-* @brief Construct a new Operating System object with help from the assistants
+* @brief Construct a new OperatingSystem object with help from the assistants
 *
 * @param plt The platform of the system
 */
 OperatingSystem::OperatingSystem(std::uint8_t plt)
 {
-  platform = std::make_unique<std::string>();
-  caption = std::make_unique<std::string>();
-  serial = std::make_unique<std::string>();
-  bit = std::make_unique<std::uint8_t>();
-  installTime = std::make_unique<std::tm>();
-  bootTime = std::make_unique<std::tm>();
-  curTime = std::make_unique<std::tm>();
-  kernel = std::make_unique<SemVer>();
-  version = std::make_unique<SemVer>();
+  platform = "";
+  caption = "";
+  serial = "";
+  bit = 0;
+  installTime = std::tm();
+  bootTime = std::tm();
+  curTime = std::tm();
+  kernel = SemVer();
+  version = SemVer();
 
   switch (plt)
   {
@@ -62,19 +62,21 @@ OperatingSystem::OperatingSystem(std::uint8_t plt)
 }
 
 /**
-* @brief Destroy the Operating System object
+* @brief Construct a new OperatingSystem object from another OperatingSystem object
+*
+* @param o The OperatingSystem object to copy from
 */
-OperatingSystem::~OperatingSystem()
+OperatingSystem::OperatingSystem(const OperatingSystem &o)
 {
-  platform.reset();
-  caption.reset();
-  serial.reset();
-  bit.reset();
-  installTime.reset();
-  bootTime.reset();
-  curTime.reset();
-  kernel.reset();
-  version.reset();
+  platform = o.platform;
+  caption = o.caption;
+  serial = o.serial;
+  bit = o.bit;
+  installTime = o.installTime;
+  bootTime = o.bootTime;
+  curTime = o.curTime;
+  kernel = o.kernel;
+  version = o.version;
 }
 #pragma endregion "Constructors"
 
@@ -84,7 +86,7 @@ OperatingSystem::~OperatingSystem()
 */
 void OperatingSystem::GetMac()
 {
-  std::string versionCapts[13] = {
+  std::string versionCapts[14] = {
       "Jaguar",
       "Panther",
       "Tiger",
@@ -97,39 +99,40 @@ void OperatingSystem::GetMac()
       "El Capitan",
       "Sierra",
       "High Sierra",
-      "Mojave"};
+      "Mojave",
+      "Catalina"};
   std::string temp;
   std::time_t tempTime;
 
-  (*platform) = "Darwin";
-  (*serial) = runCommand("system_profiler SPHardwareDataType | grep Serial | awk '{ print $4; }'");
-  trim(serial.get());
-  (*bit) = std::stoi(runCommand("getconf LONG_BIT"));
-  (*version) = new SemVer(runCommand("sysctl -n kern.osproductversion"), 0b11100u);
-  (*kernel) = new SemVer(runCommand("sysctl -n kern.osrelease"), 0b11100u);
-  (*caption) = version->Minor() > 11 ? "macOS" : "Mac OS X";
-  if (version->Major() == 10 && version->Minor() > 1 && version->Minor() < 15)
+  platform = "Darwin";
+  serial = runCommand("system_profiler SPHardwareDataType | grep Serial | awk '{ print $4; }'");
+  trim(&serial);
+  bit = std::stoi(runCommand("getconf LONG_BIT"));
+  version = new SemVer(runCommand("sysctl -n kern.osproductversion"), 0b11100u);
+  kernel = new SemVer(runCommand("sysctl -n kern.osrelease"), 0b11100u);
+  caption = version.Minor() > 11 ? "macOS" : "Mac OS X";
+  if (version.Major() == 10 && version.Minor() > 1 && version.Minor() < 15)
   {
-    (*caption) += " " + versionCapts[version->Minor() - 2];
+    caption += " " + versionCapts[version.Minor() - 2];
   }
 
   temp = runCommand(R"(system_profiler SPInstallHistoryDataType | grep -A 4 -E '^\s{4}(macOS|OS X)' | tail -n1 | awk '{ print $3 $4; }')");
-  installTime->tm_year = std::stoi(temp.substr(0, 4)) - 1900;
-  installTime->tm_mon = std::stoi(temp.substr(5, 2)) - 1;
-  installTime->tm_mday = std::stoi(temp.substr(8, 2));
-  installTime->tm_hour = std::stoi(temp.substr(11, 2));
-  installTime->tm_min = std::stoi(temp.substr(14, 2));
+  installTime.tm_year = std::stoi(temp.substr(0, 4)) - 1900;
+  installTime.tm_mon = std::stoi(temp.substr(5, 2)) - 1;
+  installTime.tm_mday = std::stoi(temp.substr(8, 2));
+  installTime.tm_hour = std::stoi(temp.substr(11, 2));
+  installTime.tm_min = std::stoi(temp.substr(14, 2));
 
   tempTime = (std::time_t)std::stoi(runCommand("sysctl kern.boottime | awk '{ print substr($5, 1, length($5) - 1); }'"));
-  (*bootTime) = (*std::localtime(&tempTime));
+  bootTime = (*std::localtime(&tempTime));
 
   temp = runCommand(R"(date +"%Y%m%d%H%M%S")");
-  curTime->tm_year = std::stoi(temp.substr(0, 4)) - 1900;
-  curTime->tm_mon = std::stoi(temp.substr(4, 2)) - 1;
-  curTime->tm_mday = std::stoi(temp.substr(6, 2));
-  curTime->tm_hour = std::stoi(temp.substr(8, 2));
-  curTime->tm_min = std::stoi(temp.substr(10, 2));
-  curTime->tm_sec = std::stoi(temp.substr(12, 2));
+  curTime.tm_year = std::stoi(temp.substr(0, 4)) - 1900;
+  curTime.tm_mon = std::stoi(temp.substr(4, 2)) - 1;
+  curTime.tm_mday = std::stoi(temp.substr(6, 2));
+  curTime.tm_hour = std::stoi(temp.substr(8, 2));
+  curTime.tm_min = std::stoi(temp.substr(10, 2));
+  curTime.tm_sec = std::stoi(temp.substr(12, 2));
 }
 
 /**
@@ -141,36 +144,36 @@ void OperatingSystem::GetWin()
   std::map<std::string, std::string> dataMap = runMultiWmic("os get Caption,SerialNumber,OSArchitecture,Version,Version,InstallDate,LastBootUpTime,LocalDateTime", &wmic);
   std::string temp;
 
-  (*platform) = "Windows";
-  (*caption) = dataMap["Caption"];
-  (*serial) = dataMap["SerialNumber"];
-  (*bit) = std::stoi(dataMap["OSArchitecture"].erase(3));
-  (*version) = new SemVer(dataMap["Version"], 0b11010u);
-  (*kernel) = new SemVer(dataMap["Version"], 0b11010u);
+  platform = "Windows";
+  caption = dataMap["Caption"];
+  serial = dataMap["SerialNumber"];
+  bit = std::stoi(dataMap["OSArchitecture"].erase(3));
+  version = new SemVer(dataMap["Version"], 0b11010u);
+  kernel = new SemVer(dataMap["Version"], 0b11010u);
 
   temp = dataMap["InstallDate"];
-  installTime->tm_year = std::stoi(temp.substr(0, 4)) - 1900;
-  installTime->tm_mon = std::stoi(temp.substr(4, 2)) - 1;
-  installTime->tm_mday = std::stoi(temp.substr(6, 2));
-  installTime->tm_hour = std::stoi(temp.substr(8, 2));
-  installTime->tm_min = std::stoi(temp.substr(10, 2));
-  installTime->tm_sec = std::stoi(temp.substr(12, 2));
+  installTime.tm_year = std::stoi(temp.substr(0, 4)) - 1900;
+  installTime.tm_mon = std::stoi(temp.substr(4, 2)) - 1;
+  installTime.tm_mday = std::stoi(temp.substr(6, 2));
+  installTime.tm_hour = std::stoi(temp.substr(8, 2));
+  installTime.tm_min = std::stoi(temp.substr(10, 2));
+  installTime.tm_sec = std::stoi(temp.substr(12, 2));
 
   temp = dataMap["LastBootUpTime"];
-  bootTime->tm_year = std::stoi(temp.substr(0, 4)) - 1900;
-  bootTime->tm_mon = std::stoi(temp.substr(4, 2)) - 1;
-  bootTime->tm_mday = std::stoi(temp.substr(6, 2));
-  bootTime->tm_hour = std::stoi(temp.substr(8, 2));
-  bootTime->tm_min = std::stoi(temp.substr(10, 2));
-  bootTime->tm_sec = std::stoi(temp.substr(12, 2));
+  bootTime.tm_year = std::stoi(temp.substr(0, 4)) - 1900;
+  bootTime.tm_mon = std::stoi(temp.substr(4, 2)) - 1;
+  bootTime.tm_mday = std::stoi(temp.substr(6, 2));
+  bootTime.tm_hour = std::stoi(temp.substr(8, 2));
+  bootTime.tm_min = std::stoi(temp.substr(10, 2));
+  bootTime.tm_sec = std::stoi(temp.substr(12, 2));
 
   temp = dataMap["LocalDateTime"];
-  curTime->tm_year = std::stoi(temp.substr(0, 4)) - 1900;
-  curTime->tm_mon = std::stoi(temp.substr(4, 2)) - 1;
-  curTime->tm_mday = std::stoi(temp.substr(6, 2));
-  curTime->tm_hour = std::stoi(temp.substr(8, 2));
-  curTime->tm_min = std::stoi(temp.substr(10, 2));
-  curTime->tm_sec = std::stoi(temp.substr(12, 2));
+  curTime.tm_year = std::stoi(temp.substr(0, 4)) - 1900;
+  curTime.tm_mon = std::stoi(temp.substr(4, 2)) - 1;
+  curTime.tm_mday = std::stoi(temp.substr(6, 2));
+  curTime.tm_hour = std::stoi(temp.substr(8, 2));
+  curTime.tm_min = std::stoi(temp.substr(10, 2));
+  curTime.tm_sec = std::stoi(temp.substr(12, 2));
 }
 
 /**
@@ -181,187 +184,90 @@ void OperatingSystem::GetLux()
   std::string temp;
   std::time_t t = std::time(0);
 
-  (*platform) = "Linux";
+  platform = "Linux";
   temp = runCommand("lsb_release -d");
-  (*caption) = trim(temp.substr(temp.find_first_of(":") + 1));
-  (*serial) = readFile("/sys/devices/virtual/dmi/id/product_serial", &temp) ? trim(temp) : "";
+  caption = trim(temp.substr(temp.find_first_of(":") + 1));
+  serial = readFile("/sys/devices/virtual/dmi/id/product_serial", &temp) ? trim(temp) : "";
   temp = trim(runCommand("uname -m"));
-  (*bit) = endswith(temp, "64") || temp.find("armv8") != std::string::npos ? 64 : 32;
+  bit = endswith(temp, "64") || temp.find("armv8") != std::string::npos ? 64 : 32;
   temp = runCommand("lsb_release -r");
-  (*version) = new SemVer(trim(temp.substr(temp.find_first_of(":") + 1)), 0b11000u);
+  version = new SemVer(trim(temp.substr(temp.find_first_of(":") + 1)), std::count(temp.begin(), temp.end(), '.') > 0 ? 0b11000u : 0b1000u);
   temp = runCommand("uname -r");
-  (*kernel) = new SemVer(trim(temp.substr(0, temp.find_first_of("-"))), 0b11000u);
+  kernel = new SemVer(trim(temp.substr(0, temp.find_first_of("-"))), 0b11000u);
 
   temp = runCommand("stat -c %y /var/cache/apt");
-  installTime->tm_year = std::stoi(temp.substr(0, 4)) - 1900;
-  installTime->tm_mon = std::stoi(temp.substr(5, 2)) - 1;
-  installTime->tm_mday = std::stoi(temp.substr(8, 2));
-  installTime->tm_hour = std::stoi(temp.substr(11, 2));
-  installTime->tm_min = std::stoi(temp.substr(14, 2));
-  installTime->tm_sec = std::stoi(temp.substr(17, 2));
+  installTime.tm_year = std::stoi(temp.substr(0, 4)) - 1900;
+  installTime.tm_mon = std::stoi(temp.substr(5, 2)) - 1;
+  installTime.tm_mday = std::stoi(temp.substr(8, 2));
+  installTime.tm_hour = std::stoi(temp.substr(11, 2));
+  installTime.tm_min = std::stoi(temp.substr(14, 2));
+  installTime.tm_sec = std::stoi(temp.substr(17, 2));
 
   temp = runCommand("uptime -s");
-  bootTime->tm_year = std::stoi(temp.substr(0, 4)) - 1900;
-  bootTime->tm_mon = std::stoi(temp.substr(5, 2)) - 1;
-  bootTime->tm_mday = std::stoi(temp.substr(8, 2));
-  bootTime->tm_hour = std::stoi(temp.substr(11, 2));
-  bootTime->tm_min = std::stoi(temp.substr(14, 2));
-  bootTime->tm_sec = std::stoi(temp.substr(17, 2));
+  bootTime.tm_year = std::stoi(temp.substr(0, 4)) - 1900;
+  bootTime.tm_mon = std::stoi(temp.substr(5, 2)) - 1;
+  bootTime.tm_mday = std::stoi(temp.substr(8, 2));
+  bootTime.tm_hour = std::stoi(temp.substr(11, 2));
+  bootTime.tm_min = std::stoi(temp.substr(14, 2));
+  bootTime.tm_sec = std::stoi(temp.substr(17, 2));
 
-  (*curTime) = (*std::localtime(&t));
+  curTime = (*std::localtime(&t));
 }
 #pragma endregion "Constructors' Assistants"
 
 #pragma region "Operators"
 /**
-* @brief Sets one Operating System equal to another
+* @brief Reserves memory for a new OperatingSystem object
 *
-* @param o The Operating System to copy from
+* @param  size  The amount of memory to allocate
+* @return void* A pointer to the allocated memory
+*/
+void *OperatingSystem::operator new(std::size_t size)
+{
+  void *o = ::new (OperatingSystem);
+  return o;
+}
+
+/**
+* @brief Sets equal two OperatingSystem objects
+*
+* @param o The OperatingSystem object to copy from
+*/
+void OperatingSystem::operator=(const OperatingSystem &o)
+{
+  if (&o == this)
+  {
+    return;
+  }
+  platform = o.platform;
+  caption = o.caption;
+  serial = o.serial;
+  bit = o.bit;
+  installTime = o.installTime;
+  bootTime = o.bootTime;
+  curTime = o.curTime;
+  kernel = o.kernel;
+  version = o.version;
+}
+
+/**
+* @brief Sets one OperatingSystem equal to another
+*
+* @param o The OperatingSystem to copy from
 */
 void OperatingSystem::operator=(OperatingSystem *o)
 {
-  (*platform) = (*o->platform);
-  (*caption) = (*o->caption);
-  (*serial) = (*o->serial);
-  (*bit) = (*o->bit);
-  (*installTime) = (*o->installTime);
-  (*bootTime) = (*o->bootTime);
-  (*curTime) = (*o->curTime);
-  (*kernel) = (*o->kernel);
-  (*version) = (*o->version);
+  platform = o->platform;
+  caption = o->caption;
+  serial = o->serial;
+  bit = o->bit;
+  installTime = o->installTime;
+  bootTime = o->bootTime;
+  curTime = o->curTime;
+  kernel = o->kernel;
+  version = o->version;
 }
 #pragma endregion "Operators"
-
-#pragma region "Accessors"
-/**
-* @brief Returns a copy of the platform
-*
-* @return std::string The platform
-*/
-std::string OperatingSystem::Platform()
-{
-  return (*platform);
-}
-
-/**
-* @brief Returns a copy of the caption
-*
-* @return std::string The caption
-*/
-std::string OperatingSystem::Caption()
-{
-  return (*caption);
-}
-
-/**
-* @brief Returns a copy of the serial number
-*
-* @return std::string The serial number
-*/
-std::string OperatingSystem::Serial()
-{
-  return (*serial);
-}
-
-/**
-* @brief Returns a copy of the bit
-*
-* @return std::string The bit
-*/
-std::uint8_t OperatingSystem::Bit()
-{
-  return (*bit);
-}
-
-/**
-* @brief Returns a copy of the install time
-*
-* @return std::string The install time
-*/
-std::tm OperatingSystem::InstallTime()
-{
-  return (*installTime);
-}
-
-/**
-* @brief Returns a copy of the boot time with a specific format
-*
-* @param  fmt     How to format the time
-* @return std::tm The formatted time string
-*/
-std::string OperatingSystem::InstallTime(const std::string &fmt)
-{
-  std::stringstream buffer;
-  buffer << std::put_time(installTime.get(), fmt.c_str());
-  return buffer.str();
-}
-
-/**
-* @brief Returns a copy of the boot time
-*
-* @return std::string The boot time
-*/
-std::tm OperatingSystem::BootTime()
-{
-  return (*bootTime);
-}
-
-/**
-* @brief Returns a copy of the install time with a specific format
-*
-* @param  fmt     How to format the time
-* @return std::tm The formatted time string
-*/
-std::string OperatingSystem::BootTime(const std::string &fmt)
-{
-  std::stringstream buffer;
-  buffer << std::put_time(bootTime.get(), fmt.c_str());
-  return buffer.str();
-}
-
-/**
-* @brief Returns a copy of the current time
-*
-* @return std::string The current time
-*/
-std::tm OperatingSystem::CurTime()
-{
-  return (*curTime);
-}
-
-/**
-* @brief Returns a copy of the current time with a specific format
-*
-* @param  fmt     How to format the time
-* @return std::tm The formatted time string
-*/
-std::string OperatingSystem::CurTime(const std::string &fmt)
-{
-  std::stringstream buffer;
-  buffer << std::put_time(curTime.get(), fmt.c_str());
-  return buffer.str();
-}
-
-/**
-* @brief Returns a copy of the kernel version
-*
-* @return std::string The kernel version
-*/
-SemVer OperatingSystem::Kernel()
-{
-  return (*kernel);
-}
-
-/**
-* @brief Returns a copy of the version
-*
-* @return std::string The version
-*/
-SemVer OperatingSystem::Version()
-{
-  return (*version);
-}
-#pragma endregion "Accessors"
 
 #pragma region "Static Methods"
 /**

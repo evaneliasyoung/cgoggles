@@ -4,8 +4,8 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-04-03
-*  @date      2019-04-29
-*  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
+*  @date      2020-02-29
+*  @copyright Copyright 2019-2020 Evan Elias Young. All rights reserved.
 */
 
 #include "pch.h"
@@ -19,11 +19,11 @@
 */
 System::System()
 {
-  manufacturer = std::make_unique<std::string>();
-  model = std::make_unique<std::string>();
-  version = std::make_unique<std::string>();
-  serial = std::make_unique<std::string>();
-  uuid = std::make_unique<std::string>();
+  manufacturer = "";
+  model = "";
+  version = "";
+  serial = "";
+  uuid = "";
 }
 
 /**
@@ -33,12 +33,6 @@ System::System()
 */
 System::System(std::uint8_t plt)
 {
-  manufacturer = std::make_unique<std::string>();
-  model = std::make_unique<std::string>();
-  version = std::make_unique<std::string>();
-  serial = std::make_unique<std::string>();
-  uuid = std::make_unique<std::string>();
-
   switch (CGOGGLES_OS)
   {
   case OS_WIN:
@@ -54,15 +48,17 @@ System::System(std::uint8_t plt)
 }
 
 /**
-* @brief Destroy the System object
+* @brief Construct a new System object from another System object
+*
+* @param o The System object to copy from
 */
-System::~System()
+System::System(const System &o)
 {
-  manufacturer.reset();
-  model.reset();
-  version.reset();
-  serial.reset();
-  uuid.reset();
+  manufacturer = o.manufacturer;
+  model = o.model;
+  version = o.version;
+  serial = o.serial;
+  uuid = o.uuid;
 }
 #pragma endregion "Constructors"
 
@@ -91,23 +87,23 @@ void System::GetMac()
 
     if (key == "manufacturer")
     {
-      (*manufacturer) = val.substr(1, val.size() - 2);
+      manufacturer = val.substr(1, val.size() - 2);
     }
     if (key == "model")
     {
-      (*version) = val.substr(1, val.size() - 2);
+      version = val.substr(1, val.size() - 2);
     }
     if (key == "version")
     {
-      (*version) = val.substr(1, val.size() - 2);
+      version = val.substr(1, val.size() - 2);
     }
     if (key == "IOPlatformSerialNumber")
     {
-      (*serial) = val;
+      serial = val;
     }
     if (key == "IOPlatformUUID")
     {
-      (*uuid) = val;
+      uuid = val;
     }
   }
 }
@@ -120,11 +116,11 @@ void System::GetWin()
   std::string wmic = getWmicPath();
   std::map<std::string, std::string> dataMap = runMultiWmic("csproduct get Vendor, Name, Version, IdentifyingNumber, UUID", &wmic);
 
-  (*manufacturer) = dataMap["Vendor"];
-  (*model) = dataMap["Name"];
-  (*version) = dataMap["Version"];
-  (*serial) = dataMap["IdentifyingNumber"];
-  (*uuid) = dataMap["UUID"];
+  manufacturer = dataMap["Vendor"];
+  model = dataMap["Name"];
+  version = dataMap["Version"];
+  serial = dataMap["IdentifyingNumber"];
+  uuid = dataMap["UUID"];
 }
 
 /**
@@ -135,78 +131,56 @@ void System::GetLux()
   std::ifstream tempFile;
   std::string *temp = new std::string;
 
-  (*manufacturer) = readFile("/sys/devices/virtual/dmi/id/sys_vendor", temp) ? trim((*temp)) : "";
-  (*model) = readFile("/sys/devices/virtual/dmi/id/product_name", temp) ? trim((*temp)) : "";
-  (*version) = readFile("/sys/devices/virtual/dmi/id/product_version", temp) ? trim((*temp)) : "";
-  (*serial) = readFile("/sys/devices/virtual/dmi/id/product_serial", temp) ? trim((*temp)) : "";
-  (*uuid) = readFile("/sys/devices/virtual/dmi/id/product_uuid", temp) ? trim((*temp)) : "";
+  manufacturer = readFile("/sys/devices/virtual/dmi/id/sys_vendor", temp) ? trim((*temp)) : "";
+  model = readFile("/sys/devices/virtual/dmi/id/product_name", temp) ? trim((*temp)) : "";
+  version = readFile("/sys/devices/virtual/dmi/id/product_version", temp) ? trim((*temp)) : "";
+  serial = readFile("/sys/devices/virtual/dmi/id/product_serial", temp) ? trim((*temp)) : "";
+  uuid = readFile("/sys/devices/virtual/dmi/id/product_uuid", temp) ? trim((*temp)) : "";
 }
 #pragma endregion
 
 #pragma region "Operators"
 /**
-* @brief Sets one System equal to another
+* @brief Reserves memory for a new System object
 *
-* @param o The System to copy from
+* @param  size  The amount of memory to allocate
+* @return void* A pointer to the allocated memory
+*/
+void *System::operator new(std::size_t size)
+{
+  void *o = ::new (System);
+  return o;
+}
+
+/**
+* @brief Sets equal two System objects
+*
+* @param o The System object to copy from
+*/
+void System::operator=(const System &o)
+{
+  if (&o == this)
+  {
+    return;
+  }
+  manufacturer = o.manufacturer;
+  model = o.model;
+  version = o.version;
+  serial = o.serial;
+  uuid = o.uuid;
+}
+
+/**
+* @brief Sets equal two System objects
+*
+* @param o The System object to copy from
 */
 void System::operator=(System *o)
 {
-  (*manufacturer) = (*o->manufacturer);
-  (*model) = (*o->model);
-  (*version) = (*o->version);
-  (*serial) = (*o->serial);
-  (*uuid) = (*o->uuid);
+  manufacturer = o->manufacturer;
+  model = o->model;
+  version = o->version;
+  serial = o->serial;
+  uuid = o->uuid;
 }
 #pragma endregion "Operators"
-
-#pragma region "Accessors"
-/**
-* @brief Returns a copy of the manufacturer
-*
-* @return std::string The manufacturer
-*/
-std::string System::Manufacturer()
-{
-  return (*manufacturer);
-}
-
-/**
-* @brief Returns a copy of the model
-*
-* @return std::string The model
-*/
-std::string System::Model()
-{
-  return (*model);
-}
-
-/**
-* @brief Returns a copy of the version
-*
-* @return std::string The version
-*/
-std::string System::Version()
-{
-  return (*version);
-}
-
-/**
-* @brief Returns a copy of the serial number
-*
-* @return std::string The serial number
-*/
-std::string System::Serial()
-{
-  return (*serial);
-}
-
-/**
-* @brief Returns a copy of the UUID
-*
-* @return std::string The UUID
-*/
-std::string System::UUID()
-{
-  return (*uuid);
-}
-#pragma endregion "Accessors"

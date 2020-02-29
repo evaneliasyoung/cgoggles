@@ -5,7 +5,7 @@
 *  @author    Evan Elias Young
 *  @date      2019-03-12
 *  @date      2019-04-29
-*  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
+*  @copyright Copyright 2019-2020 Evan Elias Young. All rights reserved.
 */
 
 #ifndef CGOGGLES_UTILS_H_
@@ -16,7 +16,7 @@
 /**
 * @brief The current CGoggles Version
 */
-#define CGOGGLES_VERSION 0x000400
+#define CGOGGLES_VERSION 0x000500
 #if _WIN32 || _WIN64
 #if _WIN64
 /**

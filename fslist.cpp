@@ -4,8 +4,8 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-30
-*  @date      2019-04-29
-*  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
+*  @date      2020-02-28
+*  @copyright Copyright 2019-2020 Evan Elias Young. All rights reserved.
 */
 
 #include "pch.h"
@@ -19,7 +19,7 @@
 */
 FileSystemList::FileSystemList()
 {
-  fsList = std::make_unique<std::vector<FileSystem>>();
+  fsList = std::vector<FileSystem>();
 }
 
 /**
@@ -29,7 +29,7 @@ FileSystemList::FileSystemList()
 */
 FileSystemList::FileSystemList(std::uint8_t plt)
 {
-  fsList = std::make_unique<std::vector<FileSystem>>();
+  fsList = std::vector<FileSystem>();
 
   switch (plt)
   {
@@ -52,17 +52,9 @@ FileSystemList::FileSystemList(std::uint8_t plt)
 */
 FileSystemList::FileSystemList(const FileSystemList &o)
 {
-  fsList = std::make_unique<std::vector<FileSystem>>();
+  fsList = std::vector<FileSystem>();
 
-  (*fsList) = (*o.fsList);
-}
-
-/**
-* @brief Destroy the FileSystemList object
-*/
-FileSystemList::~FileSystemList()
-{
-  fsList.reset();
+  fsList = o.fsList;
 }
 #pragma endregion "Contructors"
 
@@ -97,7 +89,7 @@ void FileSystemList::GetMac()
     tempMount = eachFS[eachFS.size() - 1];
 
     tempFileSystem = FileSystem(tempFS, tempType, tempSize, tempUsed, tempMount);
-    fsList->push_back(tempFileSystem);
+    fsList.push_back(tempFileSystem);
   }
 }
 
@@ -124,7 +116,7 @@ void FileSystemList::GetWin()
     tempMount = allFS[i]["Caption"];
 
     tempFileSystem = FileSystem(tempFS, tempType, tempSize, tempUsed, tempMount);
-    fsList->push_back(tempFileSystem);
+    fsList.push_back(tempFileSystem);
   }
 }
 
@@ -158,7 +150,7 @@ void FileSystemList::GetLux()
     tempMount = eachFS[eachFS.size() - 1];
 
     tempFileSystem = FileSystem(tempFS, tempType, tempSize, tempUsed, tempMount);
-    fsList->push_back(tempFileSystem);
+    fsList.push_back(tempFileSystem);
   }
 }
 #pragma endregion
@@ -187,9 +179,9 @@ void FileSystemList::operator=(const FileSystemList &o)
   {
     return;
   }
-  fsList = std::make_unique<std::vector<FileSystem>>();
+  fsList = std::vector<FileSystem>();
 
-  (*fsList) = (*o.fsList);
+  fsList = o.fsList;
 }
 
 /**
@@ -199,20 +191,8 @@ void FileSystemList::operator=(const FileSystemList &o)
 */
 void FileSystemList::operator=(FileSystemList *o)
 {
-  fsList = std::make_unique<std::vector<FileSystem>>();
+  fsList = std::vector<FileSystem>();
 
-  (*fsList) = (*o->fsList);
+  fsList = o->fsList;
 }
 #pragma endregion "Operators"
-
-#pragma region "Accessors"
-/**
-* @brief Returns the a copy of the fs list
-*
-* @return std::vector<FileSystem> The fs list
-*/
-std::vector<FileSystem> FileSystemList::FileSystems()
-{
-  return (*fsList);
-}
-#pragma endregion "Accessors"

@@ -5,7 +5,7 @@
 *  @author    Evan Elias Young
 *  @date      2019-03-17
 *  @date      2019-04-29
-*  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
+*  @copyright Copyright 2019-2020 Evan Elias Young. All rights reserved.
 */
 
 #ifndef CGOGGLES_SEMVER_H_

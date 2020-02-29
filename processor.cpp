@@ -4,8 +4,8 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-16
-*  @date      2019-04-29
-*  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
+*  @date      2020-02-29
+*  @copyright Copyright 2019-2020 Evan Elias Young. All rights reserved.
 */
 
 #include "pch.h"
@@ -20,17 +20,17 @@
 */
 Processor::Processor()
 {
-  manufacturer = std::make_unique<std::string>();
-  architecture = std::make_unique<std::string>();
-  socketType = std::make_unique<std::string>();
-  brand = std::make_unique<std::string>();
-  family = std::make_unique<std::uint8_t>();
-  model = std::make_unique<std::uint8_t>();
-  stepping = std::make_unique<std::uint8_t>();
-  cores = std::make_unique<std::uint8_t>();
-  threads = std::make_unique<std::uint8_t>();
-  speed = std::make_unique<std::uint64_t>();
-  maxSpeed = std::make_unique<std::uint64_t>();
+  manufacturer = "";
+  architecture = "";
+  socketType = "";
+  brand = "";
+  family = 0;
+  model = 0;
+  stepping = 0;
+  cores = 0;
+  threads = 0;
+  speed = 0;
+  maxSpeed = 0;
 }
 
 /**
@@ -40,18 +40,6 @@ Processor::Processor()
 */
 Processor::Processor(std::uint8_t plt)
 {
-  manufacturer = std::make_unique<std::string>();
-  architecture = std::make_unique<std::string>();
-  socketType = std::make_unique<std::string>();
-  brand = std::make_unique<std::string>();
-  family = std::make_unique<std::uint8_t>();
-  model = std::make_unique<std::uint8_t>();
-  stepping = std::make_unique<std::uint8_t>();
-  cores = std::make_unique<std::uint8_t>();
-  threads = std::make_unique<std::uint8_t>();
-  speed = std::make_unique<std::uint64_t>();
-  maxSpeed = std::make_unique<std::uint64_t>();
-
   switch (CGOGGLES_OS)
   {
   case OS_WIN:
@@ -67,21 +55,23 @@ Processor::Processor(std::uint8_t plt)
 }
 
 /**
-* @brief Destroy the Processor object
+* @brief Construct a new Processor object from another Processor object
+*
+* @param o The Processor object to copy from
 */
-Processor::~Processor()
+Processor::Processor(const Processor &o)
 {
-  manufacturer.reset();
-  architecture.reset();
-  socketType.reset();
-  brand.reset();
-  family.reset();
-  model.reset();
-  stepping.reset();
-  cores.reset();
-  threads.reset();
-  speed.reset();
-  maxSpeed.reset();
+  manufacturer = o.manufacturer;
+  architecture = o.architecture;
+  socketType = o.socketType;
+  brand = o.brand;
+  family = o.family;
+  model = o.model;
+  stepping = o.stepping;
+  cores = o.cores;
+  threads = o.threads;
+  speed = o.speed;
+  maxSpeed = o.maxSpeed;
 }
 #pragma endregion "Constructors"
 
@@ -93,28 +83,28 @@ void Processor::GetMac()
 {
   std::string temp;
 
-  (*manufacturer) = runCommand("sysctl -n machdep.cpu.vendor");
-  trim(manufacturer.get());
-  (*cores) = std::stoi(runCommand("sysctl -n hw.physicalcpu"));
-  (*threads) = std::stoi(runCommand("sysctl -n hw.logicalcpu"));
+  manufacturer = runCommand("sysctl -n machdep.cpu.vendor");
+  trim(&manufacturer);
+  cores = std::stoi(runCommand("sysctl -n hw.physicalcpu"));
+  threads = std::stoi(runCommand("sysctl -n hw.logicalcpu"));
 
   temp = runCommand("uname -m");
-  (*architecture) = temp.find("64") == std::string::npos ? temp : "x64";
-  (*socketType) = "Soldered";
+  architecture = temp.find("64") == std::string::npos ? temp : "x64";
+  socketType = "Soldered";
 
-  (*brand) = runCommand("sysctl -n machdep.cpu.brand_string");
-  if (brand->find("@") != std::string::npos)
+  brand = runCommand("sysctl -n machdep.cpu.brand_string");
+  if (brand.find("@") != std::string::npos)
   {
-    brand->erase(brand->find_first_of("@"));
+    brand.erase(brand.find_first_of("@"));
   }
-  trim(brand.get());
+  trim(&brand);
 
-  (*family) = std::stoi(runCommand("sysctl -n machdep.cpu.family"));
-  (*model) = std::stoi(runCommand("sysctl -n machdep.cpu.model"));
-  (*stepping) = std::stoi(runCommand("sysctl -n machdep.cpu.stepping"));
+  family = std::stoi(runCommand("sysctl -n machdep.cpu.family"));
+  model = std::stoi(runCommand("sysctl -n machdep.cpu.model"));
+  stepping = std::stoi(runCommand("sysctl -n machdep.cpu.stepping"));
 
-  (*maxSpeed) = std::round(std::stof(runCommand("sysctl -n hw.cpufrequency_max").substr(0, 4)) / 10) * pow(10, 7);
-  (*speed) = std::round(std::stof(runCommand("sysctl -n hw.cpufrequency_max").substr(0, 4)) / 10) * pow(10, 7);
+  maxSpeed = std::round(std::stof(runCommand("sysctl -n hw.cpufrequency_max").substr(0, 4)) / 10) * pow(10, 7);
+  speed = std::round(std::stof(runCommand("sysctl -n hw.cpufrequency_max").substr(0, 4)) / 10) * pow(10, 7);
 }
 
 /**
@@ -190,30 +180,30 @@ void Processor::GetWin()
       "BGA1510",
       "BGA1528"};
 
-  (*manufacturer) = dataMap["Manufacturer"];
-  (*cores) = std::stoi(dataMap["NumberOfCores"]);
-  (*threads) = std::stoi(dataMap["NumberOfLogicalProcessors"]);
+  manufacturer = dataMap["Manufacturer"];
+  cores = std::stoi(dataMap["NumberOfCores"]);
+  threads = std::stoi(dataMap["NumberOfLogicalProcessors"]);
 
-  (*architecture) = architectureMap[std::stoi(dataMap["Architecture"])];
-  (*socketType) = socketTypeMap[std::stoi(dataMap["UpgradeMethod"])];
+  architecture = architectureMap[std::stoi(dataMap["Architecture"])];
+  socketType = socketTypeMap[std::stoi(dataMap["UpgradeMethod"])];
 
-  (*brand) = dataMap["Name"];
-  if (brand->find("@") != std::string::npos)
+  brand = dataMap["Name"];
+  if (brand.find("@") != std::string::npos)
   {
-    brand->erase(brand->find_first_of("@"));
+    brand.erase(brand.find_first_of("@"));
   }
-  trim(brand.get());
+  trim(&brand);
 
   temp = dataMap["Description"];
   if (std::regex_search(temp, mt, std::regex(R"(.*Family (\d+) Model (\d+) Stepping (\d+))", std::regex_constants::ECMAScript | std::regex_constants::icase)))
   {
-    (*family) = std::stoi(mt[1]);
-    (*model) = std::stoi(mt[2]);
-    (*stepping) = std::stoi(mt[3]);
+    family = std::stoi(mt[1]);
+    model = std::stoi(mt[2]);
+    stepping = std::stoi(mt[3]);
   }
 
-  (*maxSpeed) = std::round(std::stof(dataMap["MaxClockSpeed"]) / 10) * pow(10, 7);
-  (*speed) = std::round(std::stof(dataMap["MaxClockSpeed"]) / 10) * pow(10, 7);
+  maxSpeed = std::round(std::stof(dataMap["MaxClockSpeed"]) / 10) * pow(10, 7);
+  speed = std::round(std::stof(dataMap["MaxClockSpeed"]) / 10) * pow(10, 7);
 
   delete[] architectureMap;
   delete[] socketTypeMap;
@@ -242,45 +232,81 @@ void Processor::GetLux()
     dataMap[key] = val;
   }
 
-  (*manufacturer) = tryGetValue<std::string, std::string>(dataMap, "Vendor ID", &mapTry) ? mapTry : "";
-  (*cores) = tryGetValue<std::string, std::string>(dataMap, "Core(s) per socket", &mapTry) && tryGetValue<std::string, std::string>(dataMap, "Socket(s)", &mapTry2) ? std::stoi(mapTry) * std::stoi(mapTry2) : 0;
-  (*threads) = tryGetValue<std::string, std::string>(dataMap, "Thread(s) per core", &mapTry) ? std::stoi(mapTry) * (*cores) : 0;
+  manufacturer = tryGetValue<std::string, std::string>(dataMap, "Vendor ID", &mapTry) ? mapTry : "";
+  cores = tryGetValue<std::string, std::string>(dataMap, "Core(s) per socket", &mapTry) && tryGetValue<std::string, std::string>(dataMap, "Socket(s)", &mapTry2) ? std::stoi(mapTry) * std::stoi(mapTry2) : 0;
+  threads = tryGetValue<std::string, std::string>(dataMap, "Thread(s) per core", &mapTry) ? std::stoi(mapTry) * cores : 0;
 
-  (*architecture) = tryGetValue<std::string, std::string>(dataMap, "Architecture", &mapTry) ? mapTry : "";
-  (*architecture) = endswith((*architecture), "64")
-                        ? "x64"
-                        : endswith((*architecture), "86")
-                              ? "x86"
-                              : startswith((*architecture), "arm")
-                                    ? "ARM"
-                                    : "Unknown";
-  (*socketType) = "Unknown";
+  architecture = tryGetValue<std::string, std::string>(dataMap, "Architecture", &mapTry) ? mapTry : "";
+  architecture = endswith(architecture, "64")
+                     ? "x64"
+                     : endswith(architecture, "86")
+                           ? "x86"
+                           : startswith(architecture, "arm")
+                                 ? "ARM"
+                                 : "Unknown";
+  socketType = "Unknown";
 
-  (*brand) = tryGetValue<std::string, std::string>(dataMap, "Model name", &mapTry) ? mapTry : "";
-  if (brand->find("@") != std::string::npos)
+  brand = tryGetValue<std::string, std::string>(dataMap, "Model name", &mapTry) ? mapTry : "";
+  if (brand.find("@") != std::string::npos)
   {
-    brand->erase(brand->find_first_of("@"));
+    brand.erase(brand.find_first_of("@"));
   }
-  trim(brand.get());
+  trim(&brand);
 
-  (*family) = std::stoi(tryGetValue<std::string, std::string>(dataMap, "CPU family", &mapTry) ? mapTry : 0);
-  (*model) = std::stoi(tryGetValue<std::string, std::string>(dataMap, "Model", &mapTry) ? mapTry : 0);
-  (*stepping) = std::stoi(tryGetValue<std::string, std::string>(dataMap, "Stepping", &mapTry) ? mapTry : 0);
+  family = std::stoi(tryGetValue<std::string, std::string>(dataMap, "CPU family", &mapTry) ? mapTry : 0);
+  model = std::stoi(tryGetValue<std::string, std::string>(dataMap, "Model", &mapTry) ? mapTry : 0);
+  stepping = std::stoi(tryGetValue<std::string, std::string>(dataMap, "Stepping", &mapTry) ? mapTry : 0);
 
   if (tryGetValue<std::string, std::string>(dataMap, "CPU MHz", &mapTry))
   {
-    (*maxSpeed) = std::round(std::stof(mapTry)) / 1000;
-    (*speed) = std::round(std::stof(mapTry)) / 1000;
+    maxSpeed = std::round(std::stof(mapTry)) * 1000000;
+    speed = std::round(std::stof(mapTry)) * 1000000;
   }
   if (tryGetValue<std::string, std::string>(dataMap, "CPU max MHz", &mapTry))
   {
-    (*maxSpeed) = std::round(std::stof(mapTry)) / 1000;
-    (*speed) = std::round(std::stof(mapTry)) / 1000;
+    maxSpeed = std::round(std::stof(mapTry)) * 1000000;
+    speed = std::round(std::stof(mapTry)) * 1000000;
   }
 }
 #pragma endregion
 
 #pragma region "Operators"
+/**
+* @brief Reserves memory for a new Processor object
+*
+* @param  size  The amount of memory to allocate
+* @return void* A pointer to the allocated memory
+*/
+void *Processor::operator new(std::size_t size)
+{
+  void *o = ::new (Processor);
+  return o;
+}
+
+/**
+* @brief Sets equal two Processor objects
+*
+* @param o The Processor object to copy from
+*/
+void Processor::operator=(const Processor &o)
+{
+  if (&o == this)
+  {
+    return;
+  }
+  manufacturer = o.manufacturer;
+  architecture = o.architecture;
+  socketType = o.socketType;
+  brand = o.brand;
+  family = o.family;
+  model = o.model;
+  stepping = o.stepping;
+  cores = o.cores;
+  threads = o.threads;
+  speed = o.speed;
+  maxSpeed = o.maxSpeed;
+}
+
 /**
 * @brief Sets one Processor equal to another
 *
@@ -288,128 +314,16 @@ void Processor::GetLux()
 */
 void Processor::operator=(Processor *o)
 {
-  (*manufacturer) = (*o->manufacturer);
-  (*architecture) = (*o->architecture);
-  (*socketType) = (*o->socketType);
-  (*brand) = (*o->brand);
-  (*family) = (*o->family);
-  (*model) = (*o->model);
-  (*stepping) = (*o->stepping);
-  (*cores) = (*o->cores);
-  (*threads) = (*o->threads);
-  (*speed) = (*o->speed);
-  (*maxSpeed) = (*o->maxSpeed);
+  manufacturer = o->manufacturer;
+  architecture = o->architecture;
+  socketType = o->socketType;
+  brand = o->brand;
+  family = o->family;
+  model = o->model;
+  stepping = o->stepping;
+  cores = o->cores;
+  threads = o->threads;
+  speed = o->speed;
+  maxSpeed = o->maxSpeed;
 }
 #pragma endregion "Operators"
-
-#pragma region "Accessors"
-/**
-* @brief Returns a copy of the manufacturer
-*
-* @return std::string The manufacturer
-*/
-std::string Processor::Manufacturer()
-{
-  return (*manufacturer);
-}
-
-/**
-* @brief Returns a copy of the architecture
-*
-* @return std::string The architecture
-*/
-std::string Processor::Architecture()
-{
-  return (*architecture);
-}
-
-/**
-* @brief Returns a copy of the internal socket type
-*
-* @return std::string The internal socket type
-*/
-std::string Processor::SocketType()
-{
-  return (*socketType);
-}
-
-/**
-* @brief Returns the a copy of the make/model
-*
-* @return std::string The make/model
-*/
-std::string Processor::Brand()
-{
-  return (*brand);
-}
-
-/**
-* @brief Returns a copy of the family
-*
-* @return std::uint8_t The family number
-*/
-std::uint8_t Processor::Family()
-{
-  return (*family);
-}
-
-/**
-* @brief Returns a copy of the model
-*
-* @return std::uint8_t The model number
-*/
-std::uint8_t Processor::Model()
-{
-  return (*model);
-}
-
-/**
-* @brief Returns a copy of the step
-*
-* @return std::uint8_t The stepping number
-*/
-std::uint8_t Processor::Stepping()
-{
-  return (*stepping);
-}
-
-/**
-* @brief Returns a copy of the physical core count
-*
-* @return std::uint8_t The number of physical cores
-*/
-std::uint8_t Processor::Cores()
-{
-  return (*cores);
-}
-
-/**
-* @brief Returns a copy of the logical core count
-*
-* @return std::uint8_t The number of logical cores
-*/
-std::uint8_t Processor::Threads()
-{
-  return (*threads);
-}
-
-/**
-* @brief Returns a copy of the current clock speed
-*
-* @return std::uint64_t The current clock speed
-*/
-std::uint64_t Processor::Speed()
-{
-  return (*speed);
-}
-
-/**
-* @brief Returns a copy of the maximum clock speed
-*
-* @return std::uint64_t The maximum clock speed
-*/
-std::uint64_t Processor::MaxSpeed()
-{
-  return (*maxSpeed);
-}
-#pragma endregion "Accessors"

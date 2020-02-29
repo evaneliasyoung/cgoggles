@@ -4,8 +4,8 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-17
-*  @date      2019-04-29
-*  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
+*  @date      2020-02-08
+*  @copyright Copyright 2019-2020 Evan Elias Young. All rights reserved.
 */
 
 #include "pch.h"
@@ -101,7 +101,6 @@ SemVer::SemVer(const std::string &rawVer, const std::uint8_t &fmt, const std::st
 
 /**
 * @brief Destroy the SemVer object
-*
 */
 SemVer::~SemVer()
 {

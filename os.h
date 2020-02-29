@@ -4,8 +4,8 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-15
-*  @date      2019-04-29
-*  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
+*  @date      2020-02-29
+*  @copyright Copyright 2019-2020 Evan Elias Young. All rights reserved.
 */
 
 #ifndef CGOGGLES_OS_H_ // include guard
@@ -44,7 +44,7 @@
 
 #ifndef OS_ERR
 /**
-* @brief The internal number for the unknown ERR
+* @brief The internal number for the unknown operating system
 */
 #define OS_ERR 0
 #endif // OS_ERR
@@ -107,51 +107,6 @@ const char dirSep = CGOGGLES_OS <= OS_WIN ? '\\' : '/';
 class OperatingSystem
 {
 private:
-  /**
-  * @brief The platform of the system
-  */
-  std::unique_ptr<std::string> platform;
-
-  /**
-  * @brief The common name of the system
-  */
-  std::unique_ptr<std::string> caption;
-
-  /**
-  * @brief The serial number of the system
-  */
-  std::unique_ptr<std::string> serial;
-
-  /**
-  * @brief The number of bits for the system
-  */
-  std::unique_ptr<std::uint8_t> bit;
-
-  /**
-  * @brief The install time of the system
-  */
-  std::unique_ptr<std::tm> installTime;
-
-  /**
-  * @brief The boot time of the system
-  */
-  std::unique_ptr<std::tm> bootTime;
-
-  /**
-  * @brief The current time of the system
-  */
-  std::unique_ptr<std::tm> curTime;
-
-  /**
-  * @brief The kernel version of the system
-  */
-  std::unique_ptr<SemVer> kernel;
-
-  /**
-  * @brief The OS version of the system
-  */
-  std::unique_ptr<SemVer> version;
-
   void GetMac();
   void GetWin();
   void GetLux();
@@ -159,20 +114,19 @@ private:
 public:
   OperatingSystem();
   OperatingSystem(std::uint8_t plt);
-  ~OperatingSystem();
+  OperatingSystem(const OperatingSystem &o);
+  void *operator new(std::size_t size);
+  void operator=(const OperatingSystem &o);
   void operator=(OperatingSystem *o);
-  std::string Platform();
-  std::string Caption();
-  std::string Serial();
-  std::uint8_t Bit();
-  std::tm InstallTime();
-  std::string InstallTime(const std::string &fmt);
-  std::tm BootTime();
-  std::string BootTime(const std::string &fmt);
-  std::tm CurTime();
-  std::string CurTime(const std::string &fmt);
-  SemVer Kernel();
-  SemVer Version();
+  std::string platform;
+  std::string caption;
+  std::string serial;
+  std::uint8_t bit;
+  std::tm installTime;
+  std::tm bootTime;
+  std::tm curTime;
+  SemVer kernel;
+  SemVer version;
 };
 
 bool fileExists(const std::string &path);

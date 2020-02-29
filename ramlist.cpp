@@ -4,8 +4,8 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-04-04
-*  @date      2019-04-29
-*  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
+*  @date      2020-02-29
+*  @copyright Copyright 2019-2020 Evan Elias Young. All rights reserved.
 */
 
 #include "pch.h"
@@ -20,8 +20,8 @@
 */
 RAMList::RAMList()
 {
-  chips = std::make_unique<std::vector<RAM>>();
-  total = std::make_unique<std::uint64_t>(0);
+  chips = std::vector<RAM>();
+  total = std::uint64_t(0);
 }
 
 /**
@@ -31,9 +31,6 @@ RAMList::RAMList()
 */
 RAMList::RAMList(std::uint8_t plt)
 {
-  chips = std::make_unique<std::vector<RAM>>();
-  total = std::make_unique<std::uint64_t>(0);
-
   switch (plt)
   {
   case OS_WIN:
@@ -55,20 +52,8 @@ RAMList::RAMList(std::uint8_t plt)
 */
 RAMList::RAMList(const RAMList &o)
 {
-  chips = std::make_unique<std::vector<RAM>>();
-  total = std::make_unique<std::uint64_t>(0);
-
-  (*chips) = (*o.chips);
-  (*total) = (*o.total);
-}
-
-/**
-* @brief Destroy the RAMList object
-*/
-RAMList::~RAMList()
-{
-  chips.reset();
-  total.reset();
+  chips = o.chips;
+  total = o.total;
 }
 #pragma endregion "Contructors"
 
@@ -147,7 +132,7 @@ void RAMList::GetMac()
       if (i == allChips.size() - 3 || (i > 7 && i < allChips.size() - 3 && startswith(trim(allChips[i + 2]), "BANK ")))
       {
         tempChip = (new RAM(tempSize, tempBank, tempType, tempSpeed, tempFormFactor, tempManufacturer, tempPart, tempSerial, tempVoltageConfigured, tempVoltageMin, tempVoltageMax));
-        chips->push_back(tempChip);
+        chips.push_back(tempChip);
       }
     }
   }
@@ -192,7 +177,7 @@ void RAMList::GetWin()
   for (std::size_t i = 0; i < allChips.size(); ++i)
   {
     tempSize = !allChips[i]["Capacity"].empty() ? std::stoull(allChips[i]["Capacity"]) / pow(1024, 3) * pow(1000, 3) : 0;
-    (*total) += tempSize;
+    total += tempSize;
     tempBank = !allChips[i]["BankLabel"].empty() ? allChips[i]["BankLabel"] : allChips[i]["DeviceLocator"];
     tempType = memoryTypes[std::stoi(allChips[i]["MemoryType"])];
     tempSpeed = !allChips[i]["ConfiguredClockSpeed"].empty() ? std::stoull(allChips[i]["ConfiguredClockSpeed"]) : !allChips[i]["Speed"].empty() ? std::stoull(allChips[i]["Speed"]) : 0;
@@ -206,7 +191,7 @@ void RAMList::GetWin()
     tempVoltageMax = !allChips[i]["MaxVoltage"].empty() ? std::stof(allChips[i]["MaxVoltage"]) / 1000 : 0;
 
     tempChip = (new RAM(tempSize, tempBank, tempType, tempSpeed, tempFormFactor, tempManufacturer, tempPart, tempSerial, tempVoltageConfigured, tempVoltageMin, tempVoltageMax));
-    chips->push_back(tempChip);
+    chips.push_back(tempChip);
   }
 }
 
@@ -231,7 +216,7 @@ void RAMList::GetLux()
   float tempVoltageConfigured = 0;
   float tempVoltageMin = 0;
   float tempVoltageMax = 0;
-  splitStringVector(runCommand("export LC_ALL=C; dmidecode -t memory 2>/dev/null | grep -iE \"Size:|Type|Speed|Manufacturer|Form Factor|Locator|Memory Device|Serial Number|Voltage|Part Number\"; unset LC_ALL"), "\n", &lines);
+  splitStringVector(runCommand("export LC_ALL=C; sudo dmidecode -t memory 2>/dev/null | grep -iE \"Size:|Type|Speed|Manufacturer|Form Factor|Locator|Memory Device|Serial Number|Voltage|Part Number\"; unset LC_ALL"), "\n", &lines);
 
   if (lines.size() <= 1)
   {
@@ -261,7 +246,7 @@ void RAMList::GetLux()
       {
         tempSize = std::stoull(val.substr(0, val.size() - 3));
         tempSize *= pow(1024, endswith(val, "MB") ? 2 : 3);
-        (*total) += tempSize;
+        total += tempSize;
       }
       if (key == "Locator")
       {
@@ -271,7 +256,7 @@ void RAMList::GetLux()
       {
         tempType = val;
       }
-      if (key == "Speed")
+      if (key == "Speed" && val != "Unknown")
       {
         tempSpeed = std::stoull(val.substr(0, val.size() - 4)) * pow(1024, 2);
       }
@@ -297,7 +282,7 @@ void RAMList::GetLux()
     if (startswith(lines[i], "Handle 0x") && tempManufacturer != "FFFFFFFFFFFF")
     {
       tempChip = (new RAM(tempSize, tempBank, tempType, tempSpeed, tempFormFactor, tempManufacturer, tempPart, tempSerial, tempVoltageConfigured, tempVoltageMin, tempVoltageMax));
-      chips->push_back(tempChip);
+      chips.push_back(tempChip);
     }
   }
 }
@@ -327,11 +312,8 @@ void RAMList::operator=(const RAMList &o)
   {
     return;
   }
-  chips = std::make_unique<std::vector<RAM>>();
-  total = std::make_unique<std::uint64_t>(0);
-
-  (*chips) = (*o.chips);
-  (*total) = (*o.total);
+  chips = o.chips;
+  total = o.total;
 }
 
 /**
@@ -341,32 +323,7 @@ void RAMList::operator=(const RAMList &o)
 */
 void RAMList::operator=(RAMList *o)
 {
-  chips = std::make_unique<std::vector<RAM>>();
-  total = std::make_unique<std::uint64_t>(0);
-
-  (*chips) = (*o->chips);
-  (*total) = (*o->total);
+  chips = o->chips;
+  total = o->total;
 }
 #pragma endregion "Operators"
-
-#pragma region "Accessors"
-/**
-* @brief Returns the a copy of the drive list
-*
-* @return std::vector<RAM> The drive list
-*/
-std::vector<RAM> RAMList::Chips()
-{
-  return (*chips);
-}
-
-/**
-* @brief Returns the a copy of the total amount of RAM
-*
-* @return std::uint64_t The total amount of RAM
-*/
-std::uint64_t RAMList::Total()
-{
-  return (*total);
-}
-#pragma endregion "Accessors"

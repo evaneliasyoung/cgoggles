@@ -4,8 +4,8 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-16
-*  @date      2019-03-18
-*  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
+*  @date      2020-02-29
+*  @copyright Copyright 2019-2020 Evan Elias Young. All rights reserved.
 */
 
 #include "pch.h"
@@ -17,7 +17,7 @@
 */
 Temperature::Temperature()
 {
-  kelvin = std::make_unique<float>(-1);
+  kelvin = -1;
 }
 
 /**
@@ -27,15 +27,17 @@ Temperature::Temperature()
 */
 Temperature::Temperature(const float &c)
 {
-  kelvin = std::make_unique<float>(c + 273.15);
+  kelvin = c + 273.15;
 }
 
 /**
-* @brief Destroy the Temperature object
+* @brief Construct a new Temperature object from another Temperature object
+*
+* @param o The Temperature object to copy from
 */
-Temperature::~Temperature()
+Temperature::Temperature(const Temperature &o)
 {
-  kelvin.reset();
+  kelvin = o.kelvin;
 }
 #pragma endregion
 
@@ -50,6 +52,30 @@ void *Temperature::operator new(std::size_t size)
 {
   void *o = ::new (Temperature);
   return o;
+}
+
+/**
+* @brief Sets equal two Temperature objects
+*
+* @param o The Temperature object to copy from
+*/
+void Temperature::operator=(const Temperature &o)
+{
+  if (&o == this)
+  {
+    return;
+  }
+  kelvin = o.kelvin;
+}
+
+/**
+* @brief Sets equal two Temperature objects
+*
+* @param o The Temperature object to copy from
+*/
+void Temperature::operator=(Temperature *o)
+{
+  kelvin = o->kelvin;
 }
 
 /**
@@ -125,38 +151,6 @@ bool Temperature::operator>=(Temperature &t)
 }
 #pragma endregion "Operators"
 
-#pragma region "Accessors"
-/**
-* @brief Returns the value of the Temperature object in kelvin
-*
-* @return float The temperature in kelvin
-*/
-float Temperature::K()
-{
-  return (*kelvin);
-}
-
-/**
-* @brief Returns the value of the Temperature object in celsius
-*
-* @return float The temperature in celsius
-*/
-float Temperature::C()
-{
-  return ktoc((*kelvin));
-}
-
-/**
-* @brief Returns the value of the Temperature object in fahrenheit
-*
-* @return float The temperature in fahrenheit
-*/
-float Temperature::F()
-{
-  return ktof((*kelvin));
-}
-#pragma endregion "Accessors"
-
 #pragma region "Methods"
 
 /**
@@ -169,7 +163,7 @@ float Temperature::F()
 */
 int Temperature::compare(Temperature &t)
 {
-  return this->K() == t.K() ? 0 : this->K() < t.K() ? -1 : 1;
+  return kelvin == t.kelvin ? 0 : kelvin < t.kelvin ? -1 : 1;
 }
 #pragma endregion "Methods"
 

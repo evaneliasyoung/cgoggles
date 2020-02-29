@@ -4,8 +4,8 @@
 *
 *  @author    Evan Elias Young
 *  @date      2019-03-16
-*  @date      2019-03-18
-*  @copyright Copyright 2019 Evan Elias Young. All rights reserved.
+*  @date      2020-02-29
+*  @copyright Copyright 2019-2020 Evan Elias Young. All rights reserved.
 */
 
 #ifndef CGOGGLES_TEMPERATURE_H_
@@ -18,26 +18,20 @@
  */
 class Temperature
 {
-private:
-  /**
-   * @brief The underlying value of the temperature
-   */
-  std::unique_ptr<float> kelvin;
-
 public:
   Temperature();
   Temperature(const float &c);
-  ~Temperature();
+  Temperature(const Temperature &o);
   void *operator new(std::size_t size);
+  void operator=(const Temperature &o);
+  void operator=(Temperature *o);
   bool operator==(Temperature &t);
   bool operator!=(Temperature &t);
   bool operator<(Temperature &t);
   bool operator>(Temperature &t);
   bool operator<=(Temperature &t);
   bool operator>=(Temperature &t);
-  float K();
-  float C();
-  float F();
+  float kelvin;
   int compare(Temperature &t);
 };
 
